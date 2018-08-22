@@ -1,4 +1,4 @@
-using Pkg, Glob
+using Pkg
 
 function install_deps()
    io = open("REQUIRE", "r")
@@ -10,6 +10,8 @@ function install_deps()
 end
 
 function write_tests()
+
+   using Glob
    nbfiles = glob("*.ipynb")
    
    header = """
