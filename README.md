@@ -1,6 +1,6 @@
-# math-julia.jl
+# Julia notebooks
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pnavaro/math-julia.jl/master)
-[![Build Status](https://travis-ci.org/pnavaro/math-julia.jl.svg?branch=master)](https://travis-ci.org/pnavaro/math-julia.jl)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pnavaro/math-julia/master)
+[![Build Status](https://travis-ci.org/pnavaro/math-julia.svg?branch=master)](https://travis-ci.org/pnavaro/math-julia)
 
-Julia notebooks for IRMAR workgroup.
+For IRMAR workgroup.
