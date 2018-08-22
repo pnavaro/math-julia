@@ -30,7 +30,7 @@ end
    open("runtests.jl", "w") do f
    
       write(f,  header)
-      write(f,"@testset \"notebooks\" begin\n"
+      write(f,"@testset \"notebooks\" begin\n")
    
       for nbfile in nbfiles
          write(f, "@test testnb(\"$nbfile\")\n")
