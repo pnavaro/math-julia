@@ -1,0 +1,17 @@
+before_install:
+  - sudo apt-get install -y libgtk-3-dev
+addons:
+  apt:
+    update: true
+
+language: julia
+
+julia:
+  - 0.7
+  - 1.0
+
+os:
+  - linux
+
+script:
+  - julia deps_install.jl && julia runtests.jl
