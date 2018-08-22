@@ -11,7 +11,6 @@ end
 
 function write_tests()
 
-   using Glob
    nbfiles = glob("*.ipynb")
    
    header = """
@@ -41,4 +40,5 @@ end
 end
 
 install_deps()
+using Glob
 write_tests()
