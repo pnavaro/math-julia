@@ -14,4 +14,7 @@ os:
   - linux
 
 script:
-  - julia deps_install.jl && julia runtests.jl
+  - julia deps_install.jl 
+
+after_success:
+  - julia -e 'include("runtests.jl")'
