@@ -11,7 +11,7 @@ from nbtest import _notebook_run
 print("Running Notebooks...")
 \n\n""")
 
-for i, nb in enumerate(filter(lambda f:  not "Errors" in f,sorted(nbfiles))):  
+for i, nb in enumerate(sorted(nbfiles)):  
     with open("tests.py", "a") as f:
         f.write(f"def test_ipynb_{i}():\n")
         f.write(f"\t nb, errors = _notebook_run('{nb}')\n")
