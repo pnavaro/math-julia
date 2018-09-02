@@ -15,6 +15,7 @@ os:
 
 script:
   - julia deps_install.jl 
-
-after_success:
   - julia -e 'include("runtests.jl")'
+  - python generate_tests.py
+  - py.test tests.py
+
