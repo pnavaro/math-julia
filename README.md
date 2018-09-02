@@ -13,6 +13,6 @@ If you want to participate to monthly sessions, subscribe to the [mailing list](
 
 To run these notebooks:
 - [Install Julia](https://julialang.org/downloads/).
-- Or clone this repository on [JuliaBox](https://juliabox.com].
+- Or clone this repository on [JuliaBox](https://juliabox.com).
 
 Pierre
