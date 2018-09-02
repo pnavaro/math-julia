@@ -13,6 +13,6 @@ print("Running Notebooks...")
 
 for i, nb in enumerate(sorted(nbfiles)):  
     with open("tests.py", "a") as f:
-        f.write(f"def test_ipynb_{i}():\n")
-        f.write(f"\t nb, errors = _notebook_run('{nb}')\n")
+        f.write("def test_ipynb_{0}():\n".format(i)
+        f.write("\t nb, errors = _notebook_run('{0}')\n".format(nb))
         f.write("\t assert errors == []\n\n")
