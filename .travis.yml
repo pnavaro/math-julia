@@ -14,7 +14,7 @@ os:
   - linux
 
 script:
-  - julia deps_install.jl 
+  - julia -q deps_install.jl 
   - julia -e 'include("runtests.jl")'
   - python3 generate_tests.py
   - python3 -m pip install --user pytest
