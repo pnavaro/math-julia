@@ -12,7 +12,7 @@ If you want to participate to monthly sessions, subscribe to the [mailing list](
 - Leave the message body empty
 
 To run these notebooks, three options:
-- [Install Julia](https://julialang.org/downloads/).
+- [Install Julia](https://julialang.org/downloads/) and use [IJulia](https://github.com/JuliaLang/IJulia.jl).
 - Clone this repository on [JuliaBox](https://juliabox.com). You can save your work on the website but you have to register.
 - Use [MyBinder](https://mybinder.org/v2/gh/pnavaro/math-julia/master). It creates a temporary julia
 notebook server. You can execute notebooks but not save your modifications.
