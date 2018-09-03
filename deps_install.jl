@@ -24,19 +24,22 @@ function testnb(nbfile::String)
        false
    end
 end
-
+\n
 """
 
    open("runtests.jl", "w") do f
    
       write(f,  header)
+      write(f,  "try\n")
       write(f,"@testset \"notebooks\" begin\n")
    
       for nbfile in nbfiles
          write(f, "@test testnb(\"$nbfile\")\n")
       end
-      
-      write(f,"end;")
+      write(f,"end\n")
+      write(f,  "catch\n")
+      write(f,  "   exit(1)\n")
+      write(f,"end\n")
    
    end
 

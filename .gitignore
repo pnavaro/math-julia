@@ -7,3 +7,4 @@ deps/deps.jl
 __pycache__
 libsumvec.so
 tests.py
+runtests.jl
