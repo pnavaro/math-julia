@@ -17,4 +17,10 @@ To run these notebooks, three options:
 - Use [MyBinder](https://mybinder.org/v2/gh/pnavaro/math-julia/master). It creates a temporary julia
 notebook server. You can execute notebooks but not save your modifications.
 
+
+## References
+
+- [Julia: le langage scientifique](https://perso.ensta-paristech.fr/~diam/julia/)🇫🇷
+- [Introduction to Julia for Scientific Computing and Data Science](https://github.com/daveh19/pydataberlin2017)
+
 Pierre
