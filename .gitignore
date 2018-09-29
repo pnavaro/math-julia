@@ -8,3 +8,4 @@ __pycache__
 libsumvec.so
 tests.py
 runtests.jl
+16.RotationFFT.slides.html
