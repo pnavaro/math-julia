@@ -8,7 +8,6 @@ FFTW
 Glob
 Interact
 IntervalSets
-LinearAlgebra
 Logging
 NBInclude
 Plots
@@ -18,4 +17,3 @@ PyCall
 PyPlot
 QuadGK
 StaticArrays
-Test
