@@ -48,3 +48,5 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     chmod -R go+rx $CONDA_DIR/share/jupyter && \
     rm -rf $HOME/.local && \
     fix-permissions $JULIA_PKGDIR $CONDA_DIR/share/jupyter
+
+RUN cd ${HOME} && julia -q ${HOME}/deps_install.jl
