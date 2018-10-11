@@ -7,7 +7,7 @@ USER root
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
 ENV JULIA_PKGDIR=/opt/julia
-ENV JULIA_VERSION=1.0.0
+ENV JULIA_VERSION=1.0.1
 
 RUN mkdir /opt/julia-${JULIA_VERSION} && \
     cd /tmp && \
@@ -25,6 +25,8 @@ RUN mkdir /etc/julia && \
     chown $NB_USER $JULIA_PKGDIR && \
     fix-permissions $JULIA_PKGDIR
 
+COPY . ${HOME}
+RUN chown -R ${NB_UID} ${HOME}
 USER $NB_UID
 
 # Add Julia packages. Only add HDF5 if this is not a test-only build since
