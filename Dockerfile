@@ -28,13 +28,6 @@ COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER $NB_UID
 
-# Add Julia packages. Only add HDF5 if this is not a test-only build since
-# it takes roughly half the entire build time of all of the images on Travis
-# to add this one package and often causes Travis to timeout.
-#
-# Install IJulia as jovyan and then move the kernelspec out
-# to the system share location. Avoids problems with runtime UID change not
-# taking effect properly on the .local folder in the jovyan home dir.
 RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'import Pkg; Pkg.add("IJulia")' && \
     # Precompile Julia packages \
@@ -44,5 +37,10 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     chmod -R go+rx $CONDA_DIR/share/jupyter && \
     rm -rf $HOME/.local && \
     fix-permissions $JULIA_PKGDIR $CONDA_DIR/share/jupyter
+
+RUN conda create -n conda_jl python conda && \
+    conda install -q -y matplotlib -n conda_jl -c conda-forge  && \
+    export CONDA_JL_HOME=${CONDA_DIR}/envs/conda_jl && \
+    julia -e 'import Pkg; Pkg.build("Conda")'
 
 RUN cd ${HOME} && julia -q ${HOME}/deps_install.jl
