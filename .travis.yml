@@ -7,11 +7,10 @@ addons:
 language: julia
 
 julia:
-  - 0.7
   - 1.0
 
 os:
-  - linux
+  - osx
 
 script:
   - julia -q deps_install.jl 
