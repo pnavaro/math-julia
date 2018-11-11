@@ -1,3 +1,4 @@
+using Documenter
 using Literate
 using Plots # to not capture precompilation output
 using Glob
@@ -13,3 +14,8 @@ for notebook in notebooks
     Literate.notebook(NOTEBOOK, NB_OUTPUT, execute=false)
 
 end
+
+deploydocs(
+    deps   = Deps.pip("mkdocs", "python-markdown-math"),
+    repo   = "github.com/pnavaro/math-julia.git",
+ )
