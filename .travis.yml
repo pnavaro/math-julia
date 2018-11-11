@@ -8,4 +8,4 @@ os:
 
 script:
   - julia -q deps_install.jl 
-  - julia -e 'include("runtests.jl")'
+  - julia make.jl

@@ -8,6 +8,7 @@ FFTW
 Glob
 Interact
 IntervalSets
+Literate
 Logging
 NBInclude
 Plots
