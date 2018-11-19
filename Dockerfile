@@ -7,7 +7,7 @@ USER root
 # Julia dependencies
 # install Julia packages in /opt/julia instead of $HOME
 ENV JULIA_PKGDIR=/opt/julia
-ENV JULIA_VERSION=1.0.1
+ENV JULIA_VERSION=1.0.2
 
 RUN mkdir /opt/julia-${JULIA_VERSION} && \
     cd /tmp && \
