@@ -1,6 +1,6 @@
 # Julia notebooks
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pnavaro/math-julia/master?filepath=notebooks/01.Introduction.ipynb)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pnavaro/math-julia/master?filepath=notebooks)
 
 This is a collection of Jupyter notebooks for Julia workgroup at [IRMAR](https://irmar.univ-rennes1.fr)
 
