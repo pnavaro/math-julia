@@ -13,7 +13,7 @@ If you want to participate to monthly sessions, subscribe to the [mailing list](
 To run these notebooks, three options:
 - [Install Julia](https://julialang.org/downloads/) and use [IJulia](https://github.com/JuliaLang/IJulia.jl).
 - Clone this repository on [JuliaBox](https://juliabox.com). You can save your work on the website but you have to register.
-- Use [MyBinder](https://mybinder.org/v2/gh/pnavaro/math-julia/master?filepath=16.RotationFFT.ipynb). It creates a temporary julia notebook server. You can execute notebooks and save your modifications by downloading the ipynb file on your disk.
+- Use [MyBinder](https://mybinder.org/v2/gh/pnavaro/math-julia/master?filepath=notebooks). It creates a temporary julia notebook server. You can execute notebooks and save your modifications by downloading the ipynb file on your disk.
 
 
 ## References
