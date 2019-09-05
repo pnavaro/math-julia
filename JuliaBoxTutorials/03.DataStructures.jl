@@ -8,9 +8,9 @@
 #       format_version: '1.4'
 #       jupytext_version: 1.2.2
 #   kernelspec:
-#     display_name: Julia 1.0.0
+#     display_name: Julia 1.2.0
 #     language: julia
-#     name: julia-1.0
+#     name: julia-1.2
 # ---
 
 # # Data structures
@@ -195,7 +195,7 @@ fibonacci
 #
 # Add the number `4` to the end of this array and then remove it.
 
-
+a_ray = [1, 2, 3]
 
 # + {"deletable": false, "editable": false, "hide_input": true, "nbgrader": {"checksum": "8dde7e020bc07c5762194abf5c72285c", "grade": true, "grade_id": "cell-a6b20b78fbfeb449", "locked": true, "points": 1, "schema_version": 1, "solution": false}}
 @assert a_ray == [1, 2, 3]
@@ -209,7 +209,15 @@ fibonacci
 #
 # Why doesn't this work?
 
+myphonebook["Emergency"] = 911
 
+myphonebook["Emergency"] = 911
+
+myphonebook
+
+
+
+myphonebook
 
 # #### 3.3 
 # Create a new dictionary called `flexible_phonebook` that has Jenny's number stored as an integer and Ghostbusters' number stored as a string with the following code
@@ -218,7 +226,7 @@ fibonacci
 # flexible_phonebook = Dict("Jenny" => 8675309, "Ghostbusters" => "555-2368")
 # ```
 
-
+flexible_phonebook = Dict("Jenny" => 8675309, "Ghostbusters" => "555-2368")
 
 # + {"deletable": false, "editable": false, "hide_input": true, "nbgrader": {"checksum": "4a8e1e6d6c64cf1370e0fb60a233deb9", "grade": true, "grade_id": "cell-66f1d636c676c2f2", "locked": true, "points": 1, "schema_version": 1, "solution": false}}
 @assert flexible_phonebook == Dict("Jenny" => 8675309, "Ghostbusters" => "555-2368")
@@ -227,7 +235,7 @@ fibonacci
 # #### 3.4 
 # Add the key "Emergency" with the value `911` (an integer) to `flexible_phonebook`.
 
-
+flexible_phonebook["Emergency"] = 911
 
 # + {"deletable": false, "editable": false, "hide_input": true, "nbgrader": {"checksum": "e790c96d2a64c04de1d9e01eaf5ba162", "grade": true, "grade_id": "cell-ee862ab938680259", "locked": true, "points": 1, "schema_version": 1, "solution": false}}
 @assert haskey(flexible_phonebook, "Emergency")
@@ -241,4 +249,7 @@ fibonacci
 
 
 
-# Please click on `Validate` button at the top, upon completion of the exercise
+myphonebook = Dict{String,Int64}()
+myphonebook["Emergency"] = 911
+
+

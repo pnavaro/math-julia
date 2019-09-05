@@ -7,9 +7,9 @@
 #       format_version: '1.4'
 #       jupytext_version: 1.2.2
 #   kernelspec:
-#     display_name: Julia 1.0.0
+#     display_name: Julia 1.2.0
 #     language: julia
-#     name: julia-1.0
+#     name: julia-1.2
 # ---
 
 # # Loops
@@ -49,6 +49,14 @@ while i <= length(myfriends)
 end
 # -
 
+# variable declared in loop scope is private
+
+while i <= 5
+   i += 1
+   j = i + 1
+end
+println(j)
+
 # ## for loops
 #
 # The syntax for a `for` loop is
@@ -61,7 +69,7 @@ end
 #
 # We could use a for loop to generate the same results as either of the examples above:
 
-for n in 1:10
+for n in 1:10  # for n = 1:10 is also valid
     println(n)
 end
 

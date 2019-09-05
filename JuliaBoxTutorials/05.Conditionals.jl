@@ -7,9 +7,9 @@
 #       format_version: '1.4'
 #       jupytext_version: 1.2.2
 #   kernelspec:
-#     display_name: Julia 1.0.0
+#     display_name: Julia 1.2.0
 #     language: julia
-#     name: julia-1.0
+#     name: julia-1.2
 # ---
 
 # # Conditionals
@@ -31,7 +31,7 @@
 # <br><br>
 # For example, we might want to implement the FizzBuzz test: given a number, N, print "Fizz" if N is divisible by 3, "Buzz" if N is divisible by 5, and "FizzBuzz" if N is divisible by 3 and 5. Otherwise just print the number itself! Enter your choice for `N` here:
 
-N = 
+N = 11445
 
 if (N % 3 == 0) && (N % 5 == 0) # `&&` means "AND"; % computes the remainder after division
     println("FizzBuzz")
@@ -63,8 +63,8 @@ end
 
 # Now let's say we want to return the larger of two numbers. Give `x` and `y` values here:
 
-x =
-y =
+x = 3
+y = 4
 
 # Using the `if` and `else` keywords, we might write:
 
@@ -107,9 +107,16 @@ false || println("hi")
 # #### 5.1 
 # Write a conditional statement that prints a number if the number is even and the string "odd" if the number is odd.
 
-
+x = 3
+if Bool(x & 1)
+    println("odd")
+else
+    println(x)
+end
 
 # #### 5.2 
 # Rewrite the code from 5.1 using a ternary operator.
+
+Bool(x & 1) ? println("odd") :  println(x)
 
 

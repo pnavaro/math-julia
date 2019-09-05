@@ -58,3 +58,10 @@ plot(sol.t, getindex.(sol.u, 2), label = "Numerical")
 plot!(sol.t, u, label = "Analytic")
 ```
 
+# Package
+
+- `Project.toml`
+- `Manifest.toml`
+- `LOAD_PATH`
+
+

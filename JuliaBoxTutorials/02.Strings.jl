@@ -8,9 +8,9 @@
 #       format_version: '1.4'
 #       jupytext_version: 1.2.2
 #   kernelspec:
-#     display_name: Julia 1.0.0
+#     display_name: Julia 1.2.0
 #     language: julia
-#     name: julia-1.0
+#     name: julia-1.2
 # ---
 
 # # Strings
@@ -52,8 +52,7 @@ num_toes = 10
 
 println("Hello, my name is $name.")
 println("I have $num_fingers fingers and $num_toes toes.")
-
- println("That is $(num_fingers + num_toes) digits in all!!")
+println("That is $(num_fingers + num_toes) digits in all!!")
 
 # ## String concatenation
 #
@@ -79,6 +78,7 @@ s3*s4
 # Create a string that says "hi" 1000 times, first with `repeat` and then with the exponentiation operator, which can call `*` under the hood. Assign it the variable `hi` below.
 
 # + {"deletable": false, "nbgrader": {"checksum": "2046f6f9c3d290e2d63b4c261629d27d", "grade": false, "grade_id": "cell-5b38bdb1115161b4", "locked": false, "schema_version": 1, "solution": true}}
+hi = repeat("hi", 1000)
 
 
 # + {"deletable": false, "editable": false, "hide_input": true, "nbgrader": {"checksum": "8b3cc1d8a062b67271109b980793144e", "grade": true, "grade_id": "cell-20b1027a968fbb48", "locked": true, "points": 1, "schema_version": 1, "solution": false}}
@@ -100,11 +100,14 @@ s3*s4
 # and store the results in `c` and `d` respectively
 
 # + {"deletable": false, "nbgrader": {"checksum": "fad4e601d321aac4b6a1ea9b4e859309", "grade": false, "grade_id": "cell-36beb524c8ecd33b", "locked": false, "schema_version": 1, "solution": true}}
+a = 3
+b = 4
+# -
 
+
+c = "$a + $b"
+d = "$(a+b)"
 
 # + {"deletable": false, "editable": false, "hide_input": true, "nbgrader": {"checksum": "191b413e8c273e1d2c6423d090ce6f0f", "grade": true, "grade_id": "cell-14c3c5b015a97892", "locked": true, "points": 1, "schema_version": 1, "solution": false}}
 @assert c == "3 + 4"
 @assert d == "7"
-# -
-
-# Please click on `Validate` on the top, once you are done with the exercises.
