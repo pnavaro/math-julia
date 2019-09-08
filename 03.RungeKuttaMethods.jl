@@ -1,16 +1,15 @@
-
+# -*- coding: utf-8 -*-
 # # Runge-Kutta methods
 
 using Plots
 gr()
-#----------------------------------------------------------------------------
 
 # We will implement in Julia different numerical methods to solve
-# 
+#
 # $$
 # y'(t) = 1 - y(t)
 # $$
-# 
+#
 # $ t \in [0,5] \qquad \mbox{ and } \qquad y(0) = 0 $
 
 # ## Explicit Euler
@@ -33,7 +32,6 @@ end
 #----------------------------------------------------------------------------
 
 ?euler
-#----------------------------------------------------------------------------
 
 # ## Runge-Kutta 2nd order
 
@@ -57,10 +55,6 @@ end
 #----------------------------------------------------------------------------
 
 ?rk2
-#----------------------------------------------------------------------------
-
-?rk2
-#----------------------------------------------------------------------------
 
 # ## Runge-Kutta 4th order
 
@@ -143,14 +137,14 @@ plot!(t, 1 .- exp.(-t); line = 3, label = :exact)
 #----------------------------------------------------------------------------
 
 # # Callable object
-# 
+#
 # We want to build a numerical method to solve the problem and then use it
 # as a function and still call the solver function.
 
-# 
-# 
+#
+#
 # Runge-Kutta scheme can be built using Butcher tableau :
-# 
+#
 # \begin{array}{c|cccc}
 #  c₁  &        &        &        &        \\
 #  c₂  & a_{21} &        &        &        \\
@@ -159,17 +153,17 @@ plot!(t, 1 .- exp.(-t); line = 3, label = :exact)
 #  \hline
 #      & b_1    & b_2    & b_3    & b_4    \\
 # \end{array}
-# 
+#
 # $$
 # \forall i = 1, \dotsc, q, \begin{cases}t_{n,i} &= t_n + c_i h_n, \\ 
 # y_{n,i} &= y_n + h_n \sum_{k = 1}^{i-1} a_{ik} p_{n,k}\\ 
 # p_{n,i} &= f(t_{n,i}, y_{n,i}) \end{cases}
 # $$
-# 
+#
 # $$
 # y_{n+1} = y_n + h_n \sum_{k = 1}^q b_k p_{n,k}.
 # $$
-# 
+#
 
 mutable struct RungeKutta
     
@@ -193,9 +187,9 @@ mutable struct RungeKutta
         new( q, a, b, c, tn, yn, pn)
         
     end
-    
+
 end
-    
+
 function (rk::RungeKutta)(f::Function, t::Float64, y::Float64,  h::Float64)
 
     for i = 1:rk.q
@@ -259,7 +253,7 @@ plot!(solver(f, rk4_38, t₀, x₀, dt, nsteps), marker = :r,  label=:rk4_38)
 # [Reference](https://www.juliabloggers.com/runge-kutta-methods/):Ordinary Differential Equation Solvers: Runge-Kutta Methods by Christina Lee
 
 # # Creating expressions via interpolation
-# 
+#
 # Create a solver function with the method choosen at initialization.
 
 macro add(x, y)
@@ -301,7 +295,7 @@ plot(rk4_solver(f, t₀, x₀, dt, nsteps))
 #----------------------------------------------------------------------------
 
 # [DifferentialEquations.jl](http://docs.juliadiffeq.org/latest/)
-# 
+#
 # [ODE Solvers](http://docs.juliadiffeq.org/latest/solvers/ode_solve.html#OrdinaryDiffEq.jl-1)
 
 using OrdinaryDiffEq
@@ -336,4 +330,4 @@ sol = solve(prob)
 
 plot(sol,vars=(1,2,3))
 
-#----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------

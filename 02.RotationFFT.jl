@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 # $$
 # \frac{d f}{dt} +  (v \frac{d f}{dx} - x \frac{d f}{dv}) = 0
 # $$
@@ -11,25 +11,23 @@ using  FFTW
 using  LinearAlgebra
 using  Plots, ProgressMeter
 using  BenchmarkTools
-pyplot()
-#----------------------------------------------------------------------------
 
 # ## Mesh parameters (matlab code)
-# 
+#
 # ```m
 # Nx=128;Ny=256;
 # xmin=-pi; xmax=pi; 
-# 
+#
 # dx=(xmax-xmin)/Nx; 
 # x=xmin:dx:xmax-dx;
-# 
+#
 # ymin=-pi; ymax=pi; 
 # dy=(ymax-ymin)/Ny; 
 # y=ymin:dy:ymax-dy;
 # ```
 
 # ## Julia type for mesh information
-# 
+#
 # ```jl
 # struct Mesh
 #     nx   :: Int
@@ -43,11 +41,11 @@ pyplot()
 #     x    :: Vector{Float64}
 #     y    :: Vector{Float64}
 # end
-# 
+#
 # mesh = Mesh( 128, 256, -π, π, -π, π, 2π/128, 2π/256, ...)
-# 
+#
 # ```
-# 
+#
 
 struct Mesh
     
@@ -73,10 +71,9 @@ end
 mesh = Mesh(-π, π, 128, -π, π, 256)
 
 @show mesh.xmin, mesh.xmax, mesh.nx, mesh.dx
-#----------------------------------------------------------------------------
 
 # # Initialization of f : 2d array of double float
-# 
+#
 # ```m
 # f=zeros(Nx,Ny);
 # for i=1:Nx
@@ -90,9 +87,9 @@ mesh = Mesh(-π, π, 128, -π, π, 256)
 
 # ```jl
 # f = zeros(Float64,(mesh.nx,mesh.ny))
-# 
+#
 # for (i, x) in enumerate(mesh.x), (j, y) in enumerate(mesh.y)
-# 
+#
 #     f[i,j] = exp(-(x-1)*(x-1)/0.1)*exp(-(y-1)*(y-1)/0.1)
 #         
 # end
@@ -111,11 +108,9 @@ function exact(tf, mesh)
 
     f
 end
-#----------------------------------------------------------------------------
 
 f = exact(0.0, mesh)
 surface(f)
-#----------------------------------------------------------------------------
 
 # ## Create the gif to show what we are computing
 
@@ -138,7 +133,6 @@ function create_gif()
 end
 
 create_gif();
-#----------------------------------------------------------------------------
 
 # ![](tmp.gif)
 
@@ -147,9 +141,9 @@ create_gif();
 # tf=200*pi;Nt=1000;dt=tf/Nt;
 # kx=2*pi/(xmax-xmin)*[0:Nx/2-1,Nx/2-Nx:Nx-1-Nx];
 # ky=2*pi/(ymax-ymin)*[0:Ny/2-1,Ny/2-Ny:Ny-1-Ny];
-# 
+#
 # fnx=zeros(1,Nx);ffx=zeros(1,Nx);fny=zeros(1,Ny);ffy=zeros(1,Ny);
-# 
+#
 # for n=1:Nt     
 #     for i=1:Nx
 #         xx=xmin+(i-1)*dx;
@@ -164,7 +158,7 @@ create_gif();
 #         fnx=real(ifft(exp(-sqrt(-1)*yy*kx*sin(dt)).*transpose(ffx)));
 #         f(:,j)=fnx;
 #     end
-# 
+#
 #     for i=1:Nx
 #         xx=xmin+(i-1)*dx;
 #         ffy=fft(f(i,:));
@@ -175,14 +169,14 @@ create_gif();
 # ```
 
 # ## Function to compute error
-# 
+#
 # ```m
-# 
+#
 # % compute errors in Linfty norm
 # error1=max(max(f-f_exact))
-# 
+#
 # ```
-# 
+#
 # - In julia the max value of an array is `maximum`.
 
 function error1(f, f_exact)
@@ -226,7 +220,7 @@ println( " error = ", error1(naive_from_matlab(tf, nt, mesh), exact(tf, mesh)))
 #----------------------------------------------------------------------------
 
 # ###  Vectorized version
-# 
+#
 # - We remove the for loops over direction x and y by creating the 2d arrays `exky` and `ekxy`.
 # - We save cpu time by computing them before the loop over time
 
@@ -344,7 +338,7 @@ println( " error = ", error1(with_fft_plans(tf, nt, mesh), exact(tf, mesh)))
 #----------------------------------------------------------------------------
 
 # ## Inplace computation and fft plans
-# 
+#
 # To apply fft plan to an array A, we use a preallocated output array Â by calling `mul!(Â, plan, A)`. 
 # The input array A must be a complex floating-point array like the output Â.
 # The inverse-transform is computed inplace by applying `inv(P)` with `ldiv!(A, P, Â)`.
@@ -392,7 +386,7 @@ println( " error = ", error1(with_fft_plans_inplace(tf, nt, mesh), exact(tf, mes
 #----------------------------------------------------------------------------
 
 # ## Explicit transpose of `f`
-# 
+#
 # - Multidimensional arrays in Julia are stored in column-major order.
 # - FFTs along y are slower than FFTs along x
 # - We can speed-up the computation by allocating the transposed `f` 
