@@ -7,7 +7,7 @@
 #       format_version: '1.4'
 #       jupytext_version: 1.2.2
 #   kernelspec:
-#     display_name: Julia 1.0.0
+#     display_name: Julia 1.0.3
 #     language: julia
 #     name: julia-1.0
 # ---
@@ -16,7 +16,7 @@
 #
 # Julia has over 2000 registered packages, making packages a huge part of the Julia ecosystem.
 #
-# Even so, the package ecosystem still has some growing to do. Notably, we have first class function calls  to other languages, providing excellent foreign function interfaces. We can easily call into python or R, for example, with `PyCall` or `Rcall`.
+# Even so, the package ecosystem still has some growing to do. Notably, we have first class function calls  to other languages, providing excellent foreign function interfaces. We can easily call into python or R, for example, with `PyCall` or `RCall`.
 #
 # This means that you don't have to wait until the Julia ecosystem is fully mature, and that moving to Julia doesn't mean you have to give up your favorite package/library from another language! 
 #

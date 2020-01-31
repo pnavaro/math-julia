@@ -128,6 +128,7 @@
 # - Designed for parallelism, and provides built-in primitives for parallel computing
 # - can call C and Fortran libraries natively
 # - can call Python libraries via PyCall package
+# - can call R functions via RCall package
 
 # # Julia is a language made for Science.
 #
