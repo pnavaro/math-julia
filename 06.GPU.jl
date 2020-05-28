@@ -1,21 +1,31 @@
-# Installation
-using Pkg
+# -*- coding: utf-8 -*-
+# # Installation
+
+using Pkg, Plots
 
 pkg" add CUDAdrv CUDAnative CuArrays"
+
+pkg" update"
 
 using CUDAdrv, CUDAnative, CuArrays
 
 CuArrays.version()
 
-CuArrays.functionnal()
+# Useful function to enable GPU version of your code
 
-# Array programming
+CuArrays.functional()
 
-CuArray{Float32,2}(undef, 2, 2)
+# # Array programming
+
+# allocate an array on the GPU device
+
+a = CuArray{Float32,2}(undef, 2, 2)
 
 similar(a)
 
 a = CuArray([1,2,3])
+
+# b is allocated on the CPU, a data transfer is made
 
 b = Array(a)
 
@@ -27,11 +37,11 @@ CuArrays.zeros(Float32, 2)
 
 CuArrays.fill(42, (3,4))
 
-rand(2, 2)
+CuArrays.rand(2, 2)
 
 a = CuArray([1 2 3])
 
-view(a, 2:2)
+view(a, 2:3)
 
 sum(a)
 
@@ -43,34 +53,42 @@ a * CuArray([1, 2, 3])
 
 a = CuArray{Float32}(undef, (2,2))
 
-## CURAND
+# # CURAND
 
-rand!(a)
+CURAND.rand!(a)
 
-## CUBLAS
+# # CUBLAS
 
 a * a
 
-## CUSOLVER
+# # CUSOLVER
 
+using LinearAlgebra
 LinearAlgebra.qr!(a)
 
-## CUFFT
+L, ipiv = CuArrays.CUSOLVER.getrf!(a)
+CuArrays.CUSOLVER.getrs!('N', L, ipiv, CuArrays.ones(2))
 
-CUFFT.plan_fft(a) * a
+# # CUFFT
 
-## CUDDN
+fft = CUFFT.plan_fft(a) 
+fft * a
 
-softmax(real(ans))
+ifft = CUFFT.plan_ifft(a)
+real(ifft * (fft * a))
 
-## CUSPARSE
+# # CUDDN
 
-sparse(a)
+CuArrays.CUDNN.softmax(real(ans))
 
-## Array programming
+# # CUSPARSE
 
-a = CuArray([1, 2 3])
-b = CuArray([4, 5 6])
+CuArrays.CUSPARSE.sparse(a)
+
+# # Array programming
+
+a = CuArray([1 2 3])
+b = CuArray([4 5 6])
 
 map(a) do x
     x + 1
@@ -84,6 +102,8 @@ accumulate(+, b; dims=2)
 
 findfirst(isequal(2), a)
 
+
+import Pkg; Pkg.add("ForwardDiff");
 
 using LinearAlgebra
 using ForwardDiff
@@ -110,19 +130,36 @@ y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1
 w = 0.0001 * randn(1, p)
 b = 0.0
 
+err = Float64[]
 for i = 1:50
    w, b = train(w, b, x, y)
-   println(loss(w,b,x,y))
+   push!(err, loss(w,b,x,y))
 end
+plot(err)
 
 
 # Moving to GPU
 
+# +
+n, p = 100, 10
+x = randn(n, p)'
+y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1
+w = 0.0001 * randn(1, p)
+b = 0.0
 x = CuArray(x)
 y = CuArray(y)
-w = CuArray(y)
+w = CuArray(w)
 
-# Custom Kernel
+err = Float64[]
+for i = 1:50
+   w, b = train(w, b, x, y)
+   push!(err, loss(w,b,x,y))
+end
+plot(err)
+# -
+
+# # Custom Kernel
+
 using BenchmarkTools
 
 a = CuArrays.rand(Int, 1000)
@@ -136,35 +173,45 @@ norm(a)
 
 @btime norm($(Array(a)))
 
+# The `norm` computation is much faster on the CPU
+
 CuArrays.allowscalar(false)
 
 
-a = CuARray(1:9_999_999)
+a = CuArray(1:9_999_999);
 
-a .+ reverse(a)
+a .+ reverse(a);
 
-@time CuArrays.@sync a .+ reverse(a)
+# You need two kernels to perfom this last computation. @time is not the right tool to evaluate the elasped time. The task is scheduled on the GPU device but not executed. It will be executed when you will fetch the result on the CPU.
 
-CuArrays.@time a .+ reverse(a)
+@time CuArrays.@sync a .+ reverse(a);
 
-@btime CuArrays.@sync $a .+ reverse($a)
+CuArrays.@time a .+ reverse(a);
 
-@btime CuArrays.@sync $(Array(a)) .+ reverse($(Array(a)))
+@btime CuArrays.@sync $a .+ reverse($a);
 
-
-# NVIDIA Nsight Compute
-
-$ nv-nsight-cu-cli --profile-from-start off julia
-
-julia> CUDAdrv.@profile a .+ reverse(a)
-julia> exit()
-
-$ nsys launch julia
-
-julia> CUDAdrv.@profile a .+ reverse(a)
+@btime CuArrays.@sync $(Array(a)) .+ reverse($(Array(a)));
 
 
-# Interactive development
+# # NVIDIA Nsight Compute
+#
+# ```bash
+# $ nv-nsight-cu-cli --profile-from-start off julia
+# ```
+# ```julia-repl
+# julia> CUDAdrv.@profile a .+ reverse(a)
+# julia> exit()
+# ```
+#
+# ```bash
+# $ nsys launch julia
+# ```
+# ```julia-repl
+# julia> CUDAdrv.@profile a .+ reverse(a)
+# ```
+
+
+# # Interactive development
 
 kernel() = (@cuprintln("foo"); return)
 
@@ -175,27 +222,28 @@ kernel() = (@cuprintln("foo"); return)
 @cuda kernel()
 
 
-Significant overhead when you launch several kernels
-
-
+# There is a significant overhead when you launch several kernels
 
 a = CuArray(1:9_999_999)
 c = similar(a)
-c .= a .+ reverse(a)
+c .= a .+ reverse(a);
 
 function vadd_reverse(c, a, b)
     
     i = threadIdx().x
-    if <= length(c)
+    if i <= length(c)
         @inbounds c[i] = a[i] + reverse(b)[i]
     end
     return
 end
 
-@cuda threads = length(a) vadd_reverse(c, a, a)
-
-
 # # Unsupported
+#
+# ```julia
+# @cuda threads = length(a) vadd_reverse(c, a, a)
+# ```
+# will raise an error because some features are not supported on the GPU
+#
 # - Dynamic allocations
 # - Garbage collection
 # - Dynamic dispatch
@@ -205,13 +253,17 @@ end
 function vadd_reverse(c, a, b)
     
     i = threadIdx().x
-    if <= length(c)
+    if i <= length(c)
         @inbounds c[i] = a[i] + b[end - i + 1]
     end
     return
 end
 
-@cuda threads = length(a) vadd_reverse(c, a, a)
+# The following expression will also raise an error because you can't loop over an array
+# on GPU in the same way.
+# ```julia
+# @cuda threads = length(a) vadd_reverse(c, a, a)
+# ```
 
 attribute(device(), CUDAdrv.DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK)
 
@@ -223,10 +275,14 @@ function vadd_reverse(c, a, b)
     return
 end
 
+# The kernel you built is twice faster 
+
 @btime CuArrays.@sync @cuda threads=1024 blocks=length($a)÷1024+1 vadd_reverse($c, $a, $a)
 
-@btime CuArrays.@sync $a .+ reverse($a)
+@btime CuArrays.@sync $a .+ reverse($a);
 
+
+# To adapt the code to your device, use this configurator function
 
 function configurator(kernel)
     config = launch_configuration(kernel.fun)
@@ -237,36 +293,53 @@ end
 
 @cuda config=configurator vadd_reverse(c, a, a)
 
-# Indexing
-threadIdx().x; blockDim().y
+# # Indexing
 
-# Cooperative groups
-@cuda cooperative=true kernel(...)
-
-# Shared memory
-a = @cuStaticSharedMem(Int, 64)
+using CUDAdrv, CUDAnative, CuArrays
 
 
-# Dynamic parallelism
-
-@cuda dynamic=true kernel(...)
-
-# Standard output
-
-@cuprintln("Thread $(threadIdx().x)")
-
-# Atomics
-
-@atomic a[...] += val
-
-# Avoid thread divergence
-# Reduce and coalesce global accesses
-# Improve occupancy
-
-# Early-free arrays  CuArrys.unsafe_free!
-# Annotate with @inbounds
-# Use 32 bits
+# # Cooperative groups
+#
+# https://devblogs.nvidia.com/cooperative-groups/
+#
+# ```julia
+# @cuda cooperative=true kernel(...)
+# ```
+#
+# # Shared memory
+#
+# https://devblogs.nvidia.com/using-shared-memory-cuda-cc/
+#
+# ```julia
+# a = @cuStaticSharedMem(Int, 64)
+# ```
 
 
+# # Dynamic parallelism
+#
+# https://devblogs.nvidia.com/cuda-dynamic-parallelism-api-principles/
+#
+# @cuda dynamic=true kernel(...)
+
+# # Standard output
+#
+# ```julia
+# @cuprintln("Thread $(threadIdx().x)")
+# ```
+
+# # Atomics
+#
+# ```julia
+# @atomic a[...] += val
+# ```
+
+# # GPU programming performance tips
+#
+# - Avoid thread divergence (https://cvw.cac.cornell.edu/gpu/thread_div)
+# - Reduce and coalesce global accesses
+# - Improve occupancy
+# - Early-free arrays  `CuArrays.unsafe_free!` (https://juliagpu.gitlab.io/CUDA.jl/usage/memory/)
+# - Annotate with `@inbounds`
+# - Use 32 bits for float and integers
 
 
