@@ -1,6 +1,21 @@
 # -*- coding: utf-8 -*-
 
-function buildsparsematrix(n, dt, h)
+using Plots
+using LinearAlgebra
+
+struct Laplacian
+
+    n :: Int
+    d1 :: Vector{Float64}
+    d2 :: Vector{Float64}
+    d3 :: Vector{Float64}
+    d4 :: Vector{Float64}
+    d5 :: Vector{Float64}
+
+
+end
+
+function buildsparsematrix(n)
 
     nsq = n * n
 
@@ -10,32 +25,14 @@ function buildsparsematrix(n, dt, h)
     d4 = zeros(nsq)
     d5 = zeros(nsq)
 
-    csound = 1.0
-    cfl = csound * dt / h
-    csq = csound * csound 
-    ta  =   1.0 / dt^2 + 2csq / h^2 # diagonal term
-    tb  = - 0.5 * csq / h^2
-
     for k = 1:nsq
 
        if( k == 1 )  # bottom left
-          d1[k] =  0.0
-          d2[k] =  0.0
-          d3[k] =  1.0	
-          d4[k] = -0.5
-          d5[k] = -0.5
+          d3[k] =  1	
        elseif( k > 1 && k < n ) # left side
-          d1[k] = 0.0
-          d2[k] = 0.0
-          d3[k] = 1.0	
-          d4[k] = 0.0
-          d5[k] = 0.0
+          d3[k] = 1	
        elseif( k == n ) # top left
-          d1[k] =  0.0
-          d2[k] = -0.5
-          d3[k] =  1.0	
-          d4[k] =  0.0
-          d5[k] = -0.5
+          d3[k] =  1
        elseif( k > n && k <= (n-1)*n ) 
           if( mod( k, n ) == 0 ) 
              d1[k] =  0.0
@@ -50,132 +47,113 @@ function buildsparsematrix(n, dt, h)
              d4[k] =  0.0
              d5[k] =  0.0
           else
-             d1[k] = tb
-             d2[k] = tb
-             d3[k] = ta		# interior
-             d4[k] = tb
-             d5[k] = tb
+             d1[k] = -1
+             d2[k] = -1
+             d3[k] =  4		# interior
+             d4[k] = -1
+             d5[k] = -1
           end
        elseif ( k == (n-1)*n+1 ) 
-          d1[k] = -.5
-          d2[k] = 0.0
-          d3[k] = 1.0		# bottom right
-          d4[k] = -.5
-          d5[k] = 0.0
+          d3[k] = 1		# bottom right
        elseif ( k > nsq-n+1 && k < nsq ) 
-          d1[k] = 0.0
-          d2[k] = 0.0
-          d3[k] = 1.0 		# right side
-          d4[k] = 0.0
-          d5[k] = 0.0
+          d3[k] = 1 		# right side
        elseif ( k == nsq) 
-          d1[k] = -.5
-          d2[k] = -.5
-          d3[k] = 1.0		# top right
-          d4[k] = 0.0
-          d5[k] = 0.0
+          d3[k] = 1		# top right
        end
 
     end
 
+    Laplacian(n, d1, d2, d3, d4, d5)
+
 end
 
 
-function asub( x, v )
+function asub!( v, L, x )
 
-    n = size(v)[1]
+    n = L.n
     nsq = n * n
 
-    for k = 1:nsq
+    for k in eachindex(v) 
 
         v[k] = 0.0
 
-        if( k == 1 ) then
-
-            v[k] = d3[k] * x[k] + d4[k] * x[k+1] + d5[k] * x[k+n]
-
-        elseif( k > 1 && k <= n ) 
-
-            v[k] =  d2[k] * x[k-1] + d3[k] * x[k] + d4[k] * x[k+1] + d5[k] * x[k+n]
-
-	    elseif( k > n && k < (n-1)*n ) 
-
-            v[k] = d1[k] * x[k-n] + d2[k] * x[k-1] + d3[k] * x[k] + d4[k] * x[k+1] + d5[k] * x[k+n]
-
-	    elseif( k >= (n-1)*n && k <= n*n-1 )
-
-            v[k] = d1[k] * x[k-n] + d2[k] * x(k-1) + d3[k] * x[k] + d4[k] * x[k+1]
-
-	    elseif( k == n*n )
-
-            v[k] = d1[k] * x[k-n] + d2[k] * x[k-1] + d3[k] * x[k]
-
-        end
-
     end
+
+    k = 1
+    v[k] = L.d3[k] * x[k] + L.d4[k] * x[k+1] + L.d5[k] * x[k+n]
+
+    for k = 2:n 
+        v[k] =  L.d2[k] * x[k-1] + L.d3[k] * x[k] + L.d4[k] * x[k+1] + L.d5[k] * x[k+n]
+    end
+
+	for k = n+1:(n-1)*n-1
+        v[k] = L.d1[k] * x[k-n] + L.d2[k] * x[k-1] + L.d3[k] * x[k] + L.d4[k] * x[k+1] + L.d5[k] * x[k+n]
+    end
+
+	for k = (n-1)*n:n*n-1
+        v[k] = L.d1[k] * x[k-n] + L.d2[k] * x[k-1] + L.d3[k] * x[k] + L.d4[k] * x[k+1]
+    end
+
+	k = n*n
+    v[k] = L.d1[k] * x[k-n] + L.d2[k] * x[k-1] + L.d3[k] * x[k]
 
 end
 
-function atsub( x, v )
+function atsub!( v, L, x )
 
-    n = size(v)[1]
+    n = L.n
     nsq = n * n
 
     for k in eachindex(v)
-
        v[k] = 0.0
-
-       if( k == 1 ) then
-
-          v[k] = d3[k]*x[k]+d2[k+1]*x[k+1]+d1[k+n]*x[k+n]
-
-       elseif( k > 1 && k <= n ) then
-
-          v[k] =  d4[k-1]*x[k-1] + d3[k]*x[k] + d2[k+1]*x[k+1] + d1[k+n]*x[k+n]
-
-       elseif( k > n && k < n*(n-1) ) then
-
-          v[k] = d5[k-n]*x[k-n]+d4[k-1]*x[k-1] + d3[k]*x[k]+d2[k+1]*x[k+1]+d1[k+n]*x[k+n]
-
-       elseif( k >= n*(n-1) && k <= nsq-1 ) then
-
-           v[k] = d5[k-n]*x[k-n]+d4[k-1]*x[k-1] + d3[k]*x[k]+d2[k+1]*x[k+1]
-
-       elseif( k == nsq ) then
-
-           v[k] = d5[k-n]*x[k-n]+d4[k-1]*x[k-1]+d3[k]*x[k]
-
-       end
-
     end
+
+    k = 1
+    v[k] = L.d3[k]*x[k]+L.d2[k+1]*x[k+1]+L.d1[k+n]*x[k+n]
+
+    for k=2:n
+        v[k] =  L.d4[k-1]*x[k-1] + L.d3[k]*x[k] + L.d2[k+1]*x[k+1] + L.d1[k+n]*x[k+n]
+    end
+
+    for k = n+1:n*(n-1)-1
+        v[k] = L.d5[k-n]*x[k-n]+L.d4[k-1]*x[k-1] + L.d3[k]*x[k]+L.d2[k+1]*x[k+1]+L.d1[k+n]*x[k+n]
+    end
+
+    for k = n*(n-1):nsq-1
+        v[k] = L.d5[k-n]*x[k-n]+L.d4[k-1]*x[k-1] + L.d3[k]*x[k]+L.d2[k+1]*x[k+1]
+    end
+
+    k = nsq
+    v[k] = L.d5[k-n]*x[k-n]+L.d4[k-1]*x[k-1]+L.d3[k]*x[k]
 
 end
 
 # +
 """
-    sparsecg( b, n, x)
+    sparsecg!( x, L, b)
 
 
-Solves the linear system A.x=b for the vector X of length n, 
+Solves the linear system L.x=b for the vector X of length n, 
 given the right hand vector B, and given two functions, 
-`asub(xin, xout)` and `atsub(xin,xout)`, which respectively 
-calculate `A . x` and `Aᵗ.x` for x given as their first arguments, 
+`asub!(xout, L, xin)` and `atsub!(xout, L, xin)`, which respectively 
+calculate `L . x` and `Lᵗ.x` for x given as their first arguments, 
 returning the result in their second arguments. 
 
 These functions should take every advantage of the 
-sparseness of the second matrix A. On input, X should be set to a 
+sparseness of the second matrix L. On input, `x` should be set to a 
 first guess of the desire solution (all zero components is fine). 
-On output, X the solution vector, and `rsq` is the sum of the squares of 
-the components of the residual vector `A.x-b`. If this is not small, then 
+On output, `x` the solution vector, and `rsq` is the sum of the squares of 
+the components of the residual vector `L.x-b`. If this is not small, then 
 the matrix is numerically singular and the solution represents a least 
 squares best approximation.
 
 """
-function sparsecg( b, n, x)
+function sparsecg!( x, L, b)
 
     eps = 1.e-7
     # Maximum anticipated N, and r.m.s accuracy desired
 
+    n = L.n * L.n
     g = zeros(n)
     h = zeros(n)
     xi = zeros(n)
@@ -186,7 +164,7 @@ function sparsecg( b, n, x)
 
     @label restart 
     irst = irst+1
-    asub(x,xi)        #evaluate the starting gradient,
+    asub!(xi, L, x)        #evaluate the starting gradient,
     rp   = 0
     bsq  = 0
 
@@ -196,14 +174,14 @@ function sparsecg( b, n, x)
         rp=rp+xi[j]^2    
     end
 
-    atsub( xi, g)
+    atsub!( g, L, xi)
     for j=1:n
         g[j]=-g[j]
         h[j]=g[j]
     end 
 
     for iter = 1:10n    #Main iteration loop.
-        asub( h, xi )
+        asub!( xi, L, h )
         anum = 0.
         aden = 0.
         for j=1:n
@@ -219,7 +197,7 @@ function sparsecg( b, n, x)
             x[j] =x[j]+anum*h[j]
         end
 
-        asub( x, xj )
+        asub!( xj, L, x )
         rsq = 0.
 
         for j = 1:n
@@ -244,7 +222,7 @@ function sparsecg( b, n, x)
         end
 
         rp = rsq
-        atsub( xj, xi )    #Compute gradient for next iteration
+        atsub!( xi, L, xj )    #Compute gradient for next iteration
         gg = 0
         dgg = 0.
         for j = 1:n
@@ -265,132 +243,38 @@ function sparsecg( b, n, x)
 
 end
 
-function lighthill( n )
+n = 100
+nsq = n * n
 
-      nsq = n * n
+b = zeros(nsq) 
+x = zeros(nsq)
 
-      b = zeros(nsq) 
-      c = zeros(nsq)
-      x = zeros(nsq)
+phi = zeros(n,n)
+rho = zeros(n,n)
 
-      phi0 = zeros(n,n)
-      phi1 = zeros(n,n)
-      phi2 = zeros(n,n)
+xgrid = LinRange( -pi, pi, n)
+ygrid = LinRange( -pi, pi, n)
 
-      steps = 1000
-      dt = 0.2
+h = 2π / (n-1)
 
-      csound = 10
-      h      = 10
-      tau    = 30
-      omega  = 2pi / tau
+L = buildsparsematrix(n)
 
-      it     = 1
+rho .= 2 .* sin.(xgrid) .* sin.(ygrid)'
 
-      buildsparsematrix(n, dt, h)
+for i = 2:n-1, j = 2:n-1
 
-      csq   = csound * csound
-      dh    = h + h
-      hsq   = h * h
-      xc    = 0.5 * h * n
-      yc    = 0.5 * h * n
-
-      time = 0.0
-
-      for i = 1:n, j = 1:n
-         k = ( i-1 ) * n + j 
-         c[k] = 0
-      end
-
-      for istep = 1:steps
-
-         i = n ÷ 2- 10
-         j = n ÷ 2
-         k = ( i-1 ) * n + j 
-         c[k] = sin(omega*time+1e-5)
-         i = n ÷ 2+ 10
-         j = n ÷ 2
-         k = ( i-1 ) * n + j 
-         c[k] = sin(omega*time+1e-5)
-
-         for i = 2:n-1
-
-           j = 1  # bottom
-
-           ic = ( i-1) * n + j
-
-           phix = (phi2[i+1,j]-phi2[i-1,j])/dh
-           phiy = (-3*phi2[i,j]+4*phi2[i,j+1]-phi2[i,j+2])/dh
-	       xm   = i * h - xc
-	       ym   = j * h - yc
-	       rm   = sqrt(xm*xm + ym*ym)
-	       dphi = xm/rm * phix + ym/rm * phiy
-           b[ic] = phi2[i,j] - csound * dt * dphi
-
-           j = n          # top
-
-           phix = (phi2[i+1,j]-phi2[i-1,j])/dh
-           phiy = (3*phi2[i,j]-4*phi2[i,j-1]+phi2[i,j-2])/dh
-	       xm   = i * h - xc
-	       ym   = j * h - yc
-	       rm   = sqrt(xm*xm + ym*ym)
-	       dphi = xm/rm * phix + ym/rm * phiy
-           b[ ic+n-1 ] = phi2[i,j] - csound * dt * dphi
-
-        end
-  
-        for j = 2:n-1
-
-           i = 1          # left side
-
-           phix = (-3*phi2[i,j]+4*phi2[i+1,j]-phi2[i+2,j])/dh
-           phiy = (phi2[i,j+1]-phi2[i,j-1])/dh
-	       xm   = i * h - xc
-	       ym   = j * h - yc
-	       rm   = sqrt(xm*xm + ym*ym)
-	       dphi = xm/rm * phix + ym/rm * phiy
-           b[j]  = phi2[i,j] - csound * dt * dphi
-
-           i = n          # right side
-
-           phix = (3*phi2[i,j]-4*phi2[i-1,j]+phi2[i-2,j])/dh
-           phiy = (phi2[i,j+1]-phi2[i,j-1])/dh
-	       xm   = i * h - xc
-	       ym   = j * h - yc
-	       rm   = sqrt(xm*xm + ym*ym)
-	       dphi = xm/rm * phix + ym/rm * phiy
-           b[nsq-n+j] = phi2[i,j] - csound * dt * dphi
-
-        end
-  
-        b[ 1       ] = 0.0	
-        b[ n       ] = 0.0
-        b[ nsq     ] = 0.0
-        b[ nsq-n+1 ] = 0.0
-
-        ta =   1.0 / dt^2 + 2.0 * csq / hsq
-
-        for i = 2:n-1, j = 2:n-1
-
-            k = ( i-1) * n + j
-	        b[k] = 2.0 * phi2[i,j] / dt^2 - ta * phi1[i, j] + 0.5 * csq * ( phi1[i+1,j] + phi1[i-1,j] + phi1[i,j-1] + phi1[i,j+1] ) / hsq  + c[k]
-        end
-
-        rsq = sparsecg( b, nsq, x )
-
-	    phi0 .= phi1
-	    phi1 .= phi2
-
-        for i = 1:n, j = 1:n
-            k = (i-1) * n + j
-	        phi2[ i, j] = x[k]
-        end
-
-        time = time + dt
-        cfl  = dt * csound / h
-
-      end # next time step
+    k = ( i-1) * n + j
+    b[k] = rho[i,j]  * h^2
 
 end
 
-lighthill(100)
+@show rsq = sparsecg!( x, L, b )
+
+for i = 1:n, j = 1:n
+    k = (i-1) * n + j
+    phi[ i, j] = x[k]
+end
+
+println( norm( phi .- sin.(xgrid) .* sin.(ygrid)'))
+
+surface(phi)
