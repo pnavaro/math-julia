@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
 using Plots
 using LinearAlgebra
 
+# +
 struct Laplacian
 
     n :: Int
@@ -12,9 +12,9 @@ struct Laplacian
     d4 :: Vector{Float64}
     d5 :: Vector{Float64}
 
-
 end
 
+# +
 function buildsparsematrix(n)
 
     nsq = n * n
@@ -68,6 +68,7 @@ function buildsparsematrix(n)
 end
 
 
+# +
 function asub!( v, L, x )
 
     n = L.n
@@ -99,6 +100,7 @@ function asub!( v, L, x )
 
 end
 
+# +
 function atsub!( v, L, x )
 
     n = L.n
@@ -243,6 +245,7 @@ function sparsecg!( x, L, b)
 
 end
 
+# +
 n = 100
 nsq = n * n
 
@@ -278,3 +281,10 @@ end
 println( norm( phi .- sin.(xgrid) .* sin.(ygrid)'))
 
 surface(phi)
+# -
+
+using DifferentialEquations
+
+CenteredDifference{2}(2, 2, h, 100)
+
+
