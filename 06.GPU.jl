@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
 # # Installation
 
-using Pkg, Plots
+import Pkg; Pkg.activate(@__DIR__); Pkg.instantiate()
 
-pkg" add CUDAdrv CUDAnative CuArrays"
+using BenchmarkTools
+using CUDA
+using Random
+using Test
+using LinearAlgebra
+using ForwardDiff
+using Plots
 
-pkg" update"
-
-using CUDAdrv, CUDAnative, CuArrays
-
-CuArrays.version()
+CUDA.version()
 
 # Useful function to enable GPU version of your code
 
-CuArrays.functional()
+CUDA.functional()
+
+for device in CUDA.devices()
+    @show capability(device)
+    @show name(device)
+end
 
 # # Array programming
 
@@ -31,13 +38,15 @@ b = Array(a)
 
 # API compatibilty with Base.Array
 
-CuArrays.ones(2)
+CUDA.ones(2)
 
-CuArrays.zeros(Float32, 2)
+a = CUDA.zeros(Float32, 2)
 
-CuArrays.fill(42, (3,4))
+a isa AbstractArray
 
-CuArrays.rand(2, 2)
+CUDA.fill(42, (3,4))
+
+CUDA.rand(2, 2)
 
 a = CuArray([1 2 3])
 
@@ -55,7 +64,7 @@ a = CuArray{Float32}(undef, (2,2))
 
 # # CURAND
 
-CURAND.rand!(a)
+CUDA.rand!(a)
 
 # # CUBLAS
 
@@ -66,8 +75,8 @@ a * a
 using LinearAlgebra
 LinearAlgebra.qr!(a)
 
-L, ipiv = CuArrays.CUSOLVER.getrf!(a)
-CuArrays.CUSOLVER.getrs!('N', L, ipiv, CuArrays.ones(2))
+L, ipiv = CUDA.CUSOLVER.getrf!(a)
+CUDA.CUSOLVER.getrs!('N', L, ipiv, CUDA.ones(2))
 
 # # CUFFT
 
@@ -79,11 +88,11 @@ real(ifft * (fft * a))
 
 # # CUDDN
 
-CuArrays.CUDNN.softmax(real(ans))
+CUDA.CUDNN.softmax(real(ans))
 
 # # CUSPARSE
 
-CuArrays.CUSPARSE.sparse(a)
+CUDA.CUSPARSE.CuSparseMatrixCSR(a)
 
 # # Array programming
 
@@ -103,10 +112,16 @@ accumulate(+, b; dims=2)
 findfirst(isequal(2), a)
 
 
-import Pkg; Pkg.add("ForwardDiff");
+# ## Workflow
+#
+# A typical approach for porting or developing an application for the GPU is as follows:
+#
+# 1. develop an application using generic array functionality, and test it on the CPU with the Array type
+# 2. port your application to the GPU by switching to the CuArray type
+# 3. disallow the CPU fallback ("scalar indexing") to find operations that are not implemented for or incompatible with GPU execution
+# 4. (optional) use lower-level, CUDA-specific interfaces to implement missing functionality or optimize performance
 
-using LinearAlgebra
-using ForwardDiff
+# ## Linear regression example
 
 # squared error loss function
 loss(w, b, x, y) = sum(abs2, y - (w*x .+ b)) / size(y, 2)
@@ -138,7 +153,7 @@ end
 plot(err)
 
 
-# Moving to GPU
+# ### Moving to GPU
 
 # +
 n, p = 100, 10
@@ -162,7 +177,7 @@ plot(err)
 
 using BenchmarkTools
 
-a = CuArrays.rand(Int, 1000)
+a = CUDA.rand(Int, 1000)
 using LinearAlgebra
 
 norm(a)
@@ -175,7 +190,7 @@ norm(a)
 
 # The `norm` computation is much faster on the CPU
 
-CuArrays.allowscalar(false)
+CUDA.allowscalar(false)
 
 
 a = CuArray(1:9_999_999);
@@ -184,13 +199,13 @@ a .+ reverse(a);
 
 # You need two kernels to perfom this last computation. @time is not the right tool to evaluate the elasped time. The task is scheduled on the GPU device but not executed. It will be executed when you will fetch the result on the CPU.
 
-@time CuArrays.@sync a .+ reverse(a);
+@time CUDA.@sync a .+ reverse(a);
 
-CuArrays.@time a .+ reverse(a);
+CUDA.@time a .+ reverse(a);
 
-@btime CuArrays.@sync $a .+ reverse($a);
+@btime CUDA.@sync $a .+ reverse($a);
 
-@btime CuArrays.@sync $(Array(a)) .+ reverse($(Array(a)));
+@btime CUDA.@sync $(Array(a)) .+ reverse($(Array(a)));
 
 
 # # NVIDIA Nsight Compute
@@ -229,7 +244,6 @@ c = similar(a)
 c .= a .+ reverse(a);
 
 function vadd_reverse(c, a, b)
-    
     i = threadIdx().x
     if i <= length(c)
         @inbounds c[i] = a[i] + reverse(b)[i]
@@ -265,7 +279,7 @@ end
 # @cuda threads = length(a) vadd_reverse(c, a, a)
 # ```
 
-attribute(device(), CUDAdrv.DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK)
+attribute(device(), CUDA.DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK)
 
 function vadd_reverse(c, a, b)
     i = (blockIdx().x - 1) * blockDim().x + threadIdx().x
@@ -277,9 +291,9 @@ end
 
 # The kernel you built is twice faster 
 
-@btime CuArrays.@sync @cuda threads=1024 blocks=length($a)÷1024+1 vadd_reverse($c, $a, $a)
+@btime CUDA.@sync @cuda threads=1024 blocks=length($a)÷1024+1 vadd_reverse($c, $a, $a)
 
-@btime CuArrays.@sync $a .+ reverse($a);
+@btime CUDA.@sync $a .+ reverse($a);
 
 
 # To adapt the code to your device, use this configurator function
@@ -294,9 +308,6 @@ end
 @cuda config=configurator vadd_reverse(c, a, a)
 
 # # Indexing
-
-using CUDAdrv, CUDAnative, CuArrays
-
 
 # # Cooperative groups
 #
@@ -333,7 +344,7 @@ using CUDAdrv, CUDAnative, CuArrays
 # @atomic a[...] += val
 # ```
 
-# # GPU programming performance tips
+# ## GPU programming performance tips
 #
 # - Avoid thread divergence (https://cvw.cac.cornell.edu/gpu/thread_div)
 # - Reduce and coalesce global accesses
