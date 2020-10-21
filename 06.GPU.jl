@@ -1,7 +1,25 @@
 # -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     formats: jl:light,ipynb
+#     text_representation:
+#       extension: .jl
+#       format_name: light
+#       format_version: '1.5'
+#       jupytext_version: 1.6.0
+#   kernelspec:
+#     display_name: Julia 1.5.2
+#     language: julia
+#     name: julia-1.5
+# ---
+
 # # Installation
 
 import Pkg; Pkg.activate(@__DIR__); Pkg.instantiate()
+
+using Plots
 
 using BenchmarkTools
 using CUDA
@@ -9,7 +27,7 @@ using Random
 using Test
 using LinearAlgebra
 using ForwardDiff
-using Plots
+using ProgressMeter
 
 CUDA.version()
 
@@ -22,9 +40,9 @@ for device in CUDA.devices()
     @show name(device)
 end
 
-# # Array programming
+# ## Array programming
 
-# allocate an array on the GPU device
+# ### Construction
 
 a = CuArray{Float32,2}(undef, 2, 2)
 
@@ -32,11 +50,13 @@ similar(a)
 
 a = CuArray([1,2,3])
 
+# ## Transfer to CPU
+#
 # b is allocated on the CPU, a data transfer is made
 
 b = Array(a)
 
-# API compatibilty with Base.Array
+# ### API compatibilty with Base.Array
 
 CUDA.ones(2)
 
@@ -46,7 +66,23 @@ a isa AbstractArray
 
 CUDA.fill(42, (3,4))
 
+# ## Random numbers
+
 CUDA.rand(2, 2)
+
+CUDA.randn(2, 1)
+
+x = CUDA.CuArray(0:0.01:1.0)
+nt = length(x)
+y = 0.2 .+ 0.5 .* x + 0.1 .* CUDA.randn(nt);
+scatter( Array(x), Array(y))
+plot!( x -> 0.2 + 0.5x)
+xlims!(0,1)
+ylims!(0,1)
+
+X = hcat(CUDA.ones(nt), x)
+
+@show β = pinv(X)  * y
 
 a = CuArray([1 2 3])
 
@@ -61,6 +97,24 @@ a'
 a * CuArray([1, 2, 3])
 
 a = CuArray{Float32}(undef, (2,2))
+
+# +
+a = CuArray([1 2 3])
+b = CuArray([4 5 6])
+
+map(a) do x
+    x + 1
+end
+
+a .+ 2b
+
+reduce(+, a)
+
+accumulate(+, b; dims=2)
+
+findfirst(isequal(2), a)
+# -
+
 
 # # CURAND
 
@@ -93,24 +147,6 @@ CUDA.CUDNN.softmax(real(ans))
 # # CUSPARSE
 
 CUDA.CUSPARSE.CuSparseMatrixCSR(a)
-
-# # Array programming
-
-a = CuArray([1 2 3])
-b = CuArray([4 5 6])
-
-map(a) do x
-    x + 1
-end
-
-a .+ 2b
-
-reduce(+, a)
-
-accumulate(+, b; dims=2)
-
-findfirst(isequal(2), a)
-
 
 # ## Workflow
 #
@@ -146,10 +182,12 @@ w = 0.0001 * randn(1, p)
 b = 0.0
 
 err = Float64[]
-for i = 1:50
+@showprogress 1 for i = 1:50
    w, b = train(w, b, x, y)
    push!(err, loss(w,b,x,y))
 end
+
+
 plot(err)
 
 
@@ -166,19 +204,35 @@ y = CuArray(y)
 w = CuArray(w)
 
 err = Float64[]
-for i = 1:50
+@showprogress 1 for i = 1:50
    w, b = train(w, b, x, y)
    push!(err, loss(w,b,x,y))
 end
-plot(err)
 # -
+
+plot(err)
 
 # # Custom Kernel
 
-using BenchmarkTools
+# - you cannot allocate memory, 
+# - I/O is disallowed, 
+# - badly-typed code will not compile. 
+#
+# Keep kernels simple, and only incrementally port code while continuously verifying that it still compiles and executes as expected.
+
+# +
+a = CUDA.zeros(1024)
+
+function kernel(a)
+    i = threadIdx().x
+    a[i] += 1
+    return
+end
+
+@cuda threads=length(a) kernel(a)
+# -
 
 a = CUDA.rand(Int, 1000)
-using LinearAlgebra
 
 norm(a)
 
