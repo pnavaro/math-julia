@@ -8,9 +8,9 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.7.1
 #   kernelspec:
-#     display_name: Julia 1.5.2
+#     display_name: Julia 1.5.3
 #     language: julia
 #     name: julia-1.5
 # ---
@@ -19,7 +19,9 @@
 
 import Pkg; Pkg.activate(@__DIR__); Pkg.instantiate()
 
-using Plots
+ENV["TMP"] = "/opt/app-root/src"
+
+tempdir()
 
 using BenchmarkTools
 using CUDA
@@ -28,6 +30,7 @@ using Test
 using LinearAlgebra
 using ForwardDiff
 using ProgressMeter
+using Plots
 
 CUDA.version()
 
@@ -56,6 +59,8 @@ a = CuArray([1,2,3])
 
 b = Array(a)
 
+collect(a)
+
 # ### API compatibilty with Base.Array
 
 CUDA.ones(2)
@@ -80,23 +85,34 @@ plot!( x -> 0.2 + 0.5x)
 xlims!(0,1)
 ylims!(0,1)
 
-X = hcat(CUDA.ones(nt), x)
+X = hcat(CUDA.ones(nt), x);
 
-@show β = pinv(X)  * y
+β = X'X \ X'y
+
+sum( ( β[1] .+ β[2] .* x .- y).^2 )
 
 a = CuArray([1 2 3])
 
 view(a, 2:3)
 
-sum(a)
+# +
+a = CuArray{Float64}([1 2 3])
+b = CuArray{Float64}([4 5 6])
 
-a * 2
+map(a) do x
+    x + 1
+end
+# -
 
-a'
 
-a * CuArray([1, 2, 3])
+reduce(+, a)
 
-a = CuArray{Float32}(undef, (2,2))
+
+accumulate(+, b; dims=2)
+
+
+findfirst(isequal(2), a)
+
 
 # +
 a = CuArray([1 2 3])
@@ -122,15 +138,12 @@ CUDA.rand!(a)
 
 # # CUBLAS
 
-a * a
+a * b'
 
 # # CUSOLVER
 
-using LinearAlgebra
-LinearAlgebra.qr!(a)
-
-L, ipiv = CUDA.CUSOLVER.getrf!(a)
-CUDA.CUSOLVER.getrs!('N', L, ipiv, CUDA.ones(2))
+L, ipiv = CUDA.CUSOLVER.getrf!(a'b)
+CUDA.CUSOLVER.getrs!('N', L, ipiv, CUDA.ones(Float64, 3))
 
 # # CUFFT
 
@@ -175,42 +188,42 @@ function train(w, b, x, y; lr=0.1)
     return w, b
 end
 
-n, p = 100, 10
-x = randn(n, p)'
-y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1
-w = 0.0001 * randn(1, p)
-b = 0.0
-
-err = Float64[]
-@showprogress 1 for i = 1:50
-   w, b = train(w, b, x, y)
-   push!(err, loss(w,b,x,y))
+function cpu_test(n = 1000, p = 100, iter = 100)
+    x = randn(n, p)'
+    y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1
+    w = 0.0001 * randn(1, p)
+    b = 0.0
+    for i = 1:iter
+       w, b = train(w, b, x, y)
+    end
+    return loss(w,b,x,y)
 end
 
-
-plot(err)
-
+@time cpu_test()
 
 # ### Moving to GPU
 
-# +
-n, p = 100, 10
-x = randn(n, p)'
-y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1
-w = 0.0001 * randn(1, p)
-b = 0.0
-x = CuArray(x)
-y = CuArray(y)
-w = CuArray(w)
-
-err = Float64[]
-@showprogress 1 for i = 1:50
-   w, b = train(w, b, x, y)
-   push!(err, loss(w,b,x,y))
+function gpu_test( n = 1000, p = 100, iter = 100)
+    x = randn(n, p)'
+    y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1
+    w = 0.0001 * randn(1, p)
+    b = 0.0
+    x = CuArray(x)
+    y = CuArray(y)
+    w = CuArray(w)
+    
+    for i = 1:iter
+       w, b = train(w, b, x, y)
+       
+    end
+    return loss(w,b,x,y)
 end
-# -
 
-plot(err)
+@time gpu_test()
+
+@btime cpu_test( 10000, 100, 100)
+
+@btime gpu_test( 10000, 100, 100);
 
 # # Custom Kernel
 
@@ -249,7 +262,7 @@ CUDA.allowscalar(false)
 
 a = CuArray(1:9_999_999);
 
-a .+ reverse(a);
+@time a .+ reverse(a);
 
 # You need two kernels to perfom this last computation. @time is not the right tool to evaluate the elasped time. The task is scheduled on the GPU device but not executed. It will be executed when you will fetch the result on the CPU.
 
@@ -286,7 +299,7 @@ kernel() = (@cuprintln("foo"); return)
 
 @cuda kernel()
 
-kernel() = (@cuprintln("foo"); return)
+kernel() = (@cuprintln("bar"); return)
 
 @cuda kernel()
 
@@ -361,7 +374,17 @@ end
 
 @cuda config=configurator vadd_reverse(c, a, a)
 
-# # Indexing
+# # 12 Performance optimization
+#
+# - Avoid thread divergence
+# - Reduce and coalesce global accesses
+# - Improve occuancy, optimize launch configuration
+#
+# - Early-free array using CUDA.unsafe_free!
+# - Annotate with @inbounds to avoid exception branches
+# - Use Int32 and floating-point values
+
+@device_code_llvm @cuda vadd_reverse(c, a, a)
 
 # # Cooperative groups
 #
