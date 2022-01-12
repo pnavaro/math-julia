@@ -1,9 +1,7 @@
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
-CUDAdrv = "c5f51814-7f29-56b8-a69c-e4d8f6be1fde"
-CUDAnative = "be33ccc6-a3ff-5ff2-a52e-74243cff1e17"
-CuArrays = "3a865a2d-5b23-5a0f-bc46-62713ec82fae"
+CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 DiffEqOperators = "9fdde737-9c7f-55bf-ade8-46b3f136cc48"
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
 DualNumbers = "fa6b7ba4-c1ee-5f82-b5fc-ecf0adba8f74"
