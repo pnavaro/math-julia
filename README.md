@@ -1,6 +1,6 @@
 # Julia notebooks
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pnavaro/math-julia/master?filepath=notebooks)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pnavaro/math-julia/master)
 
 This is a collection of Jupyter notebooks for Julia workgroup at [IRMAR](https://irmar.univ-rennes1.fr)
 
@@ -20,7 +20,5 @@ To run these notebooks, three options:
 - [Julia: le langage scientifique](https://perso.ensta-paristech.fr/~diam/julia/)🇫🇷
 - [Introduction to Julia for Scientific Computing and Data Science](https://github.com/daveh19/pydataberlin2017)
 
-
-*Notebooks are generated using [Literate.jl](https://github.com/fredrikekre/Literate.jl) and [WeaveAwayNotebooks](https://github.com/oxinabox/WeaveAwayNotebooks).*
 
 Pierre
