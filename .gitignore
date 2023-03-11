@@ -13,4 +13,6 @@ runtests.jl
 Manifest.toml
 *.swp
 /.quarto/
-_site/
+/_site/
+*.html
+/site_libs/
