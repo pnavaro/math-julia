@@ -1,0 +1,39 @@
+---
+title: 'Performance critical code should be inside a function'
+format: 
+    revealjs:
+        logo: images/irmar_0.png
+        echo: true
+        code-line-numbers: false
+        footer: "[home](/index.html)"
+---
+
+
+```{julia}
+import LinearAlgebra
+    
+N = 50_000_000
+a = 1.2
+x = rand(Float64, N)
+y = rand(Float64, N)
+
+@time for i in 1:N
+    @inbounds y[i] += a * x[i]
+end
+
+```
+
+```{julia}
+
+function axpy!(a, x, y)
+    for i in eachindex(y, x)
+        @inbounds y[i] += a * x[i]
+    end
+end
+
+# warmup
+axpy!(a, x, y)
+
+# timing
+@time axpy!(a, x, y)
+```

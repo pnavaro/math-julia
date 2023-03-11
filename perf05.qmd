@@ -1,0 +1,4 @@
+---
+title: "Avoid struct fields with abstract type"
+---
+

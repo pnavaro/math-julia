@@ -1,0 +1,109 @@
+---
+title: "Avoid untyped global variables"
+format: 
+    revealjs:
+        logo: images/irmar_0.png
+        echo: true
+        code-line-numbers: false
+        footer: "[home](/index.html)"
+---
+
+## Using global variable
+
+```{julia}
+using BenchmarkTools
+
+variable = 10 
+
+function add_using_global_variable(x)
+    return x + variable
+end
+
+@btime add_using_global_variable(10);
+```
+
+## Pass the variable in the arguments of the function
+
+```{julia}
+
+
+function add_using_function_arg(x, y)
+    return x + y
+end
+
+@btime add_using_function_arg(10, $variable);
+```
+
+---
+
+```{julia}
+@code_llvm add_using_function_arg(10, variable)
+```
+
+---
+
+```{julia}
+@code_llvm add_using_global_variable(10)
+```
+
+
+## Set type of the global variable
+
+```{julia}
+
+variable_typed::Int = 10
+
+function add_using_global_variable_typed(x)
+    return x + variable_typed
+end
+
+@btime add_using_global_variable_typed(10);
+```
+
+
+## Use the keyword `const`
+
+```{julia}
+
+const constant = 10
+
+function add_by_passing_global_constant(x, v)
+    return x + v
+end
+
+@btime add_by_passing_global_constant(10, $constant);
+```
+
+---
+
+```{julia}
+
+variable = 10
+
+function sum_variable_many_times(n)
+    total = rand(variable)
+    for i in 1:n
+        total .+= rand(variable)
+    end
+    return total
+end
+
+@btime sum_variable_many_times(100);
+```
+
+---
+
+```{julia}
+
+const constant = 10
+
+function sum_constant_many_times(n)
+    total = rand(constant)
+    for i in 1:n
+        total .+= rand(constant)
+    end
+    return total
+end
+
+@btime sum_constant_many_times(100);
+```

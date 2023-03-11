@@ -1,0 +1,4 @@
+---
+title: "Avoid changing the type of a variable"
+---
+

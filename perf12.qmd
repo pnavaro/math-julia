@@ -1,0 +1,4 @@
+---
+title: "Consider using views for slices"
+---
+

@@ -1,0 +1,4 @@
+---
+title: "Performance Annotations: @fastmath @inbounds @simd"
+---
+

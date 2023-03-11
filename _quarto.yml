@@ -1,0 +1,18 @@
+project:
+  type: site
+  execute-dir: file
+
+site:
+  title: "Performance tips in Julia"
+  logo: images/irmar_0.png
+  navbar:
+    type: dark
+    background: primary
+    left:
+      - icon: github
+        href: https://github.com/pnavaro/math-julia
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css

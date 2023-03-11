@@ -1,0 +1,4 @@
+---
+title: "Access arrays in memory order, along columns"
+---
+

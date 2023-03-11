@@ -1,0 +1,266 @@
+---
+jupyter:
+  jupytext:
+    formats: 'ipynb,qmd:quarto'
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.14.5
+  kernelspec:
+    display_name: Julia 1.8.5
+    language: julia
+    name: julia-1.8
+---
+
+# Profiling
+
+Reference: https://plmlab.math.cnrs.fr/fabreges/julia-2019/
+
+```{julia}
+import LinearAlgebra
+import Profile
+```
+
+```{julia}
+begin
+    
+    
+
+    N = 10_000_000
+    x = rand(Float64, N)
+    y = rand(Float64, N)
+
+    niter = 10
+
+    Profile.clear()
+    @Profile.profile begin
+    for i=1:niter
+        C = LinearAlgebra.norm(y - x, 2)
+        global y += C * x
+    end
+    end
+
+    Profile.print(maxdepth=7)
+end
+```
+
+```{julia}
+begin
+    
+    N = 10_000_000
+    x = rand(Float64, N)
+    y = rand(Float64, N)
+    
+    niter = 10
+    
+    Profile.clear()
+    @Profile.profile begin
+    for i=1:niter
+        C = LinearAlgebra.norm(y - x, 2)
+        global y += C * x
+    end
+    end
+    
+    Profile.print(format=:flat, sortedby=:count)
+    
+end
+```
+
+## Memory storage
+
+Julia uses "fortran" storage for 2d array along columns
+
+```{julia}
+begin
+    function compute_dist!(x, dist)
+        N = length(x)
+        for i=1:N
+            for j=1:N
+                dist[i, j] = abs(x[i] - x[j])
+            end
+        end
+    end
+    
+    N = 10_000
+    x = rand(Float64, N)
+    dist = Array{Float64}(undef, (N, N))
+    
+    compute_dist!(x, dist)
+    @time compute_dist!(x, dist)
+end
+```
+
+```{julia}
+begin
+    function compute_dist!(x, dist)
+        N = length(x)
+        for j=1:N
+            @simd for i=1:N
+                dist[i, j] = abs(x[i] - x[j])
+            end
+        end
+    end
+    
+    N = 10_000
+    x = rand(Float64, N)
+    dist = Array{Float64}(undef, (N, N))
+    
+    compute_dist!(x, dist)
+    @time compute_dist!(x, dist)
+end
+```
+
+```{julia}
+N = 50_000_000
+a = 1.2
+x = rand(Float64, N)
+y = rand(Float64, N)
+
+@time for i in 1:N
+    @inbounds y[i] += a * x[i]
+end
+```
+
+```{julia}
+using InteractiveUtils
+
+N = 10
+a = 1.2
+x = rand(Float64, N)
+y = rand(Float64, N)
+
+function axpy()
+    for i in 1:N
+        @inbounds y[i] += a * x[i]
+    end
+end
+
+@code_warntype axpy()
+```
+
+```{julia}
+let
+    N = 50_000_000
+    a = 1.2
+    x = rand(Float64, N)
+    y = rand(Float64, N)
+
+    @time for i in 1:N
+        @inbounds y[i] += a * x[i]
+    end
+end
+```
+
+```{julia}
+N = 50_000_000
+a = 1.2
+x = rand(Float64, N)
+y = rand(Float64, N)
+
+function axpy!(a::Float64, x::Array{Float64}, y::Array{Float64})
+    for i in 1:length(x)
+        @inbounds y[i] += a * x[i]
+    end
+end
+
+# warmup
+axpy!(a, x, y)
+
+# timing
+@time axpy!(a, x, y)
+```
+
+```{julia}
+using InteractiveUtils
+
+function somme(x::Array{Float64, 2}, dim::Int64)
+    if(dim > 0)
+        return sum(x, dims=dim)
+    else
+        return sum(x)
+    end
+end
+
+N = 10
+x = ones(N, N)
+
+@code_warntype somme(x, 0)
+```
+
+```{julia}
+N = 50_000_000
+a = 1.2
+x = rand(Float64, N)
+y = rand(Float64, N)
+
+# warmup
+@. y += a * x
+
+# timing
+@time @. y += a * x;
+```
+
+```{julia}
+const N = 50_000_000
+const a = 1.2
+const x = rand(Float64, N)
+const y = rand(Float64, N)
+
+const nn = 100
+const n_start = 1 + nn
+const n_end = N - nn
+
+# warmup
+@. y[n_start:n_end] += a * x[n_start:n_end]
+
+# timing
+@time @. y[n_start:n_end] += a * x[n_start:n_end]
+```
+
+```{julia}
+const N = 50_000_000
+const a = 1.2
+const x = rand(Float64, N)
+const y = rand(Float64, N)
+
+const nn = 100
+const n_start = 1 + nn
+const n_end = N - nn
+
+# warmup
+@. @views y[n_start:n_end] += a * x[n_start:n_end]
+
+# timing
+@time @. @views y[n_start:n_end] += a * x[n_start:n_end]
+```
+
+```{julia}
+N = 100_000_000
+a = 1.2
+x = rand(Float64, N)
+y = Array{Float64}(undef, N)
+
+function func!(a::Float64, x::Array{Float64}, y::Array{Float64})
+    @Threads.threads for i in 1:length(x)
+        y[i] = exp(a * x[i] * x[i])
+    end
+end
+
+# warmup
+func!(a, x, y)
+
+# timing
+@time func!(a, x, y)
+```
+
+```{julia}
+Threads.nthreads()
+```
+
+To get the performance of benchmarks with Julia, you just have to follow some rules:
+- Type the variables as much as possible!
+- Put the calculations in functions and pass the global variables as parameters of these functions.
+- Use the `const` keyword on global variables, when possible. 
+- Use loops or vectorize calculations with the @ macro.
+- Avoid unnecessary copies by using the `@views` macro for operations on sub-tables.

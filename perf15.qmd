@@ -1,0 +1,4 @@
+---
+title: "Avoid string interpolation for I/O"
+---
+
