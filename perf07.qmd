@@ -32,7 +32,9 @@ w = 5
 
 ---
 
+:::: {style="font-size: 0.5em" }
 Great! In the above two examples, we were able to predict what the output will be. This is because:
+::::
 ```
 function square_plus_one(v::T) where T <:Number
     g = v*v         # Type(T * T) ==> T
@@ -40,7 +42,9 @@ function square_plus_one(v::T) where T <:Number
 end
 
 ```
+:::: {style="font-size: 0.5em" }
 Note that in both calls the return type was different, once `Float64` and once `Int64`. But the function is still type stable.
+::::
 
 ---
 
@@ -57,7 +61,9 @@ end
 
 ---
 
+:::: {style="font-size: 0.5em" }
 You can avoid type instable code by using the `promote_type` function which returns the highest of the two types passed.
+::::
 
 ```{julia}
 function zero_or_val_stable(x::Real)

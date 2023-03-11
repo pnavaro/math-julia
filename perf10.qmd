@@ -4,8 +4,10 @@ subtitle: "Whenever you can reuse memory, reuse it. "
 format: revealjs
 ---
 
+:::: {style="font-size: 0.5em" }
 You have a vector `b` and a vector `h` where `b[i]` is the base length of triangle `i` and `h[i]` is the height length. 
 The experiment is to find the hypotenuse value of all triangles.
+::::
 
 ```{julia}
 using BenchmarkTools

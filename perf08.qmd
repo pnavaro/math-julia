@@ -3,7 +3,9 @@ title: "Avoid changing the type of a variable"
 format: revealjs
 ---
 
+:::: {style="font-size: 0.5em" }
 Let us say we want to play the following game, I give you a vector of numbers. And you want to accumulate the sum as follows. For each number in the vector, you toss a coin (`rand()`), if it is heads (`>=0.5`), you add `1`. Otherwise, you add the number itself.
+::::
 
 ```{julia}
 function flipcoin_then_add(v::Vector{T}) where T <: Real
