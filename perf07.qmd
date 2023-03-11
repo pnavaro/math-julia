@@ -1,4 +1,75 @@
 ---
 title: "Write “type-stable” functions"
+subtitle: "A function is type stable when you can derive what the output of the function needs to be."
+format: revealjs
 ---
+
+
+```{julia}
+function square_plus_one(v::T) where T <:Number
+    g = v * v
+    return g + 1
+end
+```
+
+```{julia}
+v = rand()
+```
+
+```{julia}
+@code_warntype square_plus_one(v)
+```
+
+---
+
+```{julia}
+w = 5
+```
+
+```{julia}
+@code_warntype square_plus_one(w)
+```
+
+---
+
+Great! In the above two examples, we were able to predict what the output will be. This is because:
+```
+function square_plus_one(v::T) where T <:Number
+    g = v*v         # Type(T * T) ==> T
+    return g+1      # Type(T + Int)) ==> "max" (T,Int)
+end
+
+```
+Note that in both calls the return type was different, once `Float64` and once `Int64`. But the function is still type stable.
+
+---
+
+```{julia}
+function zero_or_val(x::Real)
+    if x >= 0
+        return x
+    else
+        return 0
+    end
+end
+@code_warntype zero_or_val(0.2)
+```
+
+---
+
+You can avoid type instable code by using the `promote_type` function which returns the highest of the two types passed.
+
+```{julia}
+function zero_or_val_stable(x::Real)
+    if x >= 0
+        y = x
+    else
+        y = 0
+    end
+    T = promote_type(typeof(x),Int)
+    return T(y)
+end
+@code_warntype zero_or_val_stable(0.2)
+```
+
 

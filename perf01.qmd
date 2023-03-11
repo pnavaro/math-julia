@@ -1,11 +1,6 @@
 ---
 title: 'Performance critical code should be inside a function'
-format: 
-    revealjs:
-        logo: images/irmar_0.png
-        echo: true
-        code-line-numbers: false
-        footer: "[home](/index.html)"
+format: revealjs
 ---
 
 

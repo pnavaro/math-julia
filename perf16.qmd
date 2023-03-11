@@ -1,4 +1,30 @@
 ---
 title: "Performance Annotations: @fastmath @inbounds @simd"
+format: revealjs
 ---
 
+```{julia}
+function new_sum(myvec::Vector{Int})
+    s = 0
+    for i = eachindex(myvec)
+        s += myvec[i]
+    end
+    return s
+end
+
+function new_sum_inbounds(myvec::Vector{Int})
+    s = 0
+    @inbounds for i = eachindex(myvec)
+        s += myvec[i]
+    end
+    return s
+end
+```
+
+```{julia}
+using BenchmarkTools
+
+myvec = collect(1:1000000)
+@btime new_sum($myvec)
+@btime new_sum_inbounds($myvec)
+```

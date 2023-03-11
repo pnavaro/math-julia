@@ -1,11 +1,6 @@
 ---
 title: "Pay attention to memory allocation"
-format:
-   revealjs:
-        logo: images/irmar_0.png
-        echo: true
-        code-line-numbers: false
-        footer: "[home](/index.html)"
+format: revealjs
 ---
 
 ## Functions with preallocated memory run faster

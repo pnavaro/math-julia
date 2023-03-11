@@ -1,3 +1,26 @@
 ---
 title: "Break functions into multiple definitions"
+format: revealjs
 ---
+
+```{.julia}
+using LinearAlgebra
+
+function mynorm(A)
+    if isa(A, Vector)
+        return sqrt(real(dot(A,A)))
+    elseif isa(A, Matrix)
+        return maximum(svdvals(A))
+    else
+        error("mynorm: invalid argument")
+    end
+end
+```
+
+This can be written more concisely and efficiently as:
+
+```{.julia}
+norm(x::Vector) = sqrt(real(dot(x, x)))
+
+norm(A::Matrix) = maximum(svdvals(A))
+```

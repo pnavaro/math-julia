@@ -1,4 +1,19 @@
 ---
 title: "Avoid string interpolation for I/O"
+format: revealjs
 ---
+
+
+When writing data to a file (or other I/O device), forming extra intermediate strings is a source of overhead. Instead of:
+
+```{.julia}
+println(file, "$a $b")
+```
+
+use:
+
+```{.julia}
+println(file, a, " ", b)
+```
+
 

@@ -1,11 +1,6 @@
 ---
 title: "Avoid untyped global variables"
-format: 
-    revealjs:
-        logo: images/irmar_0.png
-        echo: true
-        code-line-numbers: false
-        footer: "[home](/index.html)"
+format: revealjs
 ---
 
 ## Using global variable

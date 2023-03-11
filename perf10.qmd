@@ -1,4 +1,75 @@
 ---
 title: "Pre-allocating outputs"
+subtitle: "Whenever you can reuse memory, reuse it. "
+format: revealjs
 ---
 
+You have a vector `b` and a vector `h` where `b[i]` is the base length of triangle `i` and `h[i]` is the height length. 
+The experiment is to find the hypotenuse value of all triangles.
+
+```{julia}
+using BenchmarkTools
+
+b = rand(1000)*10
+h = rand(1000)*10
+function find_hypotenuse(b::Vector{T},h::Vector{T}) where T <: Real
+    return sqrt.(b.^2+h.^2)
+end
+```
+
+```{julia}
+@btime find_hypotenuse($b, $h);
+```
+
+---
+
+```{julia}
+function find_hypotenuse_optimized(b::Vector{T},h::Vector{T}) where T <: Real
+    accum_vec = similar(b)
+    for i = 1:length(b)
+        accum_vec[i] = b[i]^2
+        accum_vec[i] += h[i]^2 # here, we used the same space in memory to hold the sum
+        accum_vec[i] = sqrt(accum_vec[i]) # same thing here, to hold the sqrt
+    end
+    return accum_vec
+end
+```
+
+```{julia}
+@btime find_hypotenuse_optimized($b, $h);
+```
+
+---
+
+
+```{julia}
+
+using FFTW, LinearAlgebra
+
+xmin, xmax, nx = 0, 4π, 1024
+ymin, ymax, ny = 0, 4π, 1024
+
+x = LinRange(xmin, xmax, nx+1)[1:end-1]
+y = LinRange(ymin, ymax, ny+1)[1:end-1]
+ky  = 2π ./ (ymax-ymin) .* fftfreq(ny, ny)
+exky = exp.( 1im .* ky .* x')
+
+f  = zeros(ComplexF64, (nx,ny))
+fᵗ = zeros(ComplexF64, reverse(size(f)))
+f̂ᵗ = zeros(ComplexF64, reverse(size(f)))
+f .= sin.(x) .* cos.(y')
+
+plan = plan_fft(fᵗ, 1, flags=FFTW.PATIENT)
+
+function df_dy_optimized!( f, fᵗ, f̂ᵗ, plan, exky )
+
+    transpose!(fᵗ,f)
+    mul!(f̂ᵗ,  plan, fᵗ)
+    f̂ᵗ .= f̂ᵗ .* exky
+    ldiv!(fᵗ, plan, f̂ᵗ)
+    transpose!(f, fᵗ)
+
+end
+
+@btime df_dy_optimized!($f, $fᵗ, $f̂ᵗ, $plan, $exky );
+```

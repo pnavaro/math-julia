@@ -1,10 +1,13 @@
 project:
-  type: site
-  execute-dir: file
+  type: website
+  execute-dir: project
+  render:
+    - index.qmd
+    - perf*.qmd
 
-site:
+website:
   title: "Performance tips in Julia"
-  logo: images/irmar_0.png
+  site-url: "https://pnavaro.github.io/math-julia"
   navbar:
     type: dark
     background: primary
@@ -16,3 +19,11 @@ format:
   html:
     theme: cosmo
     css: styles.css
+    toc: false
+  revealjs:
+    theme: sky
+    logo: images/irmar_0.png
+    echo: true
+    code-line-numbers: false
+    footer: "[home](/index.html)"
+

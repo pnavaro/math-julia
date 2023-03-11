@@ -1,4 +1,72 @@
 ---
 title: "Consider StaticArrays.jl for small fixed-size vector/matrix operations"
+format: revealjs
 ---
 
+```{julia}
+using DifferentialEquations, BenchmarkTools
+```
+
+---
+
+```{julia}
+function lorenz(u,p,t)
+ dx = 10.0*(u[2]-u[1])
+ dy = u[1]*(28.0-u[3]) - u[2]
+ dz = u[1]*u[2] - (8/3)*u[3]
+ [dx,dy,dz]
+end
+```
+
+```{julia}
+u0 = [1.0;0.0;0.0]
+tspan = (0.0,100.0)
+prob = ODEProblem(lorenz,u0,tspan)
+@benchmark solve(prob,Tsit5())
+```
+
+---
+
+```{julia}
+function lorenz!(du,u,p,t)
+ du[1] = 10.0*(u[2]-u[1])
+ du[2] = u[1]*(28.0-u[3]) - u[2]
+ du[3] = u[1]*u[2] - (8/3)*u[3]
+end
+```
+
+```{julia}
+u0 = [1.0;0.0;0.0]
+tspan = (0.0,100.0)
+prob = ODEProblem(lorenz!,u0,tspan)
+@benchmark solve(prob,Tsit5())
+```
+
+
+---
+
+::: {style="font-size: 0.5em" }
+StaticArray is statically-sized (known at compile time) and thus
+its accesses are quick. Additionally, the exact block of memory is
+known in advance by the compiler, and thus re-using the memory is
+cheap. This means that allocating on the stack has essentially no
+cost!
+:::
+
+```{julia}
+using StaticArrays
+
+function lorenz_static(u,p,t)
+ dx = 10.0*(u[2]-u[1])
+ dy = u[1]*(28.0-u[3]) - u[2]
+ dz = u[1]*u[2] - (8/3)*u[3]
+ @SVector [dx,dy,dz]
+end
+```
+
+```{julia}
+u0 = @SVector [1.0,0.0,0.0]
+tspan = (0.0,100.0)
+prob = ODEProblem(lorenz_static,u0,tspan)
+@benchmark solve(prob,Tsit5())
+```

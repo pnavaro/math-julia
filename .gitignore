@@ -12,5 +12,5 @@ runtests.jl
 .README.md.swp
 Manifest.toml
 *.swp
-
 /.quarto/
+_site/

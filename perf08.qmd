@@ -1,4 +1,55 @@
 ---
 title: "Avoid changing the type of a variable"
+format: revealjs
 ---
+
+Let us say we want to play the following game, I give you a vector of numbers. And you want to accumulate the sum as follows. For each number in the vector, you toss a coin (`rand()`), if it is heads (`>=0.5`), you add `1`. Otherwise, you add the number itself.
+
+```{julia}
+function flipcoin_then_add(v::Vector{T}) where T <: Real
+    s = 0
+    for vi in v
+        r = rand()
+        if r >=0.5
+            s += 1
+        else
+            s += vi
+        end
+    end
+end
+```
+
+
+---
+
+
+```{julia}
+
+function flipcoin_then_add_typed(v::Vector{T}) where T <: Real
+    s = zero(T)
+    for vi in v
+        r = rand()
+        if r >=0.5
+            s += one(T)
+        else
+            s += vi
+        end
+    end
+end
+```
+
+---
+
+```{julia}
+using BenchmarkTools
+
+myvec = rand(1000)
+@show flipcoin_then_add(myvec) == flipcoin_then_add_typed(myvec)
+```
+
+```{julia}
+@btime flipcoin_then_add(rand(1000))
+@btime flipcoin_then_add_typed(rand(1000))
+```
+
 

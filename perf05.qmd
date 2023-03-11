@@ -1,4 +1,66 @@
 ---
 title: "Avoid struct fields with abstract type"
+subtitle: "Types matter, when you know anything about the types of your variables, include them in your code to make it run faster"
+format: revealjs
 ---
+
+```{julia}
+struct Cube
+    length
+    width
+    height
+end
+
+struct CubeTyped
+    length::Float64
+    width::Float64
+    height::Float64
+end
+
+struct CubeParametricTyped{T <: Real}
+    length::T
+    width::T
+    height::T
+end
+```
+
+---
+
+```{julia}
+
+volume(c) = c.length*c.width*c.height
+
+c1 = Cube(1.1,1.2,1.3)
+c2 = CubeTyped(1.1,1.2,1.3)
+c3 = CubeParametricTyped(1.1,1.2,1.3)
+@show volume(c1) == volume(c2) == volume(c3)
+```
+
+```{julia}
+using BenchmarkTools
+@btime volume($c1) # not typed
+@btime volume($c2) # typed float
+@btime volume($c3) # typed parametric
+```
+
+---
+
+```{julia}
+@code_warntype volume(c1)
+```
+
+---
+
+```{julia}
+@code_warntype volume(c2)
+```
+
+---
+
+```{julia}
+@code_warntype volume(c3)
+```
+
+---
+
 
