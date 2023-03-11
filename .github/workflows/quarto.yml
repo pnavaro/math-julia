@@ -18,7 +18,6 @@ jobs:
         with:
           python-version: '3.10'
           cache: 'pip'
-      - run: pip install jupyter
 
       - name: Install Julia
         uses: julia-actions/setup-julia@v1
