@@ -43,7 +43,6 @@ end
 
 
 ```{julia}
-
 using FFTW, LinearAlgebra
 
 xmin, xmax, nx = 0, 4π, 1024
@@ -60,6 +59,11 @@ f̂ᵗ = zeros(ComplexF64, reverse(size(f)))
 f .= sin.(x) .* cos.(y')
 
 plan = plan_fft(fᵗ, 1, flags=FFTW.PATIENT)
+```
+
+---
+
+```{julia}
 
 function df_dy_optimized!( f, fᵗ, f̂ᵗ, plan, exky )
 
