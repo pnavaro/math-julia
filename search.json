@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Performance tips in Julia",
+    "section": "",
+    "text": "Performance critical code should be inside a function\nAvoid untyped global variables\nPay attention to memory allocation\nAvoid containers with abstract type parameters\nAvoid struct fields with abstract type\nBreak functions into multiple definitions\nWrite “type-stable” functions\nAvoid changing the type of a variable\nAccess arrays in memory order, along columns\nPre-allocating outputs\nFuse vectorized operations\nConsider using views for slices\nCopy irregularly-accessed data into a contiguous array before operating on it\nConsider StaticArrays.jl for small fixed-size vector/matrix operations\nAvoid string interpolation for I/O\nPerformance Annotations: @fastmath @inbounds @simd"
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "Performance tips in Julia",
+    "section": "References",
+    "text": "References\n\nJulia Docs https://docs.julialang.org/en/v1/manual/performance-tips/\nBenoît Fabrèges https://plmlab.math.cnrs.fr/fabreges/julia-2019/\nNassar Huda https://github.com/nassarhuda/JuliaTutorials\nTom Kwong https://github.com/PacktPublishing/Hands-on-Design-Patterns-and-Best-Practices-with-Julia/"
+  },
+  {
+    "objectID": "perf02.html#using-global-variable",
+    "href": "perf02.html#using-global-variable",
+    "title": "Avoid untyped global variables",
+    "section": "Using global variable",
+    "text": "Using global variable\n\nusing BenchmarkTools\n\nvariable = 10 \n\nfunction add_using_global_variable(x)\n    return x + variable\nend\n\n@btime add_using_global_variable(10);\n\n  22.581 ns (0 allocations: 0 bytes)"
+  },
+  {
+    "objectID": "perf02.html#pass-the-variable-in-the-arguments-of-the-function",
+    "href": "perf02.html#pass-the-variable-in-the-arguments-of-the-function",
+    "title": "Avoid untyped global variables",
+    "section": "Pass the variable in the arguments of the function",
+    "text": "Pass the variable in the arguments of the function\n\nfunction add_using_function_arg(x, y)\n    return x + y\nend\n\n@btime add_using_function_arg(10, $variable);\n\n  2.694 ns (0 allocations: 0 bytes)"
+  },
+  {
+    "objectID": "perf02.html#set-type-of-the-global-variable",
+    "href": "perf02.html#set-type-of-the-global-variable",
+    "title": "Avoid untyped global variables",
+    "section": "Set type of the global variable",
+    "text": "Set type of the global variable\n\nvariable_typed::Int = 10\n\nfunction add_using_global_variable_typed(x)\n    return x + variable_typed\nend\n\n@btime add_using_global_variable_typed(10);\n\n  2.693 ns (0 allocations: 0 bytes)"
+  },
+  {
+    "objectID": "perf02.html#use-the-keyword-const",
+    "href": "perf02.html#use-the-keyword-const",
+    "title": "Avoid untyped global variables",
+    "section": "Use the keyword const",
+    "text": "Use the keyword const\n\nconst constant = 10\n\nfunction add_by_passing_global_constant(x, v)\n    return x + v\nend\n\n@btime add_by_passing_global_constant(10, $constant);\n\n  2.624 ns (0 allocations: 0 bytes)"
+  },
+  {
+    "objectID": "perf03.html#functions-with-preallocated-memory-run-faster",
+    "href": "perf03.html#functions-with-preallocated-memory-run-faster",
+    "title": "Pay attention to memory allocation",
+    "section": "Functions with preallocated memory run faster",
+    "text": "Functions with preallocated memory run faster\n\n\n\nfunction build_preallocate(n::Int)\n    @assert n >= 2\n    v = zeros(Int64,n)\n    v[1] = 1\n    v[2] = 1\n    for i = 3:n\n        v[i] = v[i-1] + v[i-2]\n    end\n    return v\nend\n\nbuild_preallocate (generic function with 1 method)\n\n\n\n\nfunction build_no_allocation(n::Int)\n    @assert n >= 2\n    v = Vector{Int64}()\n    push!(v,1)\n    push!(v,1)\n    for i = 3:n\n        push!(v,v[i-1]+v[i-2])\n    end\n    return v\nend\n\nbuild_no_allocation (generic function with 1 method)"
+  },
+  {
+    "objectID": "perf03.html#whenever-possible-preallocate-memory",
+    "href": "perf03.html#whenever-possible-preallocate-memory",
+    "title": "Pay attention to memory allocation",
+    "section": "Whenever possible, preallocate memory",
+    "text": "Whenever possible, preallocate memory\n\nisequal(build_preallocate(10),build_no_allocation(10))\n\ntrue\n\n\n\nusing BenchmarkTools\n\nn = 100\n\n@btime build_no_allocation(n);\n\n@btime build_preallocate(n);\n\n  815.888 ns (4 allocations: 1.92 KiB)\n\n\n  131.779 ns (1 allocation: 896 bytes)"
+  }
+]
