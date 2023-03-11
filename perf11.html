@@ -406,24 +406,26 @@
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(x) <span class="co"># warmup</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">f</span>(x);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.022857 seconds (12 allocations: 45.777 MiB)</code></pre>
+<pre><code>  0.029273 seconds (12 allocations: 45.777 MiB, 27.54% gc time)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fdot</span>(x) <span class="co"># warmup</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">fdot</span>(x);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.003821 seconds (2 allocations: 7.629 MiB)</code></pre>
+<pre><code>  0.001203 seconds (2 allocations: 7.629 MiB)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>.(x) <span class="co"># warmup</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">f</span>.(x);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.001369 seconds (4 allocations: 7.629 MiB)</code></pre>
+<pre><code>  0.004075 seconds (4 allocations: 7.629 MiB)</code></pre>
 </div>
 </div>
+<div style="font-size: 0.5em">
 <p><code>fdot(x)</code> is faster and allocates less memory, because each <code>*</code> and <code>+</code> operation in <code>f(x)</code> allocates a new temporary array and executes in a separate loop.</p>
+</div>
 
 
 <img src="images/irmar_0.png" class="slide-logo r-stretch"><div class="footer footer-default">

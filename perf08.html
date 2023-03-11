@@ -395,7 +395,9 @@
 </section>
 <section class="slide level2">
 
+<div style="font-size: 0.5em">
 <p>Let us say we want to play the following game, I give you a vector of numbers. And you want to accumulate the sum as follows. For each number in the vector, you toss a coin (<code>rand()</code>), if it is heads (<code>&gt;=0.5</code>), you add <code>1</code>. Otherwise, you add the number itself.</p>
+</div>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">flipcoin_then_add</span>(v<span class="op">::</span><span class="dt">Vector{T}</span>) <span class="kw">where</span> T <span class="op">&lt;:</span><span class="dt"> Real</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="fl">0</span></span>
@@ -450,10 +452,10 @@
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add_typed</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  8.178 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  7.534 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  1.938 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  1.710 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 </div>
 

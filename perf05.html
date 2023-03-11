@@ -438,13 +438,13 @@
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">volume</span>(<span class="op">$</span>c2) <span class="co"># typed float</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">volume</span>(<span class="op">$</span>c3) <span class="co"># typed parametric</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  20.452 ns (1 allocation: 16 bytes)</code></pre>
+<pre><code>  24.324 ns (1 allocation: 16 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.615 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  3.300 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.616 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  2.900 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>1.7160000000000002</code></pre>
@@ -460,10 +460,7 @@
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(::Cube)
-  from volume(c) in Main</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code> at In[3]:1
+  from volume(c) in Main at In[3]:1
 Arguments
   #self#::Core.Const(volume)</code></pre>
 </div>
@@ -491,15 +488,12 @@ Body::Any</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">volume</span>(c2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">volume</span>(c2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>MethodInstance for volume(::CubeTyped)
   from volume(c) in Main at In[3]:1
 Arguments
-  </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#self#::Core.Const(volume)
+  #self#::Core.Const(volume)
   c::CubeTyped
 Body::Float64
 1 ─ %1 = Base.getproperty(c, :length)::Float64
@@ -514,11 +508,14 @@ Body::Float64
 <section class="slide level2">
 
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">volume</span>(c3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">volume</span>(c3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>MethodInstance for volume(::CubeParametricTyped{Float64})
   from volume(c) in Main at In[3]:1
-Arguments
+Arguments</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
   #self#::Core.Const(volume)
   c::CubeParametricTyped{Float64}
 Body::Float64

@@ -407,7 +407,7 @@
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@inbounds</span> y[i] <span class="op">+=</span> a <span class="op">*</span> x[i]</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> 10.582624 seconds (350.00 M allocations: 5.960 GiB, 12.75% gc time, 0.09% compilation time)</code></pre>
+<pre><code> 15.046860 seconds (350.00 M allocations: 5.960 GiB, 10.30% gc time, 0.08% compilation time)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="2">
@@ -423,7 +423,7 @@
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># timing</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">axpy!</span>(a, x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.054030 seconds</code></pre>
+<pre><code>  0.068619 seconds</code></pre>
 </div>
 </div>
 

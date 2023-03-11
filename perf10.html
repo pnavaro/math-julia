@@ -396,7 +396,9 @@
 </section>
 <section class="slide level2">
 
+<div style="font-size: 0.5em">
 <p>You have a vector <code>b</code> and a vector <code>h</code> where <code>b[i]</code> is the base length of triangle <code>i</code> and <code>h[i]</code> is the height length. The experiment is to find the hypotenuse value of all triangles.</p>
+</div>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -412,7 +414,7 @@
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  3.577 μs (4 allocations: 31.75 KiB)</code></pre>
+<pre><code>  4.817 μs (4 allocations: 31.75 KiB)</code></pre>
 </div>
 </div>
 </section>
@@ -435,7 +437,7 @@
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse_optimized</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  1.844 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  2.211 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 </div>
 </section>
@@ -457,21 +459,32 @@
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>f̂ᵗ <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">ComplexF64</span>, <span class="fu">reverse</span>(<span class="fu">size</span>(f)))</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>f <span class="op">.=</span> <span class="fu">sin</span>.(x) <span class="op">.*</span> <span class="fu">cos</span>.(y<span class="op">'</span>)</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plan <span class="op">=</span> <span class="fu">plan_fft</span>(fᵗ, <span class="fl">1</span>, flags<span class="op">=</span>FFTW.PATIENT)</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">df_dy_optimized!</span>( f, fᵗ, f̂ᵗ, plan, exky )</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transpose!</span>(fᵗ,f)</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mul!</span>(f̂ᵗ,  plan, fᵗ)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    f̂ᵗ <span class="op">.=</span> f̂ᵗ <span class="op">.*</span> exky</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ldiv!</span>(fᵗ, plan, f̂ᵗ)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transpose!</span>(f, fᵗ)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">df_dy_optimized!</span>(<span class="op">$</span>f, <span class="op">$</span>fᵗ, <span class="op">$</span>f̂ᵗ, <span class="op">$</span>plan, <span class="op">$</span>exky );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plan <span class="op">=</span> <span class="fu">plan_fft</span>(fᵗ, <span class="fl">1</span>, flags<span class="op">=</span>FFTW.PATIENT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>FFTW forward plan for 1024×1024 array of ComplexF64
+(dft-vrank&gt;=1-x1024/1
+  (dft-ct-dit/32
+    (dftw-direct-32/248 "t2fv_32_avx2")
+    (dft-direct-32-x32 "n2fv_32_avx2")))</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">df_dy_optimized!</span>( f, fᵗ, f̂ᵗ, plan, exky )</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transpose!</span>(fᵗ,f)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mul!</span>(f̂ᵗ,  plan, fᵗ)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    f̂ᵗ <span class="op">.=</span> f̂ᵗ <span class="op">.*</span> exky</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ldiv!</span>(fᵗ, plan, f̂ᵗ)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transpose!</span>(f, fᵗ)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">df_dy_optimized!</span>(<span class="op">$</span>f, <span class="op">$</span>fᵗ, <span class="op">$</span>f̂ᵗ, <span class="op">$</span>plan, <span class="op">$</span>exky );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  17.404 ms (2 allocations: 112 bytes)</code></pre>
+<pre><code>  24.953 ms (2 allocations: 112 bytes)</code></pre>
 </div>
 </div>
 

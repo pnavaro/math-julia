@@ -406,7 +406,9 @@
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">error</span>(<span class="st">"mynorm: invalid argument"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div style="font-size: 0.5em">
 <p>This can be written more concisely and efficiently as:</p>
+</div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(x<span class="op">::</span><span class="dt">Vector</span>) <span class="op">=</span> <span class="fu">sqrt</span>(<span class="fu">real</span>(<span class="fu">dot</span>(x, x)))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(A<span class="op">::</span><span class="dt">Matrix</span>) <span class="op">=</span> <span class="fu">maximum</span>(<span class="fu">svdvals</span>(A))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

@@ -406,7 +406,7 @@
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">add_using_global_variable</span>(<span class="fl">10</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  22.581 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  22.068 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div>
 </section>
@@ -419,7 +419,7 @@
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">add_using_function_arg</span>(<span class="fl">10</span>, <span class="op">$</span>variable);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.694 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  2.900 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div>
 </section>
@@ -429,10 +429,10 @@
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_llvm</span> <span class="fu">add_using_function_arg</span>(<span class="fl">10</span>, variable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>;  @ In[3]:1 within `add_using_function_arg`
-define i64 @julia_add_using_function_arg_3384(i64 signext %0</code></pre>
+define </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>, i64 signext %1) #0 {
+<pre><code>i64 @julia_add_using_function_arg_1508(i64 signext %0, i64 signext %1) #0 {
 top:
 ;  @ In[3]:2 within `add_using_function_arg`
 ; ┌ @ int.jl:87 within `+`
@@ -449,7 +449,7 @@ top:
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_llvm</span> <span class="fu">add_using_global_variable</span>(<span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>;  @ In[2]:5 within `add_using_global_variable`
-define nonnull {}* @julia_add_using_global_variable_3407(i64 signext %0) #0 {
+define nonnull {}* @julia_add_using_global_variable_1531(i64 signext %0) #0 {
 top:
   %1 = alloca [2 x {}*], align 8
   %gcframe2 = alloca [4 x {}*], align 16
@@ -457,30 +457,33 @@ top:
   %.sub = getelementptr inbounds [2 x {}*], [2 x {}*]* %1, i64 0, i64 0
   %2 = bitcast [4 x {}*]* %gcframe2 to i8*
   call void @llvm.memset.p0i8.i32(i8* noundef nonnull align 16 dereferenceable(32) %2, i8 0, i32 32, i1 false)
-  %3 = call {}*** inttoptr (i64 140703136894933 to {}*** (i64)*)(i64 260) #3
+  %thread_ptr = call i8* asm "movq %fs:0, $0", "=r"() #3
+  %ppgcstack_i8 = getelementptr i8, i8* %thread_ptr, i64 -8
+  %ppgcstack = bitcast i8* %ppgcstack_i8 to {}****
+  %pgcstack = load {}***, {}**** %ppgcstack, align 8
 ;  @ In[2]:6 within `add_using_global_variable`
-  %4 = bitcast [4 x {}*]* %gcframe2 to i64*
-  store i64 8, i64* %4, align 16
-  %5 = load {}**, {}*** %3, align 8
-  %6 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 1
-  %7 = bitcast {}** %6 to {}***
-  store {}** %5, {}*** %7, align 8
-  %8 = bitcast {}*** %3 to {}***
-  store {}** %gcframe2.sub, {}*** %8, align 8
-  %9 = load atomic {}*, {}** inttoptr (i64 5365320920 to {}**) unordered, align 8
-  %10 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 2
-  store {}* %9, {}** %10, align 16
-  %11 = call nonnull {}* @ijl_box_int64(i64 signext %0)
-  %12 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 3
-  store {}* %11, {}** %12, align 8
-  store {}* %11, {}** %.sub, align 8
-  %13 = getelementptr inbounds [2 x {}*], [2 x {}*]* %1, i64 0, i64 1
-  store {}* %9, {}** %13, align 8
-  %14 = call nonnull {}* @ijl_apply_generic({}* inttoptr (i64 4742799264 to {}*), {}** nonnull %.sub, i32 2)
-  %15 = load {}*, {}** %6, align 8
-  %16 = bitcast {}*** %3 to {}**
-  store {}* %15, {}** %16, align 8
-  ret {}* %14
+  %3 = bitcast [4 x {}*]* %gcframe2 to i64*
+  store i64 8, i64* %3, align 16
+  %4 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 1
+  %5 = bitcast {}** %4 to {}***
+  %6 = load {}**, {}*** %pgcstack, align 8
+  store {}** %6, {}*** %5, align 8
+  %7 = bitcast {}*** %pgcstack to {}***
+  store {}** %gcframe2.sub, {}*** %7, align 8
+  %8 = load atomic {}*, {}** inttoptr (i64 140526529089048 to {}**) unordered, align 8
+  %9 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 2
+  store {}* %8, {}** %9, align 16
+  %10 = call nonnull {}* @ijl_box_int64(i64 signext %0)
+  %11 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 3
+  store {}* %10, {}** %11, align 8
+  store {}* %10, {}** %.sub, align 8
+  %12 = getelementptr inbounds [2 x {}*], [2 x {}*]* %1, i64 0, i64 1
+  store {}* %8, {}** %12, align 8
+  %13 = call nonnull {}* @ijl_apply_generic({}* inttoptr (i64 140526362761632 to {}*), {}** nonnull %.sub, i32 2)
+  %14 = load {}*, {}** %4, align 8
+  %15 = bitcast {}*** %pgcstack to {}**
+  store {}* %14, {}** %15, align 8
+  ret {}* %13
 }</code></pre>
 </div>
 </div>
@@ -496,7 +499,7 @@ top:
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">add_using_global_variable_typed</span>(<span class="fl">10</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.693 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  3.700 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div>
 </section>
@@ -511,7 +514,7 @@ top:
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">add_by_passing_global_constant</span>(<span class="fl">10</span>, <span class="op">$</span>constant);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.624 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  3.300 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div>
 </section>
@@ -530,7 +533,7 @@ top:
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">sum_variable_many_times</span>(<span class="fl">100</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  66.202 μs (301 allocations: 20.45 KiB)</code></pre>
+<pre><code>  55.005 μs (301 allocations: 20.45 KiB)</code></pre>
 </div>
 </div>
 </section>
@@ -549,7 +552,7 @@ top:
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">sum_constant_many_times</span>(<span class="fl">100</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  11.480 μs (101 allocations: 14.20 KiB)</code></pre>
+<pre><code>  10.801 μs (101 allocations: 14.20 KiB)</code></pre>
 </div>
 </div>
 

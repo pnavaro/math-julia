@@ -395,7 +395,9 @@
 </section>
 <section class="slide level2">
 
+<div style="font-size: 0.5em">
 <p>When writing data to a file (or other I/O device), forming extra intermediate strings is a source of overhead. Instead of:</p>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(file, <span class="st">"</span><span class="sc">$</span>a<span class="st"> </span><span class="sc">$</span>b<span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>use:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(file, a, <span class="st">" "</span>, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

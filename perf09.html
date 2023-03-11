@@ -412,7 +412,7 @@
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_dist!</span>(x, dist)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">compute_dist!</span>(x, dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.877819 seconds</code></pre>
+<pre><code>  0.575595 seconds</code></pre>
 </div>
 </div>
 </section>
@@ -434,7 +434,7 @@
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_dist!</span>(x, dist)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">compute_dist!</span>(x, dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.100195 seconds</code></pre>
+<pre><code>  0.087513 seconds</code></pre>
 </div>
 </div>
 </section>
@@ -542,10 +542,10 @@
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="fu">sin</span>.(x) <span class="op">.*</span> <span class="fu">cos</span>.(y<span class="op">'</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">df_dy_transposed!</span>(<span class="op">$</span>f);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  94.524 ms (77 allocations: 88.01 MiB)</code></pre>
+<pre><code>  97.520 ms (77 allocations: 88.01 MiB)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  53.109 ms (78 allocations: 88.01 MiB)</code></pre>
+<pre><code>  62.834 ms (78 allocations: 88.01 MiB)</code></pre>
 </div>
 </div>
 
