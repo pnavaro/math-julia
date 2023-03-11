@@ -13,8 +13,12 @@ jobs:
 
       - name: Install Julia
         uses: julia-actions/setup-julia@v1
-          - run: julia -e 'using Pkg; Pkg.add("IJulia"); Pkg.build("IJulia")'
-          - run: julia --project -e 'using Pkg; Pkg.instantiate()'
+        
+      - name: Install IJulia
+        run: julia -e 'using Pkg; Pkg.add("IJulia"); Pkg.build("IJulia")'
+      
+      - name: Install Julia dependencies
+        run: julia --project -e 'using Pkg; Pkg.instantiate()'
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
