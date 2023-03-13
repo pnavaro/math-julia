@@ -19,6 +19,26 @@ website:
       - icon: github
         href: https://github.com/pnavaro/math-julia
         aria-label: GitHub
+    contents:
+      - section: "Performance"
+        contents:
+          - href: 01-put-code-inside-function.qmd
+          - href: 02-avoid-untyped-global-variable.qmd
+          - href: 03-pay-attention-to-memory-allocation.qmd
+          - href: 04-avoid-containers-with-abstract-type.qmd
+          - href: 05-avoid-struct-fields-with-abstract-type.qmd
+          - href: 06-break-functions-into-multiple-definitions.qmd
+          - href: 07-write-type-stable-functions.qmd
+          - href: 08-avoid-changing-the-type-of-a-variable.qmd
+          - href: 09-access-arrays-in-memory-order.qmd
+          - href: 10-preallocating-outputs.qmd
+          - href: 11-fused-vectorized-operations.qmd
+          - href: 12-consider-using-views-for-slices.qmd
+          - href: 13-copy-irregularly-accessed-data.qmd
+          - href: 14-consider-static-arrays.qmd
+          - href: 15-avoid-string-interpolation-for-io.qmd
+          - href: 16-performance-annotations.qmd
+
 
 format:
   html:
