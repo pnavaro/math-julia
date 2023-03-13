@@ -53,6 +53,6 @@
     "href": "perf03.html#whenever-possible-preallocate-memory",
     "title": "Pay attention to memory allocation",
     "section": "Whenever possible, preallocate memory",
-    "text": "Whenever possible, preallocate memory\n\nisequal(build_preallocate(10),build_no_allocation(10))\n\ntrue\n\n\n\nusing BenchmarkTools\n\nn = 100\n\n@btime build_no_allocation(n);\n\n@btime build_preallocate(n);\n\n  836.620 ns (4 allocations: 1.92 KiB)\n\n\n  162.639 ns (1 allocation: 896 bytes)"
+    "text": "Whenever possible, preallocate memory\n\nisequal(build_preallocate(10),build_no_allocation(10))\n\ntrue\n\n\n\nusing BenchmarkTools\n\nn = 100\n\n@btime build_no_allocation(n);\n\n@btime build_preallocate(n);\n\n  820.241 ns (4 allocations: 1.92 KiB)\n\n\n  159.107 ns (1 allocation: 896 bytes)"
   }
 ]

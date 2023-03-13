@@ -470,7 +470,7 @@ top:
   store {}** %6, {}*** %5, align 8
   %7 = bitcast {}*** %pgcstack to {}***
   store {}** %gcframe2.sub, {}*** %7, align 8
-  %8 = load atomic {}*, {}** inttoptr (i64 139673128839256 to {}**) unordered, align 8
+  %8 = load atomic {}*, {}** inttoptr (i64 140370633137880 to {}**) unordered, align 8
   %9 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 2
   store {}* %8, {}** %9, align 16
   %10 = call nonnull {}* @ijl_box_int64(i64 signext %0)
@@ -479,7 +479,7 @@ top:
   store {}* %10, {}** %.sub, align 8
   %12 = getelementptr inbounds [2 x {}*], [2 x {}*]* %1, i64 0, i64 1
   store {}* %8, {}** %12, align 8
-  %13 = call nonnull {}* @ijl_apply_generic({}* inttoptr (i64 139672953473440 to {}*), {}** nonnull %.sub, i32 2)
+  %13 = call nonnull {}* @ijl_apply_generic({}* inttoptr (i64 140370452621728 to {}*), {}** nonnull %.sub, i32 2)
   %14 = load {}*, {}** %4, align 8
   %15 = bitcast {}*** %pgcstack to {}**
   store {}* %14, {}** %15, align 8
@@ -533,7 +533,7 @@ top:
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">sum_variable_many_times</span>(<span class="fl">100</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  57.998 μs (301 allocations: 20.45 KiB)</code></pre>
+<pre><code>  57.699 μs (301 allocations: 20.45 KiB)</code></pre>
 </div>
 </div>
 </section>
