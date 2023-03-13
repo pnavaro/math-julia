@@ -5,7 +5,7 @@ format: revealjs
 
 ```{julia}
 function new_sum(myvec::Vector{Int})
-    s = 0
+    s = zero(eltype(myvec))
     for i = eachindex(myvec)
         s += myvec[i]
     end
@@ -13,7 +13,7 @@ function new_sum(myvec::Vector{Int})
 end
 
 function new_sum_inbounds(myvec::Vector{Int})
-    s = 0
+    s = zero(eltype(myvec))
     @inbounds for i = eachindex(myvec)
         s += myvec[i]
     end
@@ -27,4 +27,116 @@ using BenchmarkTools
 myvec = collect(1:1000000)
 @btime new_sum($myvec)
 @btime new_sum_inbounds($myvec)
+```
+
+
+---
+
+::::: {.columns}
+:::: {.column width="50%"}
+```{julia}
+@noinline function inner(x, y)
+    s = zero(eltype(x))
+    for i = eachindex(x, y)
+        @inbounds s += x[i]*y[i]
+    end
+    return s
+end;
+```
+:::: 
+:::: {.column width="50%"}
+```{julia}
+@noinline function innersimd(x, y)
+    s = zero(eltype(x))
+    @simd for i = eachindex(x, y)
+        @inbounds s += x[i] * y[i]
+    end
+    return s
+end;
+```
+:::: 
+:::::
+
+---
+
+```{julia}
+function timeit(n, reps)
+    x = rand(Float32, n)
+    y = rand(Float32, n)
+    s = zero(Float64)
+    time = @elapsed for j in 1:reps
+        s += inner(x, y)
+    end
+    println("GFlop/sec        = ", 2n*reps / time*1E-9)
+    time = @elapsed for j in 1:reps
+        s += innersimd(x, y)
+    end
+    println("GFlop/sec (SIMD) = ", 2n*reps / time*1E-9)
+end
+timeit(10, 10)
+timeit(1000, 1000)
+```
+
+---
+
+```{julia}
+function init!(u::Vector)
+    n = length(u)
+    dx = 1.0 / (n-1)
+    @fastmath @inbounds @simd for i in eachindex(u) 
+        u[i] = sin(2pi*dx*i)
+    end
+end
+
+function deriv!(u::Vector, du)
+    n = length(u)
+    dx = 1.0 / (n-1)
+    @fastmath @inbounds du[1] = (u[2] - u[1]) / dx
+    @fastmath @inbounds @simd for i in 2:n-1
+        du[i] = (u[i+1] - u[i-1]) / (2*dx)
+    end
+    @fastmath @inbounds du[n] = (u[n] - u[n-1]) / dx
+end
+```
+
+---
+
+```{julia}
+function mynorm(u::Vector)
+    T = eltype(u)
+    s = zero(T)
+    @fastmath @inbounds @simd for i in eachindex(u)
+        s += u[i]^2
+    end
+    @fastmath @inbounds return sqrt(s)
+end
+```
+
+---
+
+```{julia}
+function main(n)
+    u = Vector{Float64}(undef, n)
+    init!(u)
+    du = similar(u)
+
+    deriv!(u, du)
+    nu = mynorm(du)
+
+    @time for i in 1:10^6
+        deriv!(u, du)
+        nu = mynorm(du)
+    end
+
+    println(" nu = $nu ")
+end
+
+main(10)
+@time main(2000)
+```
+
+---
+
+```{julia}
+run(`julia --math-mode=ieee wave.jl`)
 ```
