@@ -2,32 +2,33 @@
 title: 'Performance critical code should be inside a function'
 ---
 
-
+Let's compute $y = a * x$
 ```{julia}
-import LinearAlgebra
-    
-N = 50_000_000
+n = 100_000
 a = 1.2
-x = rand(Float64, N)
-y = rand(Float64, N)
+x = rand(Float64, n)
+y = rand(Float64, n)
 
 @time for i in eachindex(y, x)
     y[i] += a * x[i]
 end
-
 ```
 
+---
+
+To optimize the code, Julia needs it to be inside a function.
 ```{julia}
 
-function axpy!(a, x, y)
+function axpy!(y, a, x)
     for i in eachindex(y, x)
         y[i] += a * x[i]
     end
 end
 
 # warmup
-axpy!(a, x, y)
+axpy!(y, a, x)
 
 # timing
-@time axpy!(a, x, y)
+@time axpy!(y, a, x)
 ```
+

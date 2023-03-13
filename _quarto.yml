@@ -2,43 +2,27 @@ project:
   type: website
   execute-dir: project
   render:
-    - index.qmd
-    - 01-critical-code-inside-function.qmd
-    - 02-avoid-untyped-global-variable.qmd
-    - 03-pay-attention-to-memory-allocation.qmd
-    - 04-avoid-containers-with-abstract-type.qmd
-    - 05-avoid-struct-fields-with-abstract-type.qmd
-    - 06-break-functions-into-multiple-definitions.qmd
-    - 07-write-type-stable-functions.qmd
-    - 08-avoid-changing-the-type-of-a-variable.qmd
-    - 09-access-arrays-in-memory-order.qmd
-    - 10-preallocating-outputs.qmd
-    - 11-fused-vectorized-operations.qmd
-    - 12-consider-using-views-for-slices.qmd
-    - 13-copy-irregularly-accessed-data.qmd
-    - 14-consider-static-arrays.qmd
-    - 15-avoid-string-interpolation-for-io.qmd
-    - 16-performance-annotations.qmd
+    - "*.qmd"
 
 website:
-  title: "Performance tips in Julia"
+  title: "Performance examples in Julia"
   site-url: "https://pnavaro.github.io/math-julia"
+  repo-url: https://github.com/pnavaro/math-julia
+  repo-branch: "master"
+  repo-actions: source
+  page-navigation: true
   navbar:
+    search: true
     type: dark
     background: primary
     left:
       - icon: github
         href: https://github.com/pnavaro/math-julia
+        aria-label: GitHub
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: false
-  revealjs:
-    theme: sky
-    logo: images/irmar_0.png
-    echo: true
-    code-line-numbers: false
-    footer: "[home](/index.html)"
 
