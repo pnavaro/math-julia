@@ -408,28 +408,48 @@
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Atmp <span class="op">=</span> <span class="fu">zeros</span>(<span class="fl">50</span>, <span class="fl">800_000</span>);</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">sum</span>(<span class="fu">view</span>(A, <span class="op">:</span>, inds) <span class="op">*</span> <span class="fu">view</span>(x, inds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">sum</span>(<span class="fu">view</span>(A, <span class="op">:</span>, inds) <span class="op">*</span> <span class="fu">view</span>(x, inds))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">sum</span>(<span class="fu">view</span>(A, <span class="op">:</span>, inds) <span class="op">*</span> <span class="fu">view</span>(x, inds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.506383 seconds (591.57 k allocations: 29.361 MiB, 45.21% compilation time)</code></pre>
+<pre><code>  0.385668 seconds (591.57 k allocations: 29.361 MiB, 51.70% compilation time)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0.183922 seconds (5 allocations: 624 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>-4816.976962261708</code></pre>
+<pre><code>-7585.431154052926</code></pre>
 </div>
 </div>
 <div style="font-size: 0.5em">
 <p>Irregular access patterns and non-contiguous views can drastically slow down computations on arrays because of non-sequential memory access. Copying the views into plain arrays speeds up the multiplication even with the cost of the copying operation.</p>
 </div>
+</section>
+<section class="slide level2">
+
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="cf">begin</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">copyto!</span>(xtmp, <span class="fu">view</span>(x, inds))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">copyto!</span>(Atmp, <span class="fu">view</span>(A, <span class="op">:</span>, inds))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(Atmp <span class="op">*</span> xtmp)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="cf">begin</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">copyto!</span>(xtmp, <span class="fu">view</span>(x, inds))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">copyto!</span>(Atmp, <span class="fu">view</span>(A, <span class="op">:</span>, inds))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(Atmp <span class="op">*</span> xtmp)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.490290 seconds (492.35 k allocations: 25.782 MiB, 41.18% compilation time)</code></pre>
+<pre><code>  0.387380 seconds (492.35 k allocations: 25.785 MiB, 45.16% compilation time)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>-4816.976962261457</code></pre>
+<pre><code>-7585.431154052688</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="cf">begin</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">copyto!</span>(xtmp, <span class="fu">view</span>(x, inds))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">copyto!</span>(Atmp, <span class="fu">view</span>(A, <span class="op">:</span>, inds))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(Atmp <span class="op">*</span> xtmp)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0.211367 seconds (5 allocations: 624 bytes)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>-7585.431154052688</code></pre>
 </div>
 </div>
 

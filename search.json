@@ -18,28 +18,28 @@
     "href": "perf02.html#using-global-variable",
     "title": "Avoid untyped global variables",
     "section": "Using global variable",
-    "text": "Using global variable\n\nusing BenchmarkTools\n\nvariable = 10 \n\nfunction add_using_global_variable(x)\n    return x + variable\nend\n\n@btime add_using_global_variable(10);\n\n  22.068 ns (0 allocations: 0 bytes)"
+    "text": "Using global variable\n\nusing BenchmarkTools\n\nvariable = 10 \n\nfunction add_using_global_variable(x)\n    return x + variable\nend\n\n@btime add_using_global_variable(10);\n\n  18.837 ns (0 allocations: 0 bytes)"
   },
   {
     "objectID": "perf02.html#pass-the-variable-in-the-arguments-of-the-function",
     "href": "perf02.html#pass-the-variable-in-the-arguments-of-the-function",
     "title": "Avoid untyped global variables",
     "section": "Pass the variable in the arguments of the function",
-    "text": "Pass the variable in the arguments of the function\n\nfunction add_using_function_arg(x, y)\n    return x + y\nend\n\n@btime add_using_function_arg(10, $variable);\n\n  2.900 ns (0 allocations: 0 bytes)"
+    "text": "Pass the variable in the arguments of the function\n\nfunction add_using_function_arg(x, y)\n    return x + y\nend\n\n@btime add_using_function_arg(10, $variable);\n\n  2.799 ns (0 allocations: 0 bytes)"
   },
   {
     "objectID": "perf02.html#set-type-of-the-global-variable",
     "href": "perf02.html#set-type-of-the-global-variable",
     "title": "Avoid untyped global variables",
     "section": "Set type of the global variable",
-    "text": "Set type of the global variable\n\nvariable_typed::Int = 10\n\nfunction add_using_global_variable_typed(x)\n    return x + variable_typed\nend\n\n@btime add_using_global_variable_typed(10);\n\n  3.700 ns (0 allocations: 0 bytes)"
+    "text": "Set type of the global variable\n\nvariable_typed::Int = 10\n\nfunction add_using_global_variable_typed(x)\n    return x + variable_typed\nend\n\n@btime add_using_global_variable_typed(10);\n\n  2.799 ns (0 allocations: 0 bytes)"
   },
   {
     "objectID": "perf02.html#use-the-keyword-const",
     "href": "perf02.html#use-the-keyword-const",
     "title": "Avoid untyped global variables",
     "section": "Use the keyword const",
-    "text": "Use the keyword const\n\nconst constant = 10\n\nfunction add_by_passing_global_constant(x, v)\n    return x + v\nend\n\n@btime add_by_passing_global_constant(10, $constant);\n\n  3.300 ns (0 allocations: 0 bytes)"
+    "text": "Use the keyword const\n\nconst constant = 10\n\nfunction add_by_passing_global_constant(x, v)\n    return x + v\nend\n\n@btime add_by_passing_global_constant(10, $constant);\n\n  3.199 ns (0 allocations: 0 bytes)"
   },
   {
     "objectID": "perf03.html#functions-with-preallocated-memory-run-faster",
@@ -53,6 +53,6 @@
     "href": "perf03.html#whenever-possible-preallocate-memory",
     "title": "Pay attention to memory allocation",
     "section": "Whenever possible, preallocate memory",
-    "text": "Whenever possible, preallocate memory\n\nisequal(build_preallocate(10),build_no_allocation(10))\n\ntrue\n\n\n\nusing BenchmarkTools\n\nn = 100\n\n@btime build_no_allocation(n);\n\n@btime build_preallocate(n);\n\n  986.733 ns (4 allocations: 1.92 KiB)\n\n\n  135.062 ns (1 allocation: 896 bytes)"
+    "text": "Whenever possible, preallocate memory\n\nisequal(build_preallocate(10),build_no_allocation(10))\n\ntrue\n\n\n\nusing BenchmarkTools\n\nn = 100\n\n@btime build_no_allocation(n);\n\n@btime build_preallocate(n);\n\n  836.620 ns (4 allocations: 1.92 KiB)\n\n\n  162.639 ns (1 allocation: 896 bytes)"
   }
 ]

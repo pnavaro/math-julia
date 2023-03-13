@@ -411,7 +411,7 @@
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># timing</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> @. y[n_start<span class="op">:</span>n_end] <span class="op">+=</span> a <span class="op">*</span> x[n_start<span class="op">:</span>n_end];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.791080 seconds (4 allocations: 762.936 MiB, 12.24% gc time)</code></pre>
+<pre><code>  0.527543 seconds (4 allocations: 762.936 MiB, 14.17% gc time)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="2">
@@ -421,7 +421,7 @@
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># timing</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> @. <span class="pp">@views</span> y[n_start<span class="op">:</span>n_end] <span class="op">+=</span> a <span class="op">*</span> x[n_start<span class="op">:</span>n_end];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.379505 seconds</code></pre>
+<pre><code>  0.252070 seconds</code></pre>
 </div>
 </div>
 

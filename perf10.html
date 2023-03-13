@@ -414,7 +414,7 @@
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  4.817 μs (4 allocations: 31.75 KiB)</code></pre>
+<pre><code>  4.786 μs (4 allocations: 31.75 KiB)</code></pre>
 </div>
 </div>
 </section>
@@ -423,7 +423,7 @@
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">find_hypotenuse_optimized</span>(b<span class="op">::</span><span class="dt">Vector{T}</span>,h<span class="op">::</span><span class="dt">Vector{T}</span>) <span class="kw">where</span> T <span class="op">&lt;:</span><span class="dt"> Real</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    accum_vec <span class="op">=</span> <span class="fu">similar</span>(b)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(b)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="op">=</span> <span class="fu">eachindex</span>(accum_vec)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        accum_vec[i] <span class="op">=</span> b[i]<span class="op">^</span><span class="fl">2</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        accum_vec[i] <span class="op">+=</span> h[i]<span class="op">^</span><span class="fl">2</span> <span class="co"># here, we used the same space in memory to hold the sum</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        accum_vec[i] <span class="op">=</span> <span class="fu">sqrt</span>(accum_vec[i]) <span class="co"># same thing here, to hold the sqrt</span></span>
@@ -437,7 +437,7 @@
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse_optimized</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.211 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  2.589 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 </div>
 </section>
@@ -464,7 +464,7 @@
 <pre><code>FFTW forward plan for 1024×1024 array of ComplexF64
 (dft-vrank&gt;=1-x1024/1
   (dft-ct-dit/32
-    (dftw-direct-32/248 "t2fv_32_avx2")
+    (dftw-direct-32/124 "t1fv_32_avx2")
     (dft-direct-32-x32 "n2fv_32_avx2")))</code></pre>
 </div>
 </div>
@@ -484,7 +484,7 @@
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">df_dy_optimized!</span>(<span class="op">$</span>f, <span class="op">$</span>fᵗ, <span class="op">$</span>f̂ᵗ, <span class="op">$</span>plan, <span class="op">$</span>exky );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  24.953 ms (2 allocations: 112 bytes)</code></pre>
+<pre><code>  16.650 ms (2 allocations: 112 bytes)</code></pre>
 </div>
 </div>
 
