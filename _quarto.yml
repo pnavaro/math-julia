@@ -5,6 +5,7 @@ project:
     - index.qmd
     - 01-critical-code-inside-function.qmd
     - 02-avoid-untyped-global-variable.qmd
+    - 03-pay-attention-to-memory-allocation.qmd
     - 04-avoid-containers-with-abstract-type.qmd
     - 05-avoid-struct-fields-with-abstract-type.qmd
     - 06-break-functions-into-multiple-definitions.qmd

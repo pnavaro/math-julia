@@ -4,22 +4,22 @@ format:
       toc: false
 ---
 
- 01. [Performance critical code should be inside a function](perf01.html)
- 02. [Avoid untyped global variables](perf02.html)
- 03. [Pay attention to memory allocation](perf03.html)
- 04. [Avoid containers with abstract type parameters](perf04.html)
- 05. [Avoid struct fields with abstract type](perf05.html)
- 06. [Break functions into multiple definitions](perf06.html)
- 07. [Write "type-stable" functions](perf07.html)
- 08. [Avoid changing the type of a variable](perf08.html)
- 09. [Access arrays in memory order, along columns](perf09.html)
- 10. [Pre-allocating outputs](perf10.html)
- 11. [Fuse vectorized operations](perf11.html)
- 12. [Consider using views for slices](perf12.html)
- 13. [Copy irregularly-accessed data into a contiguous array before operating on it](perf13.html)
- 14. [Consider StaticArrays.jl for small fixed-size vector/matrix operations](perf14.html)
- 15. [Avoid string interpolation for I/O](perf15.html)
- 16. [Performance Annotations: @fastmath @inbounds @simd](perf16.html)
+ 01. [Performance critical code should be inside a function](01-critical-code-inside-function.qmd)
+ 02. [Avoid untyped global variables](02-avoid-untyped-global-variable.qmd)
+ 03. [Pay attention to memory allocation](03-pay-attention-to-memory-allocation.qmd)
+ 04. [Avoid containers with abstract type parameters](04-avoid-containers-with-abstract-type.qmd)
+ 05. [Avoid struct fields with abstract type](05-avoid-struct-fields-with-abstract-type.qmd)
+ 06. [Break functions into multiple definitions](06-break-functions-into-multiple-definitions.qmd)
+ 07. [Write "type-stable" functions](07-write-type-stable-functions.qmd)
+ 08. [Avoid changing the type of a variable](08-avoid-changing-the-type-of-a-variable.qmd)
+ 09. [Access arrays in memory order, along columns](09-access-arrays-in-memory-order.qmd)
+ 10. [Pre-allocating outputs](10-preallocating-outputs.qmd)
+ 11. [Fuse vectorized operations](11-fused-vectorized-operations.qmd)
+ 12. [Consider using views for slices](12-consider-using-views-for-slices.qmd)
+ 13. [Copy irregularly-accessed data into a contiguous array before operating on it](13-copy-irregularly-accessed-data.qmd)
+ 14. [Consider StaticArrays.jl for small fixed-size vector/matrix operations](14-consider-static-arrays.qmd)
+ 15. [Avoid string interpolation for I/O](15-avoid-string-interpolation-for-io.qmd)
+ 16. [Performance Annotations: @fastmath @inbounds @simd](16-performance-annotations.qmd)
 
 
 ## References
