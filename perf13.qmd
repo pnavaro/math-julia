@@ -17,6 +17,7 @@ xtmp = zeros(800_000);
 Atmp = zeros(50, 800_000);
 
 @time sum(view(A, :, inds) * view(x, inds))
+@time sum(view(A, :, inds) * view(x, inds))
 ```
 
 ::: {style="font-size: 0.5em" }
@@ -25,6 +26,16 @@ slow down computations on arrays because of non-sequential memory
 access. Copying the views into plain arrays speeds up the multiplication
 even with the cost of the copying operation.
 :::
+
+---
+
+```{julia}
+@time begin
+    copyto!(xtmp, view(x, inds))
+    copyto!(Atmp, view(A, :, inds))
+    sum(Atmp * xtmp)
+end
+```
 
 ```{julia}
 @time begin

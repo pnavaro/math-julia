@@ -12,8 +12,8 @@ a = 1.2
 x = rand(Float64, N)
 y = rand(Float64, N)
 
-@time for i in 1:N
-    @inbounds y[i] += a * x[i]
+@time for i in eachindex(y, x)
+    y[i] += a * x[i]
 end
 
 ```
@@ -22,7 +22,7 @@ end
 
 function axpy!(a, x, y)
     for i in eachindex(y, x)
-        @inbounds y[i] += a * x[i]
+        y[i] += a * x[i]
     end
 end
 

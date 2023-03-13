@@ -28,7 +28,7 @@ end
 ```{julia}
 function find_hypotenuse_optimized(b::Vector{T},h::Vector{T}) where T <: Real
     accum_vec = similar(b)
-    for i = 1:length(b)
+    for i = eachindex(accum_vec)
         accum_vec[i] = b[i]^2
         accum_vec[i] += h[i]^2 # here, we used the same space in memory to hold the sum
         accum_vec[i] = sqrt(accum_vec[i]) # same thing here, to hold the sqrt
