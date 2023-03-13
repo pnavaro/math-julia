@@ -1,6 +1,5 @@
 ---
 title: "Avoid string interpolation for I/O"
-format: revealjs
 ---
 
 

@@ -1,7 +1,6 @@
 ---
 title: "Write “type-stable” functions"
 subtitle: "A function is type stable when you can derive what the output of the function needs to be."
-format: revealjs
 ---
 
 

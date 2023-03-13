@@ -1,6 +1,5 @@
 ---
 title: "Consider using views for slices"
-format: revealjs
 ---
 
 ```{julia}

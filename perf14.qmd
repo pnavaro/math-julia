@@ -1,6 +1,5 @@
 ---
 title: "Consider StaticArrays.jl for small fixed-size vector/matrix operations"
-format: revealjs
 ---
 
 ```{julia}

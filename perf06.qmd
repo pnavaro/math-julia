@@ -1,6 +1,5 @@
 ---
 title: "Break functions into multiple definitions"
-format: revealjs
 ---
 
 ```{.julia}

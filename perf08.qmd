@@ -1,6 +1,5 @@
 ---
 title: "Avoid changing the type of a variable"
-format: revealjs
 ---
 
 :::: {style="font-size: 0.5em" }

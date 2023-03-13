@@ -1,7 +1,6 @@
 ---
 title: "Avoid struct fields with abstract type"
 subtitle: "Types matter, when you know anything about the types of your variables, include them in your code to make it run faster"
-format: revealjs
 ---
 
 ```{julia}

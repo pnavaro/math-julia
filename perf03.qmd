@@ -1,6 +1,5 @@
 ---
 title: "Pay attention to memory allocation"
-format: revealjs
 ---
 
 ## Functions with preallocated memory run faster

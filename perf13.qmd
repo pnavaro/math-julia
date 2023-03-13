@@ -1,6 +1,5 @@
 ---
 title: "Copy irregularly-accessed data into a contiguous array before operating on it"
-format: revealjs
 ---
 
 ```{julia}

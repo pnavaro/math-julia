@@ -1,7 +1,6 @@
 ---
 title: "Pre-allocating outputs"
 subtitle: "Whenever you can reuse memory, reuse it. "
-format: revealjs
 ---
 
 :::: {style="font-size: 0.5em" }
