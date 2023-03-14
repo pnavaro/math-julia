@@ -2,74 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pnavaro.github.io/math-julia/basics/index.html</loc>
-    <lastmod>2023-03-14T09:07:10.648Z</lastmod>
+    <lastmod>2023-03-14T09:09:45.300Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/01-put-code-inside-function.html</loc>
-    <lastmod>2023-03-14T09:07:12.400Z</lastmod>
+    <lastmod>2023-03-14T09:09:46.520Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/02-avoid-untyped-global-variable.html</loc>
-    <lastmod>2023-03-14T09:07:13.204Z</lastmod>
+    <lastmod>2023-03-14T09:09:47.096Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/03-pay-attention-to-memory-allocation.html</loc>
-    <lastmod>2023-03-14T09:07:14.308Z</lastmod>
+    <lastmod>2023-03-14T09:09:47.880Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/04-avoid-containers-with-abstract-type.html</loc>
-    <lastmod>2023-03-14T09:07:15.032Z</lastmod>
+    <lastmod>2023-03-14T09:09:48.404Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/05-avoid-struct-fields-with-abstract-type.html</loc>
-    <lastmod>2023-03-14T09:07:15.816Z</lastmod>
+    <lastmod>2023-03-14T09:09:48.964Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/06-break-functions-into-multiple-definitions.html</loc>
-    <lastmod>2023-03-14T09:07:16.268Z</lastmod>
+    <lastmod>2023-03-14T09:09:49.312Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/07-write-type-stable-functions.html</loc>
-    <lastmod>2023-03-14T09:07:17.068Z</lastmod>
+    <lastmod>2023-03-14T09:09:49.876Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/08-avoid-changing-the-type-of-a-variable.html</loc>
-    <lastmod>2023-03-14T09:07:17.812Z</lastmod>
+    <lastmod>2023-03-14T09:09:50.444Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/09-access-arrays-in-memory-order.html</loc>
-    <lastmod>2023-03-14T09:07:18.668Z</lastmod>
+    <lastmod>2023-03-14T09:09:51.072Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/10-preallocating-outputs.html</loc>
-    <lastmod>2023-03-14T09:07:19.488Z</lastmod>
+    <lastmod>2023-03-14T09:09:51.684Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/11-fused-vectorized-operations.html</loc>
-    <lastmod>2023-03-14T09:07:20.196Z</lastmod>
+    <lastmod>2023-03-14T09:09:52.228Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/12-consider-using-views-for-slices.html</loc>
-    <lastmod>2023-03-14T09:07:20.956Z</lastmod>
+    <lastmod>2023-03-14T09:09:52.800Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/13-copy-irregularly-accessed-data.html</loc>
-    <lastmod>2023-03-14T09:07:21.732Z</lastmod>
+    <lastmod>2023-03-14T09:09:53.360Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/14-consider-static-arrays.html</loc>
-    <lastmod>2023-03-14T09:07:22.564Z</lastmod>
+    <lastmod>2023-03-14T09:09:54.008Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/15-avoid-string-interpolation-for-io.html</loc>
-    <lastmod>2023-03-14T09:07:22.980Z</lastmod>
+    <lastmod>2023-03-14T09:09:54.332Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/16-performance-annotations.html</loc>
-    <lastmod>2023-03-14T09:07:23.904Z</lastmod>
+    <lastmod>2023-03-14T09:09:55.004Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/index.html</loc>
-    <lastmod>2023-03-14T09:07:24.352Z</lastmod>
+    <lastmod>2023-03-14T09:09:55.316Z</lastmod>
   </url>
 </urlset>
