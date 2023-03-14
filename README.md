@@ -17,8 +17,8 @@ To run these notebooks, three options:
 
 ## References
 
-- [Julia: le langage scientifique](https://perso.ensta-paristech.fr/~diam/julia/)🇫🇷
+- [Julia Docs](https://docs.julialang.org/en/v1/manual)
 - [Introduction to Julia for Scientific Computing and Data Science](https://github.com/daveh19/pydataberlin2017)
-
-
-Pierre
+- [Benoît Fabrèges](https://plmlab.math.cnrs.fr/fabreges/julia-2019/)
+- [Nassar Huda](https://github.com/nassarhuda/JuliaTutorials)
+- [Tom Kwong](https://github.com/PacktPublishing/Hands-on-Design-Patterns-and-Best-Practices-with-Julia/)
