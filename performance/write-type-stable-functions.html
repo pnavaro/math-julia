@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Scientific computing with Julia – index</title>
+<title>Scientific computing with Julia - Type stability</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,7 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../performance/put-code-inside-function.html" rel="next">
+<link href="../performance/access-arrays-in-memory-order.html" rel="next">
+<link href="../performance/when-avoid-abstract-type.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -156,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"></h1>
+      <h1 class="quarto-secondary-nav-title">Type stability</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -179,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../basics/index.html" class="sidebar-item-text sidebar-link active">Installation</a>
+  <a href="../basics/index.html" class="sidebar-item-text sidebar-link">Installation</a>
   </div>
 </li>
       </ul>
@@ -209,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../performance/write-type-stable-functions.html" class="sidebar-item-text sidebar-link">Type stability</a>
+  <a href="../performance/write-type-stable-functions.html" class="sidebar-item-text sidebar-link active">Type stability</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -282,136 +283,137 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Type stability</h1>
+<p class="subtitle lead">A function is type stable when you can derive what the output of the function needs to be.</p>
+</div>
 
 
-<p><img src="https://julialang.org/assets/infra/logo.svg" class="img-fluid"></p>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<ul>
-<li>Download for your plaform at <a href="http://julialang.org/downloads/" class="uri">http://julialang.org/downloads/</a></li>
-<li><a href="https://github.com/JuliaLang/juliaup">juliaup</a> is a cross-platform installer useful to install specific Julia versions.</li>
-<li><a href="https://brew.sh">Homebrew</a> is the best way to install Julia on macOS.</li>
-<li>Most Linux distributions come with Julia packages in their repositories. However, these may lag somewhat behind the current rather fast development cycle.</li>
-</ul>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">square_plus_one</span>(v<span class="op">::</span><span class="dt">T</span>) <span class="kw">where</span> T <span class="op">&lt;:</span><span class="dt">Number</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> v <span class="op">*</span> v</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> g <span class="op">+</span> <span class="fl">1</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> <span class="fu">rand</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">square_plus_one</span>(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="fl">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">square_plus_one</span>(w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p>Great! In the above two examples, we were able to predict what the output will be. This is because:</p>
+<pre><code>function square_plus_one(v::T) where T &lt;:Number
+    g = v*v         # Type(T * T) ==&gt; T
+    return g+1      # Type(T + Int)) ==&gt; "max" (T,Int)
+end
+</code></pre>
+<p>Note that in both calls the return type was different, once <code>Float64</code> and once <code>Int64</code>. But the function is still type stable.</p>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">zero_or_val</span>(x<span class="op">::</span><span class="dt">Real</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="fl">0</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">zero_or_val</span>(<span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p>You can avoid type instable code by using the <code>promote_type</code> function which returns the highest of the two types passed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">zero_or_val_stable</span>(x<span class="op">::</span><span class="dt">Real</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="fl">0</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> x</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">promote_type</span>(<span class="fu">typeof</span>(x),<span class="dt">Int</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">T</span>(y)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="pp">@code_warntype</span> <span class="fu">zero_or_val_stable</span>(<span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="break-functions-into-multiple-definitions" class="level2">
+<h2 class="anchored" data-anchor-id="break-functions-into-multiple-definitions">Break functions into multiple definitions</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mynorm</span>(A)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">isa</span>(A, <span class="dt">Vector</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">sqrt</span>(<span class="fu">real</span>(<span class="fu">dot</span>(A,A)))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elseif</span> <span class="fu">isa</span>(A, <span class="dt">Matrix</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">maximum</span>(<span class="fu">svdvals</span>(A))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">error</span>(<span class="st">"mynorm: invalid argument"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This can be written more concisely and efficiently as:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(x<span class="op">::</span><span class="dt">Vector</span>) <span class="op">=</span> <span class="fu">sqrt</span>(<span class="fu">real</span>(<span class="fu">dot</span>(x, x)))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(A<span class="op">::</span><span class="dt">Matrix</span>) <span class="op">=</span> <span class="fu">maximum</span>(<span class="fu">svdvals</span>(A))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="julia-shell" class="level1">
-<h1>Julia shell</h1>
-<ul>
-<li>Type julia in a terminal <img src="images/julia_prompt.png" class="img-fluid" alt="julia shell"></li>
-<li>“Tab” for autocompletion</li>
-<li><code>pwd()</code> (Current directory)</li>
-<li><code>cd()</code> (Change directory),</li>
-<li><code>homedir()</code> (Home directory)</li>
-<li>Use <code>;</code> to switch to unix shell.</li>
-<li><code>help(“sin”)</code> ou <code>?sin</code> toggles the help mode.</li>
-</ul>
-<section id="run-julia-code." class="level2">
-<h2 class="anchored" data-anchor-id="run-julia-code.">Run julia code.</h2>
-<p>Julia programs use “.jl” extension by convention and can be executed in the julia prompt with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">include</span>(<span class="st">"my_program.jl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>Julia is first translated into an intermediate representation.</li>
-<li>Then LLVM compiles it for your machine.</li>
-</ul>
-<p>This means that</p>
-<ul>
-<li>re-running the same code is faster the second time around</li>
-<li>it runs at speeds comparable to compiled C or Fortran code</li>
-</ul>
-</section>
-<section id="ide" class="level2">
-<h2 class="anchored" data-anchor-id="ide">IDE</h2>
-<ul>
-<li>Julia shell</li>
-<li>Command line : <code>julia my_program.jl</code></li>
-<li>Julia notebooks (Jupyter)</li>
-<li><a href="https://github.com/JuliaEditorSupport/julia-vscode">VS Code</a></li>
-</ul>
-<p>I personally use Jupyter for development but VScode seems to be the most used environment.</p>
-</section>
-<section id="packages" class="level2">
-<h2 class="anchored" data-anchor-id="packages">Packages</h2>
-<ul>
-<li>Use <code>]</code> to switch to package manager.</li>
-</ul>
-<pre><code>pkg&gt; add IJulia</code></pre>
-<p>will install the package. Type <code>help</code> to display all available commands.</p>
-<p>Use “backspace” to go back to the <code>julia</code> shell.</p>
-<p>https://pkg.julialang.org</p>
-<p>The package is installed in directory <code>~/.julia/</code></p>
-<p>To import the package, type:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IJulia</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="jupyter-notebook" class="level2">
-<h2 class="anchored" data-anchor-id="jupyter-notebook">Jupyter notebook</h2>
-<p>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</p>
-<p>type:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IJulia</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">notebook</span>()  <span class="co"># use notebook(detached=true) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To convert a notebook file <code>.ipynb</code> in julia program <code>.jl</code>:</p>
-<ul>
-<li>In the top menu <code>File-&gt;Download as</code></li>
-<li>Command line : <code>ipython nbconvert --to script my_notebook.ipynb</code>.</li>
-</ul>
-</section>
-<section id="why-julia" class="level2">
-<h2 class="anchored" data-anchor-id="why-julia">Why Julia?</h2>
-<ul>
-<li>Increase the programmer productivity.</li>
-<li>Python is a very nice language to code a prototype but i had to use Cython to make it faster. And had to code in Fortran if the code had to be deployed on HPC cluster</li>
-<li>High-level languages like python and R let one explore and experiment rapidly, but can run slow.</li>
-<li>Low-level languages like Fortran/C++ tend to take longer to develop, but run fast.</li>
-<li>This is sometimes called the “two language problem” and is something the Julia developers set out to eliminate.</li>
-<li>My code runs much faster than Python, and typically similar to Fortran.</li>
-</ul>
-<p>Julia provides a “best of both worlds” experience for programmers who need to develop novel algorithms and bring them into production environments with minimal effort.</p>
-</section>
-<section id="julia-features" class="level2">
-<h2 class="anchored" data-anchor-id="julia-features">Julia features</h2>
-<ul>
-<li>High-level language for numerical computing.</li>
-<li>Born in 2009 and version 1.0 was released in August 2018.</li>
-<li>Dynamically-typed with optional types, feels like a scripting language, and has good support for interactive use.</li>
-<li>Easy to learn for people that comes from R and Python.</li>
-<li>Designed from the beginning to be fast as Fortran and C</li>
-<li>Julia programs compile to efficient native code via <a href="https://llvm.org">LLVM</a>.</li>
-<li>Designed for parallelism, and provides built-in primitives for parallel computing</li>
-<li>can call C and Fortran libraries natively</li>
-<li>can call Python libraries via PyCall package</li>
-<li>can call R functions via RCall package</li>
-</ul>
-</section>
-<section id="julia-is-a-language-made-for-science." class="level2">
-<h2 class="anchored" data-anchor-id="julia-is-a-language-made-for-science.">Julia is a language made for Science.</h2>
-<p>http://www.stochasticlifestyle.com/some-state-of-the-art-packages-in-julia-v1-0</p>
-<section id="mathematics" class="level3">
-<h3 class="anchored" data-anchor-id="mathematics">Mathematics</h3>
-<ul>
-<li>JuliaDiff – Differentiation tools</li>
-<li>JuliaDiffEq – Differential equation solving and analysis</li>
-<li>JuliaGeometry – Computational Geometry</li>
-<li>JuliaGraphs – Graph Theory and Implementation</li>
-<li>JuliaIntervals - Rigorous numerics with interval arithmetic &amp; applications</li>
-<li>JuliaMath – Mathematics made easy in Julia</li>
-<li>JuliaOpt – Optimization (Gitter)</li>
-<li>JuliaPolyhedra – Polyhedral computation</li>
-<li>JuliaSparse – Sparse matrix solvers</li>
-</ul>
-</section>
-<section id="data-science" class="level3">
-<h3 class="anchored" data-anchor-id="data-science">Data Science</h3>
-<ul>
-<li>JuliaML – Machine Learning</li>
-<li>JuliaStats – Statistics</li>
-<li>JuliaImages – Image Processing</li>
-<li>JuliaText – Natural Language Processing (NLP), Computational Linguistics and (textual) Information Retrieval</li>
-<li>JuliaDatabases – Various database drivers for Julia</li>
-<li>JuliaData – Data manipulation, storage, and I/O in Julia</li>
-</ul>
+<section id="avoid-changing-the-type-of-a-variable" class="level2">
+<h2 class="anchored" data-anchor-id="avoid-changing-the-type-of-a-variable">Avoid changing the type of a variable</h2>
+<p>Let us say we want to play the following game, I give you a vector of numbers. And you want to accumulate the sum as follows. For each number in the vector, you toss a coin (<code>rand()</code>), if it is heads (<code>&gt;=0.5</code>), you add <code>1</code>. Otherwise, you add the number itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">flipcoin_then_add</span>(v<span class="op">::</span><span class="dt">Vector{T}</span>) <span class="kw">where</span> T <span class="op">&lt;:</span><span class="dt"> Real</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> vi <span class="kw">in</span> v</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> <span class="fu">rand</span>()</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> r <span class="op">&gt;=</span><span class="fl">0.5</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>            s <span class="op">+=</span> <span class="fl">1</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>            s <span class="op">+=</span> vi</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">flipcoin_then_add_typed</span>(v<span class="op">::</span><span class="dt">Vector{T}</span>) <span class="kw">where</span> T <span class="op">&lt;:</span><span class="dt"> Real</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="fu">zero</span>(T)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> vi <span class="kw">in</span> v</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> <span class="fu">rand</span>()</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> r <span class="op">&gt;=</span><span class="fl">0.5</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            s <span class="op">+=</span> <span class="fu">one</span>(T)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            s <span class="op">+=</span> vi</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>myvec <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1000</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">flipcoin_then_add</span>(myvec) <span class="op">==</span> <span class="fu">flipcoin_then_add_typed</span>(myvec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add_typed</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -550,10 +552,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../performance/when-avoid-abstract-type.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Abstract type</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../performance/put-code-inside-function.html" class="pagination-link">
-        <span class="nav-page-text">Put code inside functions</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../performance/access-arrays-in-memory-order.html" class="pagination-link">
+        <span class="nav-page-text">Memory order</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

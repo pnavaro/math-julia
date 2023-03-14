@@ -1,38 +1,24 @@
 [
   {
-    "objectID": "basics/index.html",
-    "href": "basics/index.html",
-    "title": "Scientific computing with Julia",
-    "section": "",
-    "text": "logo"
-  },
-  {
     "objectID": "basics/index.html#installation",
     "href": "basics/index.html#installation",
     "title": "Scientific computing with Julia",
     "section": "Installation",
-    "text": "Installation\n\nDownload for your plaform at http://julialang.org/downloads/\nYou can also try online via https://www.juliabox.com/ which provides hosted Julia notebooks on Google Cloud.\nIf you need corporate support, https://juliacomputing.com/products/juliapro.html provides a batteries included installation of Julia. The company is run by some of the creators of the language and provides a single install with all of the most important add-ons.\nMost Linux distributions come with Julia packages in their repositories. However, these may lag somewhat behind the current rather fast development cycle.\nNotebooks are available on https://github.com/pnavaro/math-julia"
-  },
-  {
-    "objectID": "basics/index.html#installing-julia-on-linux",
-    "href": "basics/index.html#installing-julia-on-linux",
-    "title": "Scientific computing with Julia",
-    "section": "Installing Julia on Linux",
-    "text": "Installing Julia on Linux\nDownload the tar archive from https://julialang.org/downloads and rename the directory like so:\ncd ~\ntar -xzf Downloads/julia-1.0.1-linux-x86_64.tar.gz \nYou may also want to add julia to your path\nexport PATH=$PATH:~/julia-1.0.1/bin\necho 'export PATH=$PATH:~/julia-1.0.1/bin' >>~/.bash_profile"
+    "text": "Installation\n\nDownload for your plaform at http://julialang.org/downloads/\njuliaup is a cross-platform installer useful to install specific Julia versions.\nHomebrew is the best way to install Julia on macOS.\nMost Linux distributions come with Julia packages in their repositories. However, these may lag somewhat behind the current rather fast development cycle."
   },
   {
     "objectID": "basics/index.html#run-julia-code.",
     "href": "basics/index.html#run-julia-code.",
     "title": "Scientific computing with Julia",
     "section": "Run julia code.",
-    "text": "Run julia code.\nJulia programs use “.jl” extension by convention and can be executed in the julia prompt with:\ninclude(\"my_program.jl\")\n\nJulia is first translated into an intermediate representation.\nThen LLVM compiles it for your machine.\n\nThis means that - re-running the same code is faster the second time around - it runs at speeds comparable to compiled C or Fortran code"
+    "text": "Run julia code.\nJulia programs use “.jl” extension by convention and can be executed in the julia prompt with:\ninclude(\"my_program.jl\")\n\nJulia is first translated into an intermediate representation.\nThen LLVM compiles it for your machine.\n\nThis means that\n\nre-running the same code is faster the second time around\nit runs at speeds comparable to compiled C or Fortran code"
   },
   {
     "objectID": "basics/index.html#ide",
     "href": "basics/index.html#ide",
     "title": "Scientific computing with Julia",
     "section": "IDE",
-    "text": "IDE\n\nJulia shell\nCommand line : julia my_program.jl\nJulia notebooks (Jupyter)\nNo dedicated IDE but plugins for existing tools.\nIntellJ, Eclipse, PyCharm\nVS Code\nAtom and Juno\nSublime Text 3\n\nI personally use Jupyter for development but Atom seems to be the most used environment."
+    "text": "IDE\n\nJulia shell\nCommand line : julia my_program.jl\nJulia notebooks (Jupyter)\nVS Code\n\nI personally use Jupyter for development but VScode seems to be the most used environment."
   },
   {
     "objectID": "basics/index.html#packages",
@@ -46,7 +32,7 @@
     "href": "basics/index.html#jupyter-notebook",
     "title": "Scientific computing with Julia",
     "section": "Jupyter notebook",
-    "text": "Jupyter notebook\nThe Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.\ntype:\nusing IJulia\nnotebook()  # use notebook(detached=true) \nTo convert a notebook file .ipynb in julia program .jl: * In the top menu File->Download as * Command line : ipython nbconvert --to script my_notebook.ipynb."
+    "text": "Jupyter notebook\nThe Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.\ntype:\nusing IJulia\nnotebook()  # use notebook(detached=true) \nTo convert a notebook file .ipynb in julia program .jl:\n\nIn the top menu File->Download as\nCommand line : ipython nbconvert --to script my_notebook.ipynb."
   },
   {
     "objectID": "basics/index.html#why-julia",
@@ -67,7 +53,112 @@
     "href": "basics/index.html#julia-is-a-language-made-for-science.",
     "title": "Scientific computing with Julia",
     "section": "Julia is a language made for Science.",
-    "text": "Julia is a language made for Science.\nhttp://www.stochasticlifestyle.com/some-state-of-the-art-packages-in-julia-v1-0\nMathematics * JuliaDiff – Differentiation tools * JuliaDiffEq – Differential equation solving and analysis * JuliaGeometry – Computational Geometry * JuliaGraphs – Graph Theory and Implementation * JuliaIntervals - Rigorous numerics with interval arithmetic & applications * JuliaMath – Mathematics made easy in Julia * JuliaOpt – Optimization (Gitter) * JuliaPolyhedra – Polyhedral computation * JuliaSparse – Sparse matrix solvers\nData Science * JuliaML – Machine Learning * JuliaStats – Statistics * JuliaImages – Image Processing * JuliaText – Natural Language Processing (NLP), Computational Linguistics and (textual) Information Retrieval * JuliaDatabases – Various database drivers for Julia * JuliaData – Data manipulation, storage, and I/O in Julia"
+    "text": "Julia is a language made for Science.\nhttp://www.stochasticlifestyle.com/some-state-of-the-art-packages-in-julia-v1-0\n\nMathematics\n\nJuliaDiff – Differentiation tools\nJuliaDiffEq – Differential equation solving and analysis\nJuliaGeometry – Computational Geometry\nJuliaGraphs – Graph Theory and Implementation\nJuliaIntervals - Rigorous numerics with interval arithmetic & applications\nJuliaMath – Mathematics made easy in Julia\nJuliaOpt – Optimization (Gitter)\nJuliaPolyhedra – Polyhedral computation\nJuliaSparse – Sparse matrix solvers\n\n\n\nData Science\n\nJuliaML – Machine Learning\nJuliaStats – Statistics\nJuliaImages – Image Processing\nJuliaText – Natural Language Processing (NLP), Computational Linguistics and (textual) Information Retrieval\nJuliaDatabases – Various database drivers for Julia\nJuliaData – Data manipulation, storage, and I/O in Julia"
+  },
+  {
+    "objectID": "diffeq/gpu.html",
+    "href": "diffeq/gpu.html",
+    "title": "Scientific computing with Julia",
+    "section": "",
+    "text": "import Pkg; Pkg.activate(@__DIR__); Pkg.instantiate()\n\n\nENV[\"TMP\"] = \"/opt/app-root/src\"\n\n\ntempdir()\n\n\nusing BenchmarkTools\nusing CUDA\nusing Random\nusing Test\nusing LinearAlgebra\nusing ForwardDiff\nusing ProgressMeter\nusing Plots\n\n\nCUDA.version()\n\nUseful function to enable GPU version of your code\n\nCUDA.functional()\n\n\nfor device in CUDA.devices()\n    @show capability(device)\n    @show name(device)\nend\n\n\n\n\n\n\na = CuArray{Float32,2}(undef, 2, 2)\n\n\nsimilar(a)\n\n\na = CuArray([1,2,3])\n\n\n\n\n\nb is allocated on the CPU, a data transfer is made\n\nb = Array(a)\n\n\ncollect(a)\n\n\n\n\nCUDA.ones(2)\n\n\na = CUDA.zeros(Float32, 2)\n\n\na isa AbstractArray\n\n\nCUDA.fill(42, (3,4))\n\n\n\n\n\n\nCUDA.rand(2, 2)\n\n\nCUDA.randn(2, 1)\n\n\nx = CUDA.CuArray(0:0.01:1.0)\nnt = length(x)\ny = 0.2 .+ 0.5 .* x + 0.1 .* CUDA.randn(nt);\nscatter( Array(x), Array(y))\nplot!( x -> 0.2 + 0.5x)\nxlims!(0,1)\nylims!(0,1)\n\n\nX = hcat(CUDA.ones(nt), x);\n\n\nβ = X'X \\ X'y\n\n\nsum( ( β[1] .+ β[2] .* x .- y).^2 )\n\n\na = CuArray([1 2 3])\n\n\nview(a, 2:3)\n\n\na = CuArray{Float64}([1 2 3])\nb = CuArray{Float64}([4 5 6])\n\nmap(a) do x\n    x + 1\nend\n\n\nreduce(+, a)\n\n\naccumulate(+, b; dims=2)\n\n\nfindfirst(isequal(2), a)\n\n\na = CuArray([1 2 3])\nb = CuArray([4 5 6])\n\nmap(a) do x\n    x + 1\nend\n\na .+ 2b\n\nreduce(+, a)\n\naccumulate(+, b; dims=2)\n\nfindfirst(isequal(2), a)"
+  },
+  {
+    "objectID": "diffeq/gpu.html#workflow",
+    "href": "diffeq/gpu.html#workflow",
+    "title": "Scientific computing with Julia",
+    "section": "Workflow",
+    "text": "Workflow\nA typical approach for porting or developing an application for the GPU is as follows:\n\ndevelop an application using generic array functionality, and test it on the CPU with the Array type\nport your application to the GPU by switching to the CuArray type\ndisallow the CPU fallback (“scalar indexing”) to find operations that are not implemented for or incompatible with GPU execution\n(optional) use lower-level, CUDA-specific interfaces to implement missing functionality or optimize performance"
+  },
+  {
+    "objectID": "diffeq/gpu.html#linear-regression-example",
+    "href": "diffeq/gpu.html#linear-regression-example",
+    "title": "Scientific computing with Julia",
+    "section": "Linear regression example",
+    "text": "Linear regression example\n\n# squared error loss function\nloss(w, b, x, y) = sum(abs2, y - (w*x .+ b)) / size(y, 2)\n# get gradient w.r.t to `w`\nloss∇w(w, b, x, y) = ForwardDiff.gradient(w -> loss(w, b, x, y), w)\n# get derivative w.r.t to `b` (`ForwardDiff.derivative` is\n# used instead of `ForwardDiff.gradient` because `b` is\n# a scalar instead of an array)\nlossdb(w, b, x, y) = ForwardDiff.derivative(b -> loss(w, b, x, y), b)\n\n\n# proximal gradient descent function\nfunction train(w, b, x, y; lr=0.1)\n    w -= lmul!(lr, loss∇w(w, b, x, y))\n    b -= lr * lossdb(w, b, x, y)\n    return w, b\nend\n\n\nfunction cpu_test(n = 1000, p = 100, iter = 100)\n    x = randn(n, p)'\n    y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1\n    w = 0.0001 * randn(1, p)\n    b = 0.0\n    for i = 1:iter\n       w, b = train(w, b, x, y)\n    end\n    return loss(w,b,x,y)\nend\n\n\n@time cpu_test()\n\n\nMoving to GPU\n\nfunction gpu_test( n = 1000, p = 100, iter = 100)\n    x = randn(n, p)'\n    y = sum(x[1:5,:]; dims=1) .+ randn(n)' * 0.1\n    w = 0.0001 * randn(1, p)\n    b = 0.0\n    x = CuArray(x)\n    y = CuArray(y)\n    w = CuArray(w)\n    \n    for i = 1:iter\n       w, b = train(w, b, x, y)\n       \n    end\n    return loss(w,b,x,y)\nend\n\n\n@time gpu_test()\n\n\n@btime cpu_test( 10000, 100, 100)\n\n\n@btime gpu_test( 10000, 100, 100);"
+  },
+  {
+    "objectID": "diffeq/gpu.html#gpu-programming-performance-tips",
+    "href": "diffeq/gpu.html#gpu-programming-performance-tips",
+    "title": "Scientific computing with Julia",
+    "section": "GPU programming performance tips",
+    "text": "GPU programming performance tips\n\nAvoid thread divergence (https://cvw.cac.cornell.edu/gpu/thread_div)\nReduce and coalesce global accesses\nImprove occupancy\nEarly-free arrays CuArrays.unsafe_free! (https://juliagpu.gitlab.io/CUDA.jl/usage/memory/)\nAnnotate with @inbounds\nUse 32 bits for float and integers"
+  },
+  {
+    "objectID": "diffeq/poisson-equation.html",
+    "href": "diffeq/poisson-equation.html",
+    "title": "Scientific computing with Julia",
+    "section": "",
+    "text": "\\[\n\\frac{\\partial^2 u}{\\partial x^2} = b  \\qquad x \\in [0,1]\n\\]\nWe solve only interior points: the endpoints are set to zero.\n\\[\nu(0) = u(1) = 0, \\qquad b = \\sin(2\\pi x)\n\\]\n\nusing Plots, BenchmarkTools\n\n\nfunction plot_solution(x, u)\n    plot([0;x;1],[0;u;0], label=\"computed\")\n    scatter!([0;x;1],-sin.(2π*[0;x;1])/(4π^2),label=\"exact\")\nend\n\n\nΔx = 0.05\nx = Δx:Δx:1-Δx \nN = length(x)\n\n\nA = zeros(N,N)\nfor i in 1:N, j in 1:N\n    abs(i-j) <= 1 && (A[i,j] +=1)\n    i==j          && (A[i,j] -=3)\nend\n\n\nB = sin.(2π*x) * Δx^2\nu = A \\ B\n\n\nplot_solution(x, u)"
+  },
+  {
+    "objectID": "diffeq/poisson-equation.html#second-order-approximation-to-the-second-derivative",
+    "href": "diffeq/poisson-equation.html#second-order-approximation-to-the-second-derivative",
+    "title": "Scientific computing with Julia",
+    "section": "Second order approximation to the second derivative",
+    "text": "Second order approximation to the second derivative\n\norder = 2\nderiv = 2\n\n\nA = DerivativeOperator{Float64}(order, deriv, Δx, N, :Dirichlet0,:Dirichlet0)\n\n\nu = A \\ B\n\n\nplot_solution(x, u)"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html",
+    "href": "diffeq/rotation-with-fft.html",
+    "title": "Scientific computing with Julia",
+    "section": "",
+    "text": "\\[\n\\frac{d f}{dt} +  (v \\frac{d f}{dx} - x \\frac{d f}{dv}) = 0\n\\]\n\\[\nx \\in [-\\pi, \\pi],\\qquad y \\in [-\\pi, \\pi] \\qquad \\mbox{ and } \\qquad t \\in [0, 200\\pi]\n\\]\n\nusing  FFTW\nusing  LinearAlgebra\nusing  Plots, ProgressMeter\nusing  BenchmarkTools\n\n\n\nstruct OneDMesh\n    xmin :: Float64\n    xmax :: Float64\n    nx   :: Int\nend\n\nOneDMesh( -π, π, 128)\n\nstruct TwoDMesh\n    \n    nx   :: Int\n    ny   :: Int\n    xmin :: Float64\n    xmax :: Float64\n    ymin :: Float64\n    ymax :: Float64\n    dx   :: Float64\n    dy   :: Float64\n    x    :: Vector{Float64}\n    y    :: Vector{Float64}\n    \n    function TwoDMesh( xmin, xmax, nx, ymin, ymax, ny)\n        dx, dy = (xmax-xmin)/nx, (ymax-ymin)/ny\n        x = LinRange(xmin, xmax, nx+1)[1:end-1]  # we remove the end point\n        y = LinRange(ymin, ymax, ny+1)[1:end-1]  # for  periodic boundary condition\n        new( nx, ny, xmin, xmax, ymin, ymax, dx, dy, x, y)\n    end\nend\n\n\nmesh = TwoDMesh(-π, π, 128, -π, π, 256)\n\n\n@show mesh.xmin, mesh.xmax, mesh.nx, mesh.dx\n\n\nmesh.x"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html#create-the-gif-to-show-what-we-are-computing",
+    "href": "diffeq/rotation-with-fft.html#create-the-gif-to-show-what-we-are-computing",
+    "title": "Scientific computing with Julia",
+    "section": "Create the gif to show what we are computing",
+    "text": "Create the gif to show what we are computing\n\nfunction create_gif_animation(mesh, nsteps)\n    \n    prog = Progress(nsteps,1) ## progress bar\n    \n    @gif for t in range(0, stop=2π, length=nsteps)\n\n        f(x,y) = exp(-((cos(t)*x-sin(t)*y)-1)^2/0.2)*exp(-((sin(t)*x+cos(t)*y)-1)^2/0.2)\n        \n        p = plot(x, y, f, st = [:surface])\n    \n        plot!(p[1])\n        plot!(zlims=(-0.01,1.01))\n    \n        next!(prog) # increment the progress bar\n    end\nend\n\n\ncreate_gif_animation(mesh, 100);"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html#function-to-compute-error",
+    "href": "diffeq/rotation-with-fft.html#function-to-compute-error",
+    "title": "Scientific computing with Julia",
+    "section": "Function to compute error",
+    "text": "Function to compute error\n\nfunction compute_error(f, f_exact)\n    maximum(abs.(f .- f_exact))\nend"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html#naive-translation-of-a-matlab-code",
+    "href": "diffeq/rotation-with-fft.html#naive-translation-of-a-matlab-code",
+    "title": "Scientific computing with Julia",
+    "section": "Naive translation of a matlab code",
+    "text": "Naive translation of a matlab code\n\nfunction naive_translation_from_matlab(final_time, nsteps, mesh::Mesh)\n\n    dt = final_time/nsteps\n\n    kx = 2π/(mesh.xmax-mesh.xmin) .* fftfreq(mesh.nx, mesh.nx)\n    ky = 2π/(mesh.ymax-mesh.ymin) .* fftfreq(mesh.ny, mesh.ny)\n\n    f = compute_exact_solution(0.0, mesh)\n\n    for n=1:nsteps\n       \n       for (i, x) in enumerate(mesh.x)\n           f[i,:]=real(ifft(exp.(1im*x*ky*tan(dt/2)).*fft(f[i,:])))\n       end\n       \n       for (j, y) in enumerate(mesh.y)\n           f[:,j]=real(ifft(exp.(-1im*y*kx*sin(dt)).*fft(f[:,j])))\n       end\n       \n       for (i, x) in enumerate(mesh.x)\n           f[i,:]=real(ifft(exp.(1im*x*ky*tan(dt/2)).*fft(f[i,:])))\n       end\n   end\n\n   f\nend\n\n\nnt, final_time = 1000, 200\nprintln( \" error = \", compute_error(naive_translation_from_matlab(final_time, nt, mesh), exact(final_time, mesh)))\n@btime naive_from_matlab(final_time, nt, mesh);\n\n\nVectorized version\n\nWe remove the for loops over direction x and y by creating the 2d arrays exky and ekxy.\nWe save cpu time by computing them before the loop over time\n\n\nfunction vectorized(final_time, nt, mesh::Mesh)\n\n    dt = final_time/nt\n\n    kx = 2π/(mesh.xmax-mesh.xmin) .* fftfreq(mesh.nx, mesh.nx)\n    ky = 2π/(mesh.ymax-mesh.ymin) .* fftfreq(mesh.ny, mesh.ny)\n\n    f = exact(0.0, mesh)\n\n    exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')\n    ekxy = exp.(-1im*sin(dt)   .* mesh.y' .* kx )\n    \n    for n = 1:nt\n        f = real(ifft(exky .* fft(f, 2), 2))\n        f = real(ifft(ekxy .* fft(f, 1), 1))\n        f = real(ifft(exky .* fft(f, 2), 2))\n    end\n\n    f\nend\n\n\nnt, final_time = 1000, 200\nprintln( \" error = \", error1(vectorized(final_time, nt, mesh), exact(final_time, mesh)))\n@btime vectorized(final_time, nt, mesh);"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html#inplace-computation",
+    "href": "diffeq/rotation-with-fft.html#inplace-computation",
+    "title": "Scientific computing with Julia",
+    "section": "Inplace computation",
+    "text": "Inplace computation\n\nWe remove the Float64-Complex128 conversion by allocating the distribution function f as a Complex array\nNote that we need to use the inplace assignement operator “.=” to initialize the f array.\nWe use inplace computation for fft with the “bang” operator !\n\n\nfunction inplace(final_time, nt, mesh::Mesh)\n\n    dt = final_time/nt\n\n    kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]\n    ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]\n    \n    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))\n    f .= exact(0.0, mesh)\n\n    exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')\n    ekxy = exp.(-1im*sin(dt)   .* mesh.y' .* kx )\n    \n    for n = 1:nt\n        fft!(f, 2)\n        f .= exky .* f\n        ifft!(f,2)\n        fft!(f, 1)\n        f .= ekxy .* f\n        ifft!(f, 1)\n        fft!(f, 2)\n        f .= exky .* f\n        ifft!(f,2)        \n    end\n\n    real(f)\nend\n\n\nnt, final_time = 1000, 200\nprintln( \" error = \", error1(inplace(final_time, nt, mesh), exact(final_time, mesh)))\n@btime inplace(final_time, nt, mesh);\n\n\nUse plans for fft\n\nWhen you apply multiple fft on array with same shape and size, it is recommended to use fftw plan to improve computations.\nLet’s try to initialize our two fft along x and y with plans.\n\n\nfunction with_fft_plans(final_time, nt, mesh::Mesh)\n\n    dt = final_time/nt\n\n    kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]\n    ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]\n    \n    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))\n    f .= exact(0.0, mesh)\n    f̂  = similar(f)\n\n    exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')\n    ekxy = exp.(-1im*sin(dt)   .* mesh.y' .* kx )\n        \n    Px = plan_fft(f, 1)\n    Py = plan_fft(f, 2)\n        \n    for n = 1:nt\n        \n        f̂ .= Py * f\n        f̂ .= f̂  .* exky\n        f .= Py \\ f̂\n        \n        f̂ .= Px * f\n        f̂ .= f̂  .* ekxy \n        f .= Px \\ f̂\n        \n        f̂ .= Py * f\n        f̂ .= f̂  .* exky\n        f .= Py \\ f̂\n        \n    end\n\n    real(f)\nend\n\n\nnt, final_time = 1000, 200\nprintln( \" error = \", error1(with_fft_plans(final_time, nt, mesh), exact(final_time, mesh)))\n@btime with_fft_plans(final_time, nt, mesh);"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html#inplace-computation-and-fft-plans",
+    "href": "diffeq/rotation-with-fft.html#inplace-computation-and-fft-plans",
+    "title": "Scientific computing with Julia",
+    "section": "Inplace computation and fft plans",
+    "text": "Inplace computation and fft plans\nTo apply fft plan to an array A, we use a preallocated output array Â by calling mul!(Â, plan, A). The input array A must be a complex floating-point array like the output Â. The inverse-transform is computed inplace by applying inv(P) with ldiv!(A, P, Â).\n\nfunction with_fft_plans_inplace(final_time, nt, mesh::Mesh)\n\n    dt = final_time/nt\n\n    kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]\n    ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]\n    \n    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))\n    f .= exact(0.0, mesh)\n    f̂  = similar(f)\n\n    exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')\n    ekxy = exp.(-1im*sin(dt)   .* mesh.y' .* kx )\n\n    Px = plan_fft(f, 1)    \n    Py = plan_fft(f, 2)\n        \n    for n = 1:nt\n        \n        mul!(f̂, Py, f)\n        f̂ .= f̂ .* exky\n        ldiv!(f, Py, f̂)\n        \n        mul!(f̂, Px, f)\n        f̂ .= f̂ .* ekxy \n        ldiv!(f, Px, f̂)\n        \n        mul!(f̂, Py, f)\n        f̂ .= f̂ .* exky\n        ldiv!(f, Py, f̂)\n        \n    end\n\n    real(f)\nend\n\n\nnt, final_time = 1000, 200\nprintln( \" error = \", error1(with_fft_plans_inplace(final_time, nt, mesh), exact(final_time, mesh)))\n@btime with_fft_plans_inplace(final_time, nt, mesh);"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html#explicit-transpose-of-f",
+    "href": "diffeq/rotation-with-fft.html#explicit-transpose-of-f",
+    "title": "Scientific computing with Julia",
+    "section": "Explicit transpose of f",
+    "text": "Explicit transpose of f\n\nMultidimensional arrays in Julia are stored in column-major order.\nFFTs along y are slower than FFTs along x\nWe can speed-up the computation by allocating the transposed f and transpose f for each advection along y.\n\n\nfunction with_fft_transposed(final_time, nt, mesh::Mesh)\n\n    dt = final_time/nt\n\n    kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]\n    ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]\n    \n    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))\n    f̂  = similar(f)\n    fᵗ = zeros(Complex{Float64},(mesh.ny,mesh.nx))\n    f̂ᵗ = similar(fᵗ)\n\n    exky = exp.( 1im*tan(dt/2) .* mesh.x' .* ky )\n    ekxy = exp.(-1im*sin(dt)   .* mesh.y' .* kx )\n    \n    FFTW.set_num_threads(4)\n    Px = plan_fft(f,  1, flags=FFTW.PATIENT)    \n    Py = plan_fft(fᵗ, 1, flags=FFTW.PATIENT)\n    \n    f .= exact(0.0, mesh)\n    \n    for n = 1:nt\n        transpose!(fᵗ,f)\n        mul!(f̂ᵗ, Py, fᵗ)\n        f̂ᵗ .= f̂ᵗ .* exky\n        ldiv!(fᵗ, Py, f̂ᵗ)\n        transpose!(f,fᵗ)\n        \n        mul!(f̂, Px, f)\n        f̂ .= f̂ .* ekxy \n        ldiv!(f, Px, f̂)\n        \n        transpose!(fᵗ,f)\n        mul!(f̂ᵗ, Py, fᵗ)\n        f̂ᵗ .= f̂ᵗ .* exky\n        ldiv!(fᵗ, Py, f̂ᵗ)\n        transpose!(f,fᵗ)\n    end\n    real(f)\nend\n\n\nnt, final_time = 1000, 200\nprintln( \" error = \", error1(with_fft_transposed(final_time, nt, mesh), exact(final_time, mesh)))\n@btime with_fft_transposed(final_time, nt, mesh);\n\n\nfinal_time, nt = 400π, 1000\nmesh = Mesh(-π, π, 512, -π, π, 256)\n\n\ninplace_bench = @benchmark inplace(final_time, nt, mesh)\nvectorized_bench = @benchmark vectorized(final_time, nt, mesh)\nwith_fft_plans_bench = @benchmark with_fft_plans(final_time, nt, mesh)\nwith_fft_plans_inplace_bench = @benchmark with_fft_plans_inplace(final_time, nt, mesh)\nwith_fft_transposed_bench = @benchmark with_fft_transposed(final_time, nt, mesh)\n\n\nd = Dict() \nd[\"vectorized\"] = minimum(vectorized_bench.times) / 1e6\nd[\"inplace\"] = minimum(inplace_bench.times) / 1e6\nd[\"with_fft_plans\"] = minimum(with_fft_plans_bench.times) / 1e6\nd[\"with_fft_plans_inplace\"] = minimum(with_fft_plans_inplace_bench.times) / 1e6\nd[\"with_fft_transposed\"] = minimum(with_fft_transposed_bench.times) / 1e6;\n\n\nfor (key, value) in sort(collect(d), by=last)\n    println(rpad(key, 25, \".\"), lpad(round(value, digits=1), 6, \".\"))\nend"
+  },
+  {
+    "objectID": "diffeq/rotation-with-fft.html#conclusion",
+    "href": "diffeq/rotation-with-fft.html#conclusion",
+    "title": "Scientific computing with Julia",
+    "section": "Conclusion",
+    "text": "Conclusion\n\nUse pre-allocations of memory and inplace computation are very important\nTry to always do computation on data contiguous in memory\nIn this notebook, use @btime to not taking account of time consumed in compilation."
+  },
+  {
+    "objectID": "diffeq/runge-kutta.html",
+    "href": "diffeq/runge-kutta.html",
+    "title": "Scientific computing with Julia",
+    "section": "",
+    "text": "using Plots\ngr()\n\nWe will implement in Julia different numerical methods to solve\n\\[\ny'(t) = 1 - y(t)\n\\]\n$ t y(0) = 0 $\n\n\n\n\"\"\"\n   euler(f::Function, t::Float64, y::Float64, h::Float64)\n\nexplicit euler method function that returns\n\n``y^{n+1} = y^n + h \\\\cdot f(t^n, y^n)``\n\"\"\"\nfunction euler(f::Function, t::Float64, y::Float64, h::Float64)\n    t + h, y + h * f(t,y)\nend\n\n\n?euler\n\n\n\n\n\n\"\"\"\n\n   rk2(f::Function, t::Float64, y::Float64,  dt::Float64)\n\nRunge-Kutta second order method function\n\n\"\"\"\nfunction rk2(f::Function, t::Float64, y::Float64,  h::Float64)\n    ỹ = y + h/2 * f(t,y)\n    t + h, y + h * f(t+h/2,ỹ)\nend\n\n\n\n\n\n\"\"\"\n\n   rk4(f::Function, t::Float64, y::Float64,  dt::Float64)\n\nRunge-Kutta fourth order method function\n\n[Runge–Kutta methods on Wikipedia](https://en.wikipedia.org/wiki/Runge–Kutta_methods)\n\n\"\"\"\nfunction rk4(f::Function, t::Float64, y::Float64,  dt::Float64)\n\n    y₁ = dt * f(t,y)\n    y₂ = dt * f(t+dt/2,y+y₁/2)\n    y₃ = dt * f(t+dt/2,y+y₂/2)\n    y₄ = dt * f(t+dt,y+y₃)\n\n    t+dt, y+(y₁+2*y₂+2*y₃+y₄)/6\nend\n\n\n\n\n\n\"\"\"\n\n    solver(f::Function, Method::Function, t₀::Float64,\n                y₀::Float64, dt::Float64, nsteps::Int64)\n\nSolve numerically the equation ``y' = f(t, y)``\n\nwith `y(t₀)= y₀` and `nsteps` steps `h`\n\n## Arguments\n- `f::Function`: the function `f` of equation ``y' = f(t,y)``.\n- `Method::Function`: numerical method from (tⁿ,yⁿ) returns ``(t^{n+1},y^{n+1})``\n\n\n\"\"\"\nfunction solver(f::Function,\n                Method::Function,\n                t₀::Float64,\n                y₀::Float64, h::Float64, nsteps::Int64)\n\n    t = zeros(Float64,nsteps)\n    y = similar(t)\n\n    t[1] = t₀\n    y[1] = y₀\n\n    for i in 2:nsteps\n       t[i], y[i] = Method(f,t[i-1],y[i-1], h)\n    end\n\n    t, y\n\nend\n\n\n?solver\n\n\nnsteps, tfinal   = 7, 5.0\nt₀, x₀ = 0., 0.\n\n\ndt = tfinal / (nsteps-1)\nf(t, x) = 1 - x\n\n\nplot( solver(f, euler, t₀, x₀, dt, nsteps); marker = :o, label=:euler)\nplot!(solver(f, rk2,   t₀, x₀, dt, nsteps); marker = :d, label=:rk2)\nplot!(solver(f, rk4,   t₀, x₀, dt, nsteps); marker = :p, label=:rk4)\nt = 0:0.1:5\nplot!(t, 1 .- exp.(-t); line = 3, label = :exact)"
   },
   {
     "objectID": "index.html",
@@ -77,150 +168,129 @@
     "text": "Introduction to Julia language"
   },
   {
-    "objectID": "performance/01-put-code-inside-function.html",
-    "href": "performance/01-put-code-inside-function.html",
-    "title": "Performance critical code should be inside a function",
+    "objectID": "performance/access-arrays-in-memory-order.html",
+    "href": "performance/access-arrays-in-memory-order.html",
+    "title": "Memory order",
     "section": "",
-    "text": "Let’s compute \\(y = a * x\\)\n\nn = 100_000\na = 1.2\nx = rand(Float64, n)\ny = rand(Float64, n)\n\n@time for i in eachindex(y, x)\n    y[i] += a * x[i]\nend\n\n\nTo optimize the code, Julia needs it to be inside a function.\n\nfunction axpy!(y, a, x)\n    for i in eachindex(y, x)\n        y[i] += a * x[i]\n    end\nend\n\n# warmup\naxpy!(y, a, x)\n\n# timing\n@time axpy!(y, a, x)"
+    "text": "“N-dimensional arrays are stored in column-major layout. The elements from the first (leftmost) dimension or index are contiguous in memory.”\n\nfunction compute_dist!(x, dist)\n    for i=eachindex(x)\n        for j=eachindex(x)\n            dist[i, j] = abs(x[i] - x[j])\n        end\n    end\nend\n\nN = 10_000\nx = rand(Float64, N)\ndist = Array{Float64}(undef, (N, N))\n\ncompute_dist!(x, dist)\n@time compute_dist!(x, dist)\n\n\n\nfunction compute_dist!(x, dist)\n    for j=eachindex(x)\n        for i=eachindex(x)\n            dist[i, j] = abs(x[i] - x[j])\n        end\n    end\nend\n\nN = 10_000\nx = rand(Float64, N)\ndist = Array{Float64}(undef, (N, N))\n\ncompute_dist!(x, dist)\n@time compute_dist!(x, dist)\n\n\n\nusing BenchmarkTools, FFTW\nxmin, xmax, nx = 0, 4π, 1024\nymin, ymax, ny = 0, 4π, 1024\nx = LinRange(xmin, xmax, nx+1)[1:end-1]\ny = LinRange(ymin, ymax, ny+1)[1:end-1]\n\nfunction df_dy!( f )\n    ky  = 2π ./ (ymax-ymin) .* fftfreq(ny, ny)\n    exky = exp.( 1im .* ky' .* x)\n    f .= real(ifft(exky .* fft(f, 2), 2))\nend\n\nf1 = sin.(x) .* cos.(y') \ndf_dy!( f1 )\n\n\n\nfunction df_dy_transposed!( f )\n    ft = transpose(f)\n    ky  = 2π ./ (ymax-ymin) .* fftfreq(ny, ny)\n    exky = exp.( 1im .* ky .* x')\n    f .= transpose(real(ifft(exky .* fft(ft, 1), 1)))\nend\nf2 = sin.(x) .* cos.(y') \ndf_dy_transposed!( f2 )\n\n\n\nisequal(f1, f2)\n\n\nf = sin.(x) .* cos.(y')\n@btime df_dy!($f);\nf = sin.(x) .* cos.(y')\n@btime df_dy_transposed!($f);"
   },
   {
-    "objectID": "performance/02-avoid-untyped-global-variable.html",
-    "href": "performance/02-avoid-untyped-global-variable.html",
-    "title": "Avoid untyped global variables",
+    "objectID": "performance/consider-static-arrays.html",
+    "href": "performance/consider-static-arrays.html",
+    "title": "StaticArrays.jl",
     "section": "",
-    "text": "using BenchmarkTools\n\nvariable = 10 \n\nfunction add_using_global_variable(x)\n    return x + variable\nend\n\n@btime add_using_global_variable(10);"
+    "text": "using DifferentialEquations, BenchmarkTools\n\n\n\nfunction lorenz(u,p,t)\n dx = 10.0*(u[2]-u[1])\n dy = u[1]*(28.0-u[3]) - u[2]\n dz = u[1]*u[2] - (8/3)*u[3]\n [dx,dy,dz]\nend\n\n\nu0 = [1.0;0.0;0.0]\ntspan = (0.0,100.0)\nprob = ODEProblem(lorenz,u0,tspan)\n@benchmark solve(prob,Tsit5())\n\n\n\nfunction lorenz!(du,u,p,t)\n du[1] = 10.0*(u[2]-u[1])\n du[2] = u[1]*(28.0-u[3]) - u[2]\n du[3] = u[1]*u[2] - (8/3)*u[3]\nend\n\n\nu0 = [1.0;0.0;0.0]\ntspan = (0.0,100.0)\nprob = ODEProblem(lorenz!,u0,tspan)\n@benchmark solve(prob,Tsit5())\n\n\nStaticArray is statically-sized (known at compile time) and thus its accesses are quick. Additionally, the exact block of memory is known in advance by the compiler, and thus re-using the memory is cheap. This means that allocating on the stack has essentially no cost!\n\nusing StaticArrays\n\nfunction lorenz_static(u,p,t)\n dx = 10.0*(u[2]-u[1])\n dy = u[1]*(28.0-u[3]) - u[2]\n dz = u[1]*u[2] - (8/3)*u[3]\n @SVector [dx,dy,dz]\nend\n\n\nu0 = @SVector [1.0,0.0,0.0]\ntspan = (0.0,100.0)\nprob = ODEProblem(lorenz_static,u0,tspan)\n@benchmark solve(prob,Tsit5())"
   },
   {
-    "objectID": "performance/02-avoid-untyped-global-variable.html#pass-the-variable-in-the-arguments-of-the-function",
-    "href": "performance/02-avoid-untyped-global-variable.html#pass-the-variable-in-the-arguments-of-the-function",
-    "title": "Avoid untyped global variables",
-    "section": "Pass the variable in the arguments of the function",
-    "text": "Pass the variable in the arguments of the function\n\nfunction add_using_function_arg(x, y)\n    return x + y\nend\n\n@btime add_using_function_arg(10, $variable);\n\n\n\n@code_llvm add_using_function_arg(10, variable)\n\n\n\n@code_llvm add_using_global_variable(10)"
+    "objectID": "performance/good-practices-for-io.html",
+    "href": "performance/good-practices-for-io.html",
+    "title": "Good practices for I/O",
+    "section": "",
+    "text": "When writing data to a file (or other I/O device), forming extra intermediate strings is a source of overhead. Instead of:\nprintln(file, \"$a $b\")\nuse:\nprintln(file, a, \" \", b)"
   },
   {
-    "objectID": "performance/02-avoid-untyped-global-variable.html#set-type-of-the-global-variable",
-    "href": "performance/02-avoid-untyped-global-variable.html#set-type-of-the-global-variable",
-    "title": "Avoid untyped global variables",
-    "section": "Set type of the global variable",
-    "text": "Set type of the global variable\n\nvariable_typed::Int = 10\n\nfunction add_using_global_variable_typed(x)\n    return x + variable_typed\nend\n\n@btime add_using_global_variable_typed(10);"
-  },
-  {
-    "objectID": "performance/02-avoid-untyped-global-variable.html#use-the-keyword-const",
-    "href": "performance/02-avoid-untyped-global-variable.html#use-the-keyword-const",
-    "title": "Avoid untyped global variables",
-    "section": "Use the keyword const",
-    "text": "Use the keyword const\n\nconst constant = 10\n\nfunction add_by_passing_global_constant(x, v)\n    return x + v\nend\n\n@btime add_by_passing_global_constant(10, $constant);\n\n\n\nvariable = 10\n\nfunction sum_variable_many_times(n)\n    total = rand(variable)\n    for i in 1:n\n        total .+= rand(variable)\n    end\n    return total\nend\n\n@btime sum_variable_many_times(100);\n\n\n\nconst constant = 10\n\nfunction sum_constant_many_times(n)\n    total = rand(constant)\n    for i in 1:n\n        total .+= rand(constant)\n    end\n    return total\nend\n\n@btime sum_constant_many_times(100);"
-  },
-  {
-    "objectID": "performance/03-pay-attention-to-memory-allocation.html",
-    "href": "performance/03-pay-attention-to-memory-allocation.html",
-    "title": "Pay attention to memory allocation",
+    "objectID": "performance/pay-attention-to-memory-allocation.html",
+    "href": "performance/pay-attention-to-memory-allocation.html",
+    "title": "Memory allocation",
     "section": "",
     "text": "function build_preallocate(n::Int)\n    @assert n >= 2\n    v = zeros(Int64,n)\n    v[1] = 1\n    v[2] = 1\n    for i = 3:n\n        v[i] = v[i-1] + v[i-2]\n    end\n    return v\nend\n\n\n\nfunction build_no_allocation(n::Int)\n    @assert n >= 2\n    v = Vector{Int64}()\n    push!(v,1)\n    push!(v,1)\n    for i = 3:n\n        push!(v,v[i-1]+v[i-2])\n    end\n    return v\nend"
   },
   {
-    "objectID": "performance/03-pay-attention-to-memory-allocation.html#whenever-possible-preallocate-memory",
-    "href": "performance/03-pay-attention-to-memory-allocation.html#whenever-possible-preallocate-memory",
-    "title": "Pay attention to memory allocation",
+    "objectID": "performance/pay-attention-to-memory-allocation.html#whenever-possible-preallocate-memory",
+    "href": "performance/pay-attention-to-memory-allocation.html#whenever-possible-preallocate-memory",
+    "title": "Memory allocation",
     "section": "Whenever possible, preallocate memory",
     "text": "Whenever possible, preallocate memory\n\nisequal(build_preallocate(10),build_no_allocation(10))\n\n\nusing BenchmarkTools\n\nn = 100\n\n@btime build_no_allocation(n);\n\n@btime build_preallocate(n);\n\n\njulia --check-bounds=no -O3 --track-allocation=user build_no_allocation.jl\n\ncat build_no_allocation.jl.*.mem\n\n   - function build_no_allocation(n::Int)\n   0     @assert n >= 2\n  64     v = Vector{Int64}()\n  80     push!(v,1)\n   0     push!(v,1)\n   0     for i = 3:n\n1824         push!(v,v[i-1]+v[i-2])\n   0     end\n   0     return v\n   - end\n\njulia --check-bounds=no -O3 --track-allocation=user build_preallocate.jl\n\ncat build_preallocate.jl.*.mem\n\n  - function build_preallocate(n::Int)\n  0     @assert n >= 2\n896     v = zeros(Int64,n)\n  0     v[1] = 1\n  0     v[2] = 1\n  0     for i = 3:n\n  0         v[i] = v[i-1] + v[i-2]\n  0     end\n  0     return v\n  - end"
   },
   {
-    "objectID": "performance/04-avoid-containers-with-abstract-type.html",
-    "href": "performance/04-avoid-containers-with-abstract-type.html",
-    "title": "Avoid containers with abstract type parameters",
-    "section": "",
-    "text": "a = Real[]\n\npush!(a, 1); push!(a, 2.0); push!(a, π)\n\nSince Real objects can be of arbitrary size and structure, a must be represented as an array of pointers to individually allocated Real objects. With concrete type Float64, b is stored as a contiguous block of 64-bit floating-point values that can be manipulated efficiently.\n\nb = Float64[]\n\npush!(b, 1); push!(b, 2.0); push!(b,  π)"
+    "objectID": "performance/pay-attention-to-memory-allocation.html#pre-allocating-outputs",
+    "href": "performance/pay-attention-to-memory-allocation.html#pre-allocating-outputs",
+    "title": "Memory allocation",
+    "section": "Pre-allocating outputs",
+    "text": "Pre-allocating outputs\nWhenever you can reuse memory, reuse it.\nYou have a vector b and a vector h where b[i] is the base length of triangle i and h[i] is the height length. The experiment is to find the hypotenuse value of all triangles.\n\nusing BenchmarkTools\n\nb = rand(1000)*10\nh = rand(1000)*10\nfunction find_hypotenuse(b::Vector{T},h::Vector{T}) where T <: Real\n    return sqrt.(b.^2+h.^2)\nend\n\n\n@btime find_hypotenuse($b, $h);\n\n\n\nfunction find_hypotenuse_optimized(b::Vector{T},h::Vector{T}) where T <: Real\n    accum_vec = similar(b)\n    for i = eachindex(accum_vec)\n        accum_vec[i] = b[i]^2\n        accum_vec[i] += h[i]^2 # here, we used the same space in memory to hold the sum\n        accum_vec[i] = sqrt(accum_vec[i]) # same thing here, to hold the sqrt\n    end\n    return accum_vec\nend\n\n\n@btime find_hypotenuse_optimized($b, $h);\n\n\n\nusing FFTW, LinearAlgebra\n\nxmin, xmax, nx = 0, 4π, 1024\nymin, ymax, ny = 0, 4π, 1024\n\nx = LinRange(xmin, xmax, nx+1)[1:end-1]\ny = LinRange(ymin, ymax, ny+1)[1:end-1]\nky  = 2π ./ (ymax-ymin) .* fftfreq(ny, ny)\nexky = exp.( 1im .* ky .* x')\n\nf  = zeros(ComplexF64, (nx,ny))\nfᵗ = zeros(ComplexF64, reverse(size(f)))\nf̂ᵗ = zeros(ComplexF64, reverse(size(f)))\nf .= sin.(x) .* cos.(y')\n\nplan = plan_fft(fᵗ, 1, flags=FFTW.PATIENT)\n\n\n\nfunction df_dy_optimized!( f, fᵗ, f̂ᵗ, plan, exky )\n\n    transpose!(fᵗ,f)\n    mul!(f̂ᵗ,  plan, fᵗ)\n    f̂ᵗ .= f̂ᵗ .* exky\n    ldiv!(fᵗ, plan, f̂ᵗ)\n    transpose!(f, fᵗ)\n\nend\n\n@btime df_dy_optimized!($f, $fᵗ, $f̂ᵗ, $plan, $exky );"
   },
   {
-    "objectID": "performance/05-avoid-struct-fields-with-abstract-type.html",
-    "href": "performance/05-avoid-struct-fields-with-abstract-type.html",
-    "title": "Avoid struct fields with abstract type",
-    "section": "",
-    "text": "struct Cube\n    length\n    width\n    height\nend\n\nstruct CubeTyped\n    length::Float64\n    width::Float64\n    height::Float64\nend\n\nstruct CubeParametricTyped{T <: Real}\n    length::T\n    width::T\n    height::T\nend\n\n\n\nvolume(c) = c.length*c.width*c.height\n\nc1 = Cube(1.1,1.2,1.3)\nc2 = CubeTyped(1.1,1.2,1.3)\nc3 = CubeParametricTyped(1.1,1.2,1.3)\n@show volume(c1) == volume(c2) == volume(c3)\n\n\nusing BenchmarkTools\n@btime volume($c1) # not typed\n@btime volume($c2) # typed float\n@btime volume($c3) # typed parametric\n\n\n\n@code_warntype volume(c1)\n\n\n\n@code_warntype volume(c2)\n\n\n\n@code_warntype volume(c3)"
-  },
-  {
-    "objectID": "performance/06-break-functions-into-multiple-definitions.html",
-    "href": "performance/06-break-functions-into-multiple-definitions.html",
-    "title": "Break functions into multiple definitions",
-    "section": "",
-    "text": "using LinearAlgebra\n\nfunction mynorm(A)\n    if isa(A, Vector)\n        return sqrt(real(dot(A,A)))\n    elseif isa(A, Matrix)\n        return maximum(svdvals(A))\n    else\n        error(\"mynorm: invalid argument\")\n    end\nend\nThis can be written more concisely and efficiently as:\nnorm(x::Vector) = sqrt(real(dot(x, x)))\n\nnorm(A::Matrix) = maximum(svdvals(A))"
-  },
-  {
-    "objectID": "performance/07-write-type-stable-functions.html",
-    "href": "performance/07-write-type-stable-functions.html",
-    "title": "Write “type-stable” functions",
-    "section": "",
-    "text": "function square_plus_one(v::T) where T <:Number\n    g = v * v\n    return g + 1\nend\n\n\nv = rand()\n\n\n@code_warntype square_plus_one(v)\n\n\n\nw = 5\n\n\n@code_warntype square_plus_one(w)\n\n\n\nGreat! In the above two examples, we were able to predict what the output will be. This is because:\n\nfunction square_plus_one(v::T) where T <:Number\n    g = v*v         # Type(T * T) ==> T\n    return g+1      # Type(T + Int)) ==> \"max\" (T,Int)\nend\n\n\nNote that in both calls the return type was different, once Float64 and once Int64. But the function is still type stable.\n\n\n\nfunction zero_or_val(x::Real)\n    if x >= 0\n        return x\n    else\n        return 0\n    end\nend\n@code_warntype zero_or_val(0.2)\n\n\n\nYou can avoid type instable code by using the promote_type function which returns the highest of the two types passed.\n\n\nfunction zero_or_val_stable(x::Real)\n    if x >= 0\n        y = x\n    else\n        y = 0\n    end\n    T = promote_type(typeof(x),Int)\n    return T(y)\nend\n@code_warntype zero_or_val_stable(0.2)"
-  },
-  {
-    "objectID": "performance/08-avoid-changing-the-type-of-a-variable.html",
-    "href": "performance/08-avoid-changing-the-type-of-a-variable.html",
-    "title": "Avoid changing the type of a variable",
-    "section": "",
-    "text": "Let us say we want to play the following game, I give you a vector of numbers. And you want to accumulate the sum as follows. For each number in the vector, you toss a coin (rand()), if it is heads (>=0.5), you add 1. Otherwise, you add the number itself.\n\nfunction flipcoin_then_add(v::Vector{T}) where T <: Real\n    s = 0\n    for vi in v\n        r = rand()\n        if r >=0.5\n            s += 1\n        else\n            s += vi\n        end\n    end\nend\n\n\n\nfunction flipcoin_then_add_typed(v::Vector{T}) where T <: Real\n    s = zero(T)\n    for vi in v\n        r = rand()\n        if r >=0.5\n            s += one(T)\n        else\n            s += vi\n        end\n    end\nend\n\n\n\nusing BenchmarkTools\n\nmyvec = rand(1000)\n@show flipcoin_then_add(myvec) == flipcoin_then_add_typed(myvec)\n\n\n@btime flipcoin_then_add(rand(1000))\n@btime flipcoin_then_add_typed(rand(1000))"
-  },
-  {
-    "objectID": "performance/09-access-arrays-in-memory-order.html",
-    "href": "performance/09-access-arrays-in-memory-order.html",
-    "title": "Access arrays in memory order, along columns",
-    "section": "",
-    "text": "function compute_dist!(x, dist)\n    for i=eachindex(x)\n        for j=eachindex(x)\n            dist[i, j] = abs(x[i] - x[j])\n        end\n    end\nend\n\nN = 10_000\nx = rand(Float64, N)\ndist = Array{Float64}(undef, (N, N))\n\ncompute_dist!(x, dist)\n@time compute_dist!(x, dist)\n\n\n\nfunction compute_dist!(x, dist)\n    for j=eachindex(x)\n        for i=eachindex(x)\n            dist[i, j] = abs(x[i] - x[j])\n        end\n    end\nend\n\nN = 10_000\nx = rand(Float64, N)\ndist = Array{Float64}(undef, (N, N))\n\ncompute_dist!(x, dist)\n@time compute_dist!(x, dist)\n\n\n\nusing BenchmarkTools, FFTW\nxmin, xmax, nx = 0, 4π, 1024\nymin, ymax, ny = 0, 4π, 1024\nx = LinRange(xmin, xmax, nx+1)[1:end-1]\ny = LinRange(ymin, ymax, ny+1)[1:end-1]\n\nfunction df_dy!( f )\n    ky  = 2π ./ (ymax-ymin) .* fftfreq(ny, ny)\n    exky = exp.( 1im .* ky' .* x)\n    f .= real(ifft(exky .* fft(f, 2), 2))\nend\n\nf1 = sin.(x) .* cos.(y') \ndf_dy!( f1 )\n\n\n\nfunction df_dy_transposed!( f )\n    ft = transpose(f)\n    ky  = 2π ./ (ymax-ymin) .* fftfreq(ny, ny)\n    exky = exp.( 1im .* ky .* x')\n    f .= transpose(real(ifft(exky .* fft(ft, 1), 1)))\nend\nf2 = sin.(x) .* cos.(y') \ndf_dy_transposed!( f2 )\n\n\n\nisequal(f1, f2)\n\n\nf = sin.(x) .* cos.(y')\n@btime df_dy!($f);\nf = sin.(x) .* cos.(y')\n@btime df_dy_transposed!($f);"
-  },
-  {
-    "objectID": "performance/10-preallocating-outputs.html",
-    "href": "performance/10-preallocating-outputs.html",
-    "title": "Pre-allocating outputs",
-    "section": "",
-    "text": "You have a vector b and a vector h where b[i] is the base length of triangle i and h[i] is the height length. The experiment is to find the hypotenuse value of all triangles.\n\n\nusing BenchmarkTools\n\nb = rand(1000)*10\nh = rand(1000)*10\nfunction find_hypotenuse(b::Vector{T},h::Vector{T}) where T <: Real\n    return sqrt.(b.^2+h.^2)\nend\n\n\n@btime find_hypotenuse($b, $h);\n\n\n\nfunction find_hypotenuse_optimized(b::Vector{T},h::Vector{T}) where T <: Real\n    accum_vec = similar(b)\n    for i = eachindex(accum_vec)\n        accum_vec[i] = b[i]^2\n        accum_vec[i] += h[i]^2 # here, we used the same space in memory to hold the sum\n        accum_vec[i] = sqrt(accum_vec[i]) # same thing here, to hold the sqrt\n    end\n    return accum_vec\nend\n\n\n@btime find_hypotenuse_optimized($b, $h);\n\n\n\nusing FFTW, LinearAlgebra\n\nxmin, xmax, nx = 0, 4π, 1024\nymin, ymax, ny = 0, 4π, 1024\n\nx = LinRange(xmin, xmax, nx+1)[1:end-1]\ny = LinRange(ymin, ymax, ny+1)[1:end-1]\nky  = 2π ./ (ymax-ymin) .* fftfreq(ny, ny)\nexky = exp.( 1im .* ky .* x')\n\nf  = zeros(ComplexF64, (nx,ny))\nfᵗ = zeros(ComplexF64, reverse(size(f)))\nf̂ᵗ = zeros(ComplexF64, reverse(size(f)))\nf .= sin.(x) .* cos.(y')\n\nplan = plan_fft(fᵗ, 1, flags=FFTW.PATIENT)\n\n\n\nfunction df_dy_optimized!( f, fᵗ, f̂ᵗ, plan, exky )\n\n    transpose!(fᵗ,f)\n    mul!(f̂ᵗ,  plan, fᵗ)\n    f̂ᵗ .= f̂ᵗ .* exky\n    ldiv!(fᵗ, plan, f̂ᵗ)\n    transpose!(f, fᵗ)\n\nend\n\n@btime df_dy_optimized!($f, $fᵗ, $f̂ᵗ, $plan, $exky );"
-  },
-  {
-    "objectID": "performance/11-fused-vectorized-operations.html",
-    "href": "performance/11-fused-vectorized-operations.html",
-    "title": "Fuse vectorized operations",
-    "section": "",
-    "text": "f(x) = 3x.^2 + 4x + 7x.^3;\n\nfdot(x) = @. 3x^2 + 4x + 7x^3; # = 3 .* x.^2 .+ 4 .* x .+ 7 .* x.^3\n\nBoth f and fdot compute the same thing.\n\nx = rand(10^6);\nf(x) # warmup\n@time f(x);\n\n\nfdot(x) # warmup\n@time fdot(x);\n\n\nf.(x) # warmup\n@time f.(x);\n\n\nfdot(x) is faster and allocates less memory, because each * and + operation in f(x) allocates a new temporary array and executes in a separate loop."
-  },
-  {
-    "objectID": "performance/12-consider-using-views-for-slices.html",
-    "href": "performance/12-consider-using-views-for-slices.html",
-    "title": "Consider using views for slices",
-    "section": "",
-    "text": "const N = 50_000_000\nconst a = 1.2\nconst x = rand(Float64, N)\nconst y = rand(Float64, N)\n\nconst nn = 100\nconst n_start = 1 + nn\nconst n_end = N - nn\n\n# warmup\n@. y[n_start:n_end] += a * x[n_start:n_end]\n\n# timing\n@time @. y[n_start:n_end] += a * x[n_start:n_end];\n\n\n# warmup\n@. @views y[n_start:n_end] += a * x[n_start:n_end]\n\n# timing\n@time @. @views y[n_start:n_end] += a * x[n_start:n_end];"
-  },
-  {
-    "objectID": "performance/13-copy-irregularly-accessed-data.html",
-    "href": "performance/13-copy-irregularly-accessed-data.html",
-    "title": "Copy irregularly-accessed data into a contiguous array before operating on it",
-    "section": "",
-    "text": "using Random\n\nx = randn(1_000_000);\n\ninds = shuffle(1:1_000_000)[1:800000];\n\nA = randn(50, 1_000_000);\n\nxtmp = zeros(800_000);\n\nAtmp = zeros(50, 800_000);\n\n@time sum(view(A, :, inds) * view(x, inds))\n@time sum(view(A, :, inds) * view(x, inds))\n\n\nIrregular access patterns and non-contiguous views can drastically slow down computations on arrays because of non-sequential memory access. Copying the views into plain arrays speeds up the multiplication even with the cost of the copying operation.\n\n\n\n@time begin\n    copyto!(xtmp, view(x, inds))\n    copyto!(Atmp, view(A, :, inds))\n    sum(Atmp * xtmp)\nend\n\n\n@time begin\n    copyto!(xtmp, view(x, inds))\n    copyto!(Atmp, view(A, :, inds))\n    sum(Atmp * xtmp)\nend"
-  },
-  {
-    "objectID": "performance/14-consider-static-arrays.html",
-    "href": "performance/14-consider-static-arrays.html",
-    "title": "Consider StaticArrays.jl for small fixed-size vector/matrix operations",
-    "section": "",
-    "text": "using DifferentialEquations, BenchmarkTools\n\n\n\nfunction lorenz(u,p,t)\n dx = 10.0*(u[2]-u[1])\n dy = u[1]*(28.0-u[3]) - u[2]\n dz = u[1]*u[2] - (8/3)*u[3]\n [dx,dy,dz]\nend\n\n\nu0 = [1.0;0.0;0.0]\ntspan = (0.0,100.0)\nprob = ODEProblem(lorenz,u0,tspan)\n@benchmark solve(prob,Tsit5())\n\n\n\nfunction lorenz!(du,u,p,t)\n du[1] = 10.0*(u[2]-u[1])\n du[2] = u[1]*(28.0-u[3]) - u[2]\n du[3] = u[1]*u[2] - (8/3)*u[3]\nend\n\n\nu0 = [1.0;0.0;0.0]\ntspan = (0.0,100.0)\nprob = ODEProblem(lorenz!,u0,tspan)\n@benchmark solve(prob,Tsit5())\n\n\n\nStaticArray is statically-sized (known at compile time) and thus its accesses are quick. Additionally, the exact block of memory is known in advance by the compiler, and thus re-using the memory is cheap. This means that allocating on the stack has essentially no cost!\n\n\nusing StaticArrays\n\nfunction lorenz_static(u,p,t)\n dx = 10.0*(u[2]-u[1])\n dy = u[1]*(28.0-u[3]) - u[2]\n dz = u[1]*u[2] - (8/3)*u[3]\n @SVector [dx,dy,dz]\nend\n\n\nu0 = @SVector [1.0,0.0,0.0]\ntspan = (0.0,100.0)\nprob = ODEProblem(lorenz_static,u0,tspan)\n@benchmark solve(prob,Tsit5())"
-  },
-  {
-    "objectID": "performance/15-avoid-string-interpolation-for-io.html",
-    "href": "performance/15-avoid-string-interpolation-for-io.html",
-    "title": "Avoid string interpolation for I/O",
-    "section": "",
-    "text": "When writing data to a file (or other I/O device), forming extra intermediate strings is a source of overhead. Instead of:\n\nprintln(file, \"$a $b\")\nuse:\nprintln(file, a, \" \", b)"
-  },
-  {
-    "objectID": "performance/16-performance-annotations.html",
-    "href": "performance/16-performance-annotations.html",
-    "title": "Performance Annotations: @fastmath @inbounds @simd",
+    "objectID": "performance/performance-annotations.html",
+    "href": "performance/performance-annotations.html",
+    "title": "Performance annotations",
     "section": "",
     "text": "function new_sum(myvec::Vector{Int})\n    s = zero(eltype(myvec))\n    for i = eachindex(myvec)\n        s += myvec[i]\n    end\n    return s\nend\n\nfunction new_sum_inbounds(myvec::Vector{Int})\n    s = zero(eltype(myvec))\n    @inbounds for i = eachindex(myvec)\n        s += myvec[i]\n    end\n    return s\nend\n\n\nusing BenchmarkTools\n\nmyvec = collect(1:1000000)\n@btime new_sum($myvec)\n@btime new_sum_inbounds($myvec)\n\n\n\n\n\n@noinline function inner(x, y)\n    s = zero(eltype(x))\n    for i = eachindex(x, y)\n        @inbounds s += x[i]*y[i]\n    end\n    return s\nend;\n\n\n\n@noinline function innersimd(x, y)\n    s = zero(eltype(x))\n    @simd for i = eachindex(x, y)\n        @inbounds s += x[i] * y[i]\n    end\n    return s\nend;\n\n\n\n\n\nfunction timeit(n, reps)\n    x = rand(Float32, n)\n    y = rand(Float32, n)\n    s = zero(Float64)\n    time = @elapsed for j in 1:reps\n        s += inner(x, y)\n    end\n    println(\"GFlop/sec        = \", 2n*reps / time*1E-9)\n    time = @elapsed for j in 1:reps\n        s += innersimd(x, y)\n    end\n    println(\"GFlop/sec (SIMD) = \", 2n*reps / time*1E-9)\nend\ntimeit(10, 10)\ntimeit(1000, 1000)\n\n\n\nfunction init!(u::Vector)\n    n = length(u)\n    dx = 1.0 / (n-1)\n    @fastmath @inbounds @simd for i in eachindex(u) \n        u[i] = sin(2pi*dx*i)\n    end\nend\n\nfunction deriv!(u::Vector, du)\n    n = length(u)\n    dx = 1.0 / (n-1)\n    @fastmath @inbounds du[1] = (u[2] - u[1]) / dx\n    @fastmath @inbounds @simd for i in 2:n-1\n        du[i] = (u[i+1] - u[i-1]) / (2*dx)\n    end\n    @fastmath @inbounds du[n] = (u[n] - u[n-1]) / dx\nend\n\n\n\nfunction mynorm(u::Vector)\n    T = eltype(u)\n    s = zero(T)\n    @fastmath @inbounds @simd for i in eachindex(u)\n        s += u[i]^2\n    end\n    @fastmath @inbounds return sqrt(s)\nend\n\n\n\nfunction main(n)\n    u = Vector{Float64}(undef, n)\n    init!(u)\n    du = similar(u)\n\n    deriv!(u, du)\n    nu = mynorm(du)\n\n    @time for i in 1:10^6\n        deriv!(u, du)\n        nu = mynorm(du)\n    end\n\n    println(\" nu = $nu \")\nend\n\nmain(10)\n@time main(2000)\n\n\n\nrun(`julia --math-mode=ieee wave.jl`)"
   },
   {
-    "objectID": "performance/index.html",
-    "href": "performance/index.html",
-    "title": "Scientific computing with Julia",
+    "objectID": "performance/put-code-inside-function.html",
+    "href": "performance/put-code-inside-function.html",
+    "title": "Put code inside functions",
     "section": "",
-    "text": "Julia Docs https://docs.julialang.org/en/v1/manual/performance-tips/\nBenoît Fabrèges https://plmlab.math.cnrs.fr/fabreges/julia-2019/\nNassar Huda https://github.com/nassarhuda/JuliaTutorials\nTom Kwong https://github.com/PacktPublishing/Hands-on-Design-Patterns-and-Best-Practices-with-Julia/"
+    "text": "Performance critical code should be inside a function\nLet’s compute \\(y = a * x\\)\nTo optimize the code, Julia needs it to be inside a function."
+  },
+  {
+    "objectID": "performance/put-code-inside-function.html#avoid-untyped-global-variables",
+    "href": "performance/put-code-inside-function.html#avoid-untyped-global-variables",
+    "title": "Put code inside functions",
+    "section": "Avoid untyped global variables",
+    "text": "Avoid untyped global variables\n\nUsing global variable\n\nusing BenchmarkTools\n\nvariable = 10 \n\nfunction add_using_global_variable(x)\n    return x + variable\nend\n\n@btime add_using_global_variable(10);\n\n\n\nPass the variable in the arguments of the function\n\nfunction add_using_function_arg(x, y)\n    return x + y\nend\n\n@btime add_using_function_arg(10, $variable);\n\n\n\n@code_llvm add_using_function_arg(10, variable)\n\n\n\n@code_llvm add_using_global_variable(10)\n\n\n\nSet type of the global variable\n\nvariable_typed::Int = 10\n\nfunction add_using_global_variable_typed(x)\n    return x + variable_typed\nend\n\n@btime add_using_global_variable_typed(10);\n\n\n\nUse the keyword const\n\nconst constant = 10\n\nfunction add_by_passing_global_constant(x, v)\n    return x + v\nend\n\n@btime add_by_passing_global_constant(10, $constant);\n\n\n\nvariable = 10\n\nfunction sum_variable_many_times(n)\n    total = rand(variable)\n    for i in 1:n\n        total .+= rand(variable)\n    end\n    return total\nend\n\n@btime sum_variable_many_times(100);\n\n\n\nconst constant = 10\n\nfunction sum_constant_many_times(n)\n    total = rand(constant)\n    for i in 1:n\n        total .+= rand(constant)\n    end\n    return total\nend\n\n@btime sum_constant_many_times(100);"
+  },
+  {
+    "objectID": "performance/vectorized-operations.html",
+    "href": "performance/vectorized-operations.html",
+    "title": "Vectorized operations",
+    "section": "",
+    "text": "f(x) = 3x.^2 + 4x + 7x.^3;\n\nfdot(x) = @. 3x^2 + 4x + 7x^3; # = 3 .* x.^2 .+ 4 .* x .+ 7 .* x.^3\nBoth f and fdot compute the same thing.\nfdot(x) is faster and allocates less memory, because each * and + operation in f(x) allocates a new temporary array and executes in a separate loop."
+  },
+  {
+    "objectID": "performance/vectorized-operations.html#consider-using-views-for-slices",
+    "href": "performance/vectorized-operations.html#consider-using-views-for-slices",
+    "title": "Vectorized operations",
+    "section": "Consider using views for slices",
+    "text": "Consider using views for slices\n\nconst N = 50_000_000\nconst a = 1.2\nconst x = rand(Float64, N)\nconst y = rand(Float64, N)\n\nconst nn = 100\nconst n_start = 1 + nn\nconst n_end = N - nn\n\n# warmup\n@. y[n_start:n_end] += a * x[n_start:n_end]\n\n# timing\n@time @. y[n_start:n_end] += a * x[n_start:n_end];\n\n\n# warmup\n@. @views y[n_start:n_end] += a * x[n_start:n_end]\n\n# timing\n@time @. @views y[n_start:n_end] += a * x[n_start:n_end];"
+  },
+  {
+    "objectID": "performance/vectorized-operations.html#copy-irregularly-accessed-data-into-a-contiguous-array-before-operating-on-it",
+    "href": "performance/vectorized-operations.html#copy-irregularly-accessed-data-into-a-contiguous-array-before-operating-on-it",
+    "title": "Vectorized operations",
+    "section": "Copy irregularly-accessed data into a contiguous array before operating on it",
+    "text": "Copy irregularly-accessed data into a contiguous array before operating on it\n\nusing Random\n\nx = randn(1_000_000);\n\ninds = shuffle(1:1_000_000)[1:800000];\n\nA = randn(50, 1_000_000);\n\nxtmp = zeros(800_000);\n\nAtmp = zeros(50, 800_000);\n\n@time sum(view(A, :, inds) * view(x, inds))\n@time sum(view(A, :, inds) * view(x, inds))\n\nIrregular access patterns and non-contiguous views can drastically slow down computations on arrays because of non-sequential memory access. Copying the views into plain arrays speeds up the multiplication even with the cost of the copying operation.\n\n\n@time begin\n    copyto!(xtmp, view(x, inds))\n    copyto!(Atmp, view(A, :, inds))\n    sum(Atmp * xtmp)\nend\n\n\n@time begin\n    copyto!(xtmp, view(x, inds))\n    copyto!(Atmp, view(A, :, inds))\n    sum(Atmp * xtmp)\nend"
+  },
+  {
+    "objectID": "performance/when-avoid-abstract-type.html",
+    "href": "performance/when-avoid-abstract-type.html",
+    "title": "Abstract type",
+    "section": "",
+    "text": "a = Real[]\n\npush!(a, 1); push!(a, 2.0); push!(a, π)\n\nSince Real objects can be of arbitrary size and structure, a must be represented as an array of pointers to individually allocated Real objects. With concrete type Float64, b is stored as a contiguous block of 64-bit floating-point values that can be manipulated efficiently.\n\nb = Float64[]\n\npush!(b, 1); push!(b, 2.0); push!(b,  π)"
+  },
+  {
+    "objectID": "performance/when-avoid-abstract-type.html#avoid-struct-fields-with-abstract-type",
+    "href": "performance/when-avoid-abstract-type.html#avoid-struct-fields-with-abstract-type",
+    "title": "Abstract type",
+    "section": "Avoid struct fields with abstract type",
+    "text": "Avoid struct fields with abstract type\nTypes matter, when you know anything about the types of your variables, include them in your code to make it run faster\n\nstruct Cube\n    length\n    width\n    height\nend\n\nstruct CubeTyped\n    length::Float64\n    width::Float64\n    height::Float64\nend\n\nstruct CubeParametricTyped{T <: Real}\n    length::T\n    width::T\n    height::T\nend\n\n\n\nvolume(c) = c.length*c.width*c.height\n\nc1 = Cube(1.1,1.2,1.3)\nc2 = CubeTyped(1.1,1.2,1.3)\nc3 = CubeParametricTyped(1.1,1.2,1.3)\n@show volume(c1) == volume(c2) == volume(c3)\n\n\nusing BenchmarkTools\n@btime volume($c1) # not typed\n@btime volume($c2) # typed float\n@btime volume($c3) # typed parametric\n\n\n\n@code_warntype volume(c1)\n\n\n\n@code_warntype volume(c2)\n\n\n\n@code_warntype volume(c3)"
+  },
+  {
+    "objectID": "performance/write-type-stable-functions.html",
+    "href": "performance/write-type-stable-functions.html",
+    "title": "Type stability",
+    "section": "",
+    "text": "function square_plus_one(v::T) where T <:Number\n    g = v * v\n    return g + 1\nend\nGreat! In the above two examples, we were able to predict what the output will be. This is because:\nNote that in both calls the return type was different, once Float64 and once Int64. But the function is still type stable.\nYou can avoid type instable code by using the promote_type function which returns the highest of the two types passed."
+  },
+  {
+    "objectID": "performance/write-type-stable-functions.html#break-functions-into-multiple-definitions",
+    "href": "performance/write-type-stable-functions.html#break-functions-into-multiple-definitions",
+    "title": "Type stability",
+    "section": "Break functions into multiple definitions",
+    "text": "Break functions into multiple definitions\nusing LinearAlgebra\n\nfunction mynorm(A)\n    if isa(A, Vector)\n        return sqrt(real(dot(A,A)))\n    elseif isa(A, Matrix)\n        return maximum(svdvals(A))\n    else\n        error(\"mynorm: invalid argument\")\n    end\nend\nThis can be written more concisely and efficiently as:\nnorm(x::Vector) = sqrt(real(dot(x, x)))\n\nnorm(A::Matrix) = maximum(svdvals(A))"
+  },
+  {
+    "objectID": "performance/write-type-stable-functions.html#avoid-changing-the-type-of-a-variable",
+    "href": "performance/write-type-stable-functions.html#avoid-changing-the-type-of-a-variable",
+    "title": "Type stability",
+    "section": "Avoid changing the type of a variable",
+    "text": "Avoid changing the type of a variable\nLet us say we want to play the following game, I give you a vector of numbers. And you want to accumulate the sum as follows. For each number in the vector, you toss a coin (rand()), if it is heads (>=0.5), you add 1. Otherwise, you add the number itself.\n\nfunction flipcoin_then_add(v::Vector{T}) where T <: Real\n    s = 0\n    for vi in v\n        r = rand()\n        if r >=0.5\n            s += 1\n        else\n            s += vi\n        end\n    end\nend\n\n\n\nfunction flipcoin_then_add_typed(v::Vector{T}) where T <: Real\n    s = zero(T)\n    for vi in v\n        r = rand()\n        if r >=0.5\n            s += one(T)\n        else\n            s += vi\n        end\n    end\nend\n\n\n\nusing BenchmarkTools\n\nmyvec = rand(1000)\n@show flipcoin_then_add(myvec) == flipcoin_then_add_typed(myvec)\n\n\n@btime flipcoin_then_add(rand(1000))\n@btime flipcoin_then_add_typed(rand(1000))"
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Julia Docs\nJulia for high-performance scientific computing\nIntroduction to Julia for Scientific Computing and Data Science\nBenoît Fabrèges\nNassar Huda\nTom Kwong"
   }
 ]

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Scientific computing with Julia – index</title>
+<title>Scientific computing with Julia - StaticArrays.jl</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,7 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../performance/put-code-inside-function.html" rel="next">
+<link href="../performance/good-practices-for-io.html" rel="next">
+<link href="../performance/vectorized-operations.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -156,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"></h1>
+      <h1 class="quarto-secondary-nav-title">StaticArrays.jl</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -179,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../basics/index.html" class="sidebar-item-text sidebar-link active">Installation</a>
+  <a href="../basics/index.html" class="sidebar-item-text sidebar-link">Installation</a>
   </div>
 </li>
       </ul>
@@ -224,7 +225,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../performance/consider-static-arrays.html" class="sidebar-item-text sidebar-link">StaticArrays.jl</a>
+  <a href="../performance/consider-static-arrays.html" class="sidebar-item-text sidebar-link active">StaticArrays.jl</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -282,137 +283,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">StaticArrays.jl</h1>
+<p class="subtitle lead">Consider allocating on the stack for small fixed-size vector/matrix operations</p>
+</div>
 
 
-<p><img src="https://julialang.org/assets/infra/logo.svg" class="img-fluid"></p>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<ul>
-<li>Download for your plaform at <a href="http://julialang.org/downloads/" class="uri">http://julialang.org/downloads/</a></li>
-<li><a href="https://github.com/JuliaLang/juliaup">juliaup</a> is a cross-platform installer useful to install specific Julia versions.</li>
-<li><a href="https://brew.sh">Homebrew</a> is the best way to install Julia on macOS.</li>
-<li>Most Linux distributions come with Julia packages in their repositories. However, these may lag somewhat behind the current rather fast development cycle.</li>
-</ul>
-</section>
-<section id="julia-shell" class="level1">
-<h1>Julia shell</h1>
-<ul>
-<li>Type julia in a terminal <img src="images/julia_prompt.png" class="img-fluid" alt="julia shell"></li>
-<li>“Tab” for autocompletion</li>
-<li><code>pwd()</code> (Current directory)</li>
-<li><code>cd()</code> (Change directory),</li>
-<li><code>homedir()</code> (Home directory)</li>
-<li>Use <code>;</code> to switch to unix shell.</li>
-<li><code>help(“sin”)</code> ou <code>?sin</code> toggles the help mode.</li>
-</ul>
-<section id="run-julia-code." class="level2">
-<h2 class="anchored" data-anchor-id="run-julia-code.">Run julia code.</h2>
-<p>Julia programs use “.jl” extension by convention and can be executed in the julia prompt with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">include</span>(<span class="st">"my_program.jl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>Julia is first translated into an intermediate representation.</li>
-<li>Then LLVM compiles it for your machine.</li>
-</ul>
-<p>This means that</p>
-<ul>
-<li>re-running the same code is faster the second time around</li>
-<li>it runs at speeds comparable to compiled C or Fortran code</li>
-</ul>
-</section>
-<section id="ide" class="level2">
-<h2 class="anchored" data-anchor-id="ide">IDE</h2>
-<ul>
-<li>Julia shell</li>
-<li>Command line : <code>julia my_program.jl</code></li>
-<li>Julia notebooks (Jupyter)</li>
-<li><a href="https://github.com/JuliaEditorSupport/julia-vscode">VS Code</a></li>
-</ul>
-<p>I personally use Jupyter for development but VScode seems to be the most used environment.</p>
-</section>
-<section id="packages" class="level2">
-<h2 class="anchored" data-anchor-id="packages">Packages</h2>
-<ul>
-<li>Use <code>]</code> to switch to package manager.</li>
-</ul>
-<pre><code>pkg&gt; add IJulia</code></pre>
-<p>will install the package. Type <code>help</code> to display all available commands.</p>
-<p>Use “backspace” to go back to the <code>julia</code> shell.</p>
-<p>https://pkg.julialang.org</p>
-<p>The package is installed in directory <code>~/.julia/</code></p>
-<p>To import the package, type:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IJulia</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="jupyter-notebook" class="level2">
-<h2 class="anchored" data-anchor-id="jupyter-notebook">Jupyter notebook</h2>
-<p>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</p>
-<p>type:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IJulia</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">notebook</span>()  <span class="co"># use notebook(detached=true) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To convert a notebook file <code>.ipynb</code> in julia program <code>.jl</code>:</p>
-<ul>
-<li>In the top menu <code>File-&gt;Download as</code></li>
-<li>Command line : <code>ipython nbconvert --to script my_notebook.ipynb</code>.</li>
-</ul>
-</section>
-<section id="why-julia" class="level2">
-<h2 class="anchored" data-anchor-id="why-julia">Why Julia?</h2>
-<ul>
-<li>Increase the programmer productivity.</li>
-<li>Python is a very nice language to code a prototype but i had to use Cython to make it faster. And had to code in Fortran if the code had to be deployed on HPC cluster</li>
-<li>High-level languages like python and R let one explore and experiment rapidly, but can run slow.</li>
-<li>Low-level languages like Fortran/C++ tend to take longer to develop, but run fast.</li>
-<li>This is sometimes called the “two language problem” and is something the Julia developers set out to eliminate.</li>
-<li>My code runs much faster than Python, and typically similar to Fortran.</li>
-</ul>
-<p>Julia provides a “best of both worlds” experience for programmers who need to develop novel algorithms and bring them into production environments with minimal effort.</p>
-</section>
-<section id="julia-features" class="level2">
-<h2 class="anchored" data-anchor-id="julia-features">Julia features</h2>
-<ul>
-<li>High-level language for numerical computing.</li>
-<li>Born in 2009 and version 1.0 was released in August 2018.</li>
-<li>Dynamically-typed with optional types, feels like a scripting language, and has good support for interactive use.</li>
-<li>Easy to learn for people that comes from R and Python.</li>
-<li>Designed from the beginning to be fast as Fortran and C</li>
-<li>Julia programs compile to efficient native code via <a href="https://llvm.org">LLVM</a>.</li>
-<li>Designed for parallelism, and provides built-in primitives for parallel computing</li>
-<li>can call C and Fortran libraries natively</li>
-<li>can call Python libraries via PyCall package</li>
-<li>can call R functions via RCall package</li>
-</ul>
-</section>
-<section id="julia-is-a-language-made-for-science." class="level2">
-<h2 class="anchored" data-anchor-id="julia-is-a-language-made-for-science.">Julia is a language made for Science.</h2>
-<p>http://www.stochasticlifestyle.com/some-state-of-the-art-packages-in-julia-v1-0</p>
-<section id="mathematics" class="level3">
-<h3 class="anchored" data-anchor-id="mathematics">Mathematics</h3>
-<ul>
-<li>JuliaDiff – Differentiation tools</li>
-<li>JuliaDiffEq – Differential equation solving and analysis</li>
-<li>JuliaGeometry – Computational Geometry</li>
-<li>JuliaGraphs – Graph Theory and Implementation</li>
-<li>JuliaIntervals - Rigorous numerics with interval arithmetic &amp; applications</li>
-<li>JuliaMath – Mathematics made easy in Julia</li>
-<li>JuliaOpt – Optimization (Gitter)</li>
-<li>JuliaPolyhedra – Polyhedral computation</li>
-<li>JuliaSparse – Sparse matrix solvers</li>
-</ul>
-</section>
-<section id="data-science" class="level3">
-<h3 class="anchored" data-anchor-id="data-science">Data Science</h3>
-<ul>
-<li>JuliaML – Machine Learning</li>
-<li>JuliaStats – Statistics</li>
-<li>JuliaImages – Image Processing</li>
-<li>JuliaText – Natural Language Processing (NLP), Computational Linguistics and (textual) Information Retrieval</li>
-<li>JuliaDatabases – Various database drivers for Julia</li>
-<li>JuliaData – Data manipulation, storage, and I/O in Julia</li>
-</ul>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DifferentialEquations</span>, <span class="bu">BenchmarkTools</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">lorenz</span>(u,p,t)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> dx <span class="op">=</span> <span class="fl">10.0</span><span class="fu">*</span>(u[<span class="fl">2</span>]<span class="op">-</span>u[<span class="fl">1</span>])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> dy <span class="op">=</span> u[<span class="fl">1</span>]<span class="fu">*</span>(<span class="fl">28.0</span><span class="op">-</span>u[<span class="fl">3</span>]) <span class="op">-</span> u[<span class="fl">2</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> dz <span class="op">=</span> u[<span class="fl">1</span>]<span class="op">*</span>u[<span class="fl">2</span>] <span class="op">-</span> (<span class="fl">8</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>u[<span class="fl">3</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> [dx,dy,dz]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> [<span class="fl">1.0</span>;<span class="fl">0.0</span>;<span class="fl">0.0</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tspan <span class="op">=</span> (<span class="fl">0.0</span>,<span class="fl">100.0</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> <span class="fu">ODEProblem</span>(lorenz,u0,tspan)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">solve</span>(prob,<span class="fu">Tsit5</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">lorenz!</span>(du,u,p,t)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> du[<span class="fl">1</span>] <span class="op">=</span> <span class="fl">10.0</span><span class="fu">*</span>(u[<span class="fl">2</span>]<span class="op">-</span>u[<span class="fl">1</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> du[<span class="fl">2</span>] <span class="op">=</span> u[<span class="fl">1</span>]<span class="fu">*</span>(<span class="fl">28.0</span><span class="op">-</span>u[<span class="fl">3</span>]) <span class="op">-</span> u[<span class="fl">2</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> du[<span class="fl">3</span>] <span class="op">=</span> u[<span class="fl">1</span>]<span class="op">*</span>u[<span class="fl">2</span>] <span class="op">-</span> (<span class="fl">8</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>u[<span class="fl">3</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> [<span class="fl">1.0</span>;<span class="fl">0.0</span>;<span class="fl">0.0</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tspan <span class="op">=</span> (<span class="fl">0.0</span>,<span class="fl">100.0</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> <span class="fu">ODEProblem</span>(lorenz!,u0,tspan)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">solve</span>(prob,<span class="fu">Tsit5</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p>StaticArray is statically-sized (known at compile time) and thus its accesses are quick. Additionally, the exact block of memory is known in advance by the compiler, and thus re-using the memory is cheap. This means that allocating on the stack has essentially no cost!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">StaticArrays</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">lorenz_static</span>(u,p,t)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> dx <span class="op">=</span> <span class="fl">10.0</span><span class="fu">*</span>(u[<span class="fl">2</span>]<span class="op">-</span>u[<span class="fl">1</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> dy <span class="op">=</span> u[<span class="fl">1</span>]<span class="fu">*</span>(<span class="fl">28.0</span><span class="op">-</span>u[<span class="fl">3</span>]) <span class="op">-</span> u[<span class="fl">2</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a> dz <span class="op">=</span> u[<span class="fl">1</span>]<span class="op">*</span>u[<span class="fl">2</span>] <span class="op">-</span> (<span class="fl">8</span><span class="op">/</span><span class="fl">3</span>)<span class="op">*</span>u[<span class="fl">3</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a> <span class="pp">@SVector</span> [dx,dy,dz]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> <span class="pp">@SVector</span> [<span class="fl">1.0</span>,<span class="fl">0.0</span>,<span class="fl">0.0</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tspan <span class="op">=</span> (<span class="fl">0.0</span>,<span class="fl">100.0</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> <span class="fu">ODEProblem</span>(lorenz_static,u0,tspan)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@benchmark</span> <span class="fu">solve</span>(prob,<span class="fu">Tsit5</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-</section>
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -550,10 +490,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../performance/vectorized-operations.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Vectorized operations</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../performance/put-code-inside-function.html" class="pagination-link">
-        <span class="nav-page-text">Put code inside functions</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../performance/good-practices-for-io.html" class="pagination-link">
+        <span class="nav-page-text">Good practices for I/O</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
