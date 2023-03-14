@@ -1,12 +1,104 @@
 ---
-title: "Pre-allocating outputs"
-subtitle: "Whenever you can reuse memory, reuse it. "
+title: "Memory allocation"
 ---
 
-:::: {style="font-size: 0.5em" }
+## Functions with preallocated memory run faster
+:::: {.columns}
+
+::: {.column width="50%"}
+```{julia}
+function build_preallocate(n::Int)
+    @assert n >= 2
+    v = zeros(Int64,n)
+    v[1] = 1
+    v[2] = 1
+    for i = 3:n
+        v[i] = v[i-1] + v[i-2]
+    end
+    return v
+end
+```
+:::
+
+::: {.column width="50%"}
+```{julia}
+function build_no_allocation(n::Int)
+    @assert n >= 2
+    v = Vector{Int64}()
+    push!(v,1)
+    push!(v,1)
+    for i = 3:n
+        push!(v,v[i-1]+v[i-2])
+    end
+    return v
+end
+```
+:::
+
+::::
+
+## Whenever possible, preallocate memory
+
+```{julia}
+isequal(build_preallocate(10),build_no_allocation(10))
+```
+
+```{julia}
+using BenchmarkTools
+
+n = 100
+
+@btime build_no_allocation(n);
+
+@btime build_preallocate(n);
+
+```
+
+---
+
+```
+julia --check-bounds=no -O3 --track-allocation=user build_no_allocation.jl
+
+cat build_no_allocation.jl.*.mem
+
+   - function build_no_allocation(n::Int)
+   0     @assert n >= 2
+  64     v = Vector{Int64}()
+  80     push!(v,1)
+   0     push!(v,1)
+   0     for i = 3:n
+1824         push!(v,v[i-1]+v[i-2])
+   0     end
+   0     return v
+   - end
+```
+
+
+---
+
+```{bash}
+julia --check-bounds=no -O3 --track-allocation=user build_preallocate.jl
+
+cat build_preallocate.jl.*.mem
+
+  - function build_preallocate(n::Int)
+  0     @assert n >= 2
+896     v = zeros(Int64,n)
+  0     v[1] = 1
+  0     v[2] = 1
+  0     for i = 3:n
+  0         v[i] = v[i-1] + v[i-2]
+  0     end
+  0     return v
+  - end
+```
+
+## Pre-allocating outputs
+
+Whenever you can reuse memory, reuse it.
+
 You have a vector `b` and a vector `h` where `b[i]` is the base length of triangle `i` and `h[i]` is the height length. 
 The experiment is to find the hypotenuse value of all triangles.
-::::
 
 ```{julia}
 using BenchmarkTools

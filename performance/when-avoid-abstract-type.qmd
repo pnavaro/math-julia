@@ -1,7 +1,29 @@
 ---
-title: "Avoid struct fields with abstract type"
-subtitle: "Types matter, when you know anything about the types of your variables, include them in your code to make it run faster"
+title: "Abstract type"
 ---
+
+## Avoid containers with abstract type parameters
+
+```{julia}
+a = Real[]
+
+push!(a, 1); push!(a, 2.0); push!(a, π)
+
+```
+
+Since `Real` objects can be of arbitrary size and structure, `a` must be represented as an array of pointers to individually allocated `Real` objects. With concrete type `Float64`, `b` is stored as a contiguous block of 64-bit floating-point values that can be manipulated efficiently.
+
+
+```{julia}
+b = Float64[]
+
+push!(b, 1); push!(b, 2.0); push!(b,  π)
+```
+
+## Avoid struct fields with abstract type
+
+Types matter, when you know anything about the types of your
+variables, include them in your code to make it run faster
 
 ```{julia}
 struct Cube

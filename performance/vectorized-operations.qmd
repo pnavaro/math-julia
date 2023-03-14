@@ -1,0 +1,104 @@
+---
+title: "Vectorized operations"
+---
+
+
+```{julia}
+f(x) = 3x.^2 + 4x + 7x.^3;
+
+fdot(x) = @. 3x^2 + 4x + 7x^3; # = 3 .* x.^2 .+ 4 .* x .+ 7 .* x.^3
+
+```
+
+```{julia}
+
+Both `f` and `fdot` compute the same thing. 
+
+```{julia}
+x = rand(10^6);
+f(x) # warmup
+@time f(x);
+```
+
+```{julia}
+fdot(x) # warmup
+@time fdot(x);
+```
+
+```{julia}
+f.(x) # warmup
+@time f.(x);
+```
+
+`fdot(x)` is faster and allocates less memory, because each `*` and `+`
+operation in `f(x)` allocates a new temporary array and executes in
+a separate loop.
+
+## Consider using views for slices
+
+```{julia}
+const N = 50_000_000
+const a = 1.2
+const x = rand(Float64, N)
+const y = rand(Float64, N)
+
+const nn = 100
+const n_start = 1 + nn
+const n_end = N - nn
+
+# warmup
+@. y[n_start:n_end] += a * x[n_start:n_end]
+
+# timing
+@time @. y[n_start:n_end] += a * x[n_start:n_end];
+```
+
+```{julia}
+# warmup
+@. @views y[n_start:n_end] += a * x[n_start:n_end]
+
+# timing
+@time @. @views y[n_start:n_end] += a * x[n_start:n_end];
+```
+
+## Copy irregularly-accessed data into a contiguous array before operating on it
+
+```{julia}
+using Random
+
+x = randn(1_000_000);
+
+inds = shuffle(1:1_000_000)[1:800000];
+
+A = randn(50, 1_000_000);
+
+xtmp = zeros(800_000);
+
+Atmp = zeros(50, 800_000);
+
+@time sum(view(A, :, inds) * view(x, inds))
+@time sum(view(A, :, inds) * view(x, inds))
+```
+
+Irregular access patterns and non-contiguous views can drastically
+slow down computations on arrays because of non-sequential memory
+access. Copying the views into plain arrays speeds up the multiplication
+even with the cost of the copying operation.
+
+---
+
+```{julia}
+@time begin
+    copyto!(xtmp, view(x, inds))
+    copyto!(Atmp, view(A, :, inds))
+    sum(Atmp * xtmp)
+end
+```
+
+```{julia}
+@time begin
+    copyto!(xtmp, view(x, inds))
+    copyto!(Atmp, view(A, :, inds))
+    sum(Atmp * xtmp)
+end
+```

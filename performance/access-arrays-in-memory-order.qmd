@@ -1,9 +1,8 @@
 ---
-title: "Access arrays in memory order, along columns"
-subtitle: "N-dimensional arrays are stored in column-major layout. The elements from the first (leftmost) dimension or index are contiguous in memory."
+title: "Memory order"
 ---
 
-
+"N-dimensional arrays are stored in column-major layout. The elements from the first (leftmost) dimension or index are contiguous in memory."
 
 ```{julia}
 function compute_dist!(x, dist)

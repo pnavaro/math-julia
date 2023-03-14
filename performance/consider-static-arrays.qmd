@@ -1,5 +1,6 @@
 ---
-title: "Consider StaticArrays.jl for small fixed-size vector/matrix operations"
+title: "StaticArrays.jl"
+subtitle: "Consider allocating on the stack for small fixed-size vector/matrix operations"
 ---
 
 ```{julia}
@@ -44,13 +45,11 @@ prob = ODEProblem(lorenz!,u0,tspan)
 
 ---
 
-::: {style="font-size: 0.5em" }
 StaticArray is statically-sized (known at compile time) and thus
 its accesses are quick. Additionally, the exact block of memory is
 known in advance by the compiler, and thus re-using the memory is
 cheap. This means that allocating on the stack has essentially no
 cost!
-:::
 
 ```{julia}
 using StaticArrays

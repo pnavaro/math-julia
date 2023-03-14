@@ -1,8 +1,42 @@
 ---
-title: "Avoid untyped global variables"
+title: 'Put code inside functions'
 ---
 
-## Using global variable
+Performance critical code should be inside a function
+
+Let's compute $y = a * x$
+```{julia}
+n = 100_000
+a = 1.2
+x = rand(Float64, n)
+y = rand(Float64, n)
+
+@time for i in eachindex(y, x)
+    y[i] += a * x[i]
+end
+```
+
+---
+
+To optimize the code, Julia needs it to be inside a function.
+```{julia}
+
+function axpy!(y, a, x)
+    for i in eachindex(y, x)
+        y[i] += a * x[i]
+    end
+end
+
+# warmup
+axpy!(y, a, x)
+
+# timing
+@time axpy!(y, a, x)
+```
+
+## Avoid untyped global variables
+
+### Using global variable
 
 ```{julia}
 using BenchmarkTools
@@ -16,7 +50,7 @@ end
 @btime add_using_global_variable(10);
 ```
 
-## Pass the variable in the arguments of the function
+### Pass the variable in the arguments of the function
 
 ```{julia}
 
@@ -41,7 +75,7 @@ end
 ```
 
 
-## Set type of the global variable
+### Set type of the global variable
 
 ```{julia}
 
@@ -55,7 +89,7 @@ end
 ```
 
 
-## Use the keyword `const`
+### Use the keyword `const`
 
 ```{julia}
 

@@ -1,0 +1,165 @@
+# Poisson Equation
+
+$$
+\frac{\partial^2 u}{\partial x^2} = b  \qquad x \in [0,1]
+$$
+
+We solve only interior points: the endpoints are set to zero.
+
+$$
+u(0) = u(1) = 0, \qquad b = \sin(2\pi x)
+$$
+
+```{julia}
+using Plots, BenchmarkTools
+```
+
+```{julia}
+function plot_solution(x, u)
+    plot([0;x;1],[0;u;0], label="computed")
+    scatter!([0;x;1],-sin.(2π*[0;x;1])/(4π^2),label="exact")
+end
+```
+
+```{julia}
+Δx = 0.05
+x = Δx:Δx:1-Δx 
+N = length(x)
+```
+
+```{julia}
+A = zeros(N,N)
+for i in 1:N, j in 1:N
+    abs(i-j) <= 1 && (A[i,j] +=1)
+    i==j          && (A[i,j] -=3)
+end
+```
+
+```{julia}
+B = sin.(2π*x) * Δx^2
+u = A \ B
+```
+
+```{julia}
+plot_solution(x, u)
+```
+
+# SparseArrays
+
+```{julia}
+using SparseArrays
+```
+
+```{julia}
+Δx = 0.05
+x = Δx:Δx:1-Δx 
+N = length(x)
+B = sin.(2π*x) * Δx^2
+```
+
+```{julia}
+P = spdiagm( -1 =>    ones(Float64,N-1),
+              0 => -2*ones(Float64,N),
+              1 =>    ones(Float64,N-1))
+```
+
+```{julia}
+u = P \ B
+```
+
+```{julia}
+plot_solution(x, u)
+```
+
+# LinearAlgebra
+
+```{julia}
+using LinearAlgebra
+```
+
+```{julia}
+Δx = 0.05
+x = Δx:Δx:1-Δx 
+N = length(x)
+B = sin.(2π*x) * Δx^2
+```
+
+```{julia}
+DU =  ones(Float64, N-1)
+D = -2ones(Float64, N)
+DL =  ones(Float64, N-1)
+```
+
+```{julia}
+T = Tridiagonal(DL, D, DU)
+```
+
+```{julia}
+u = T \ B
+```
+
+```{julia}
+plot_solution(x, u)
+```
+
+# LAPACK
+
+```{julia}
+using LinearAlgebra
+```
+
+```{julia}
+Δx = 0.05
+x = Δx:Δx:1-Δx ## Solve only interior points: the endpoints are set to zero.
+N = length(x)
+B = sin.(2π*x) * Δx^2
+```
+
+```{julia}
+DU =   ones(Float64, N-1)
+D  = -2ones(Float64, N)
+DL =   ones(Float64, N-1)
+```
+
+```{julia}
+LAPACK.gtsv!(DL, D, DU, B)
+```
+
+```{julia}
+plot_solution(x, B)
+```
+
+# DIffEqOperators.jl
+
+[docs](http://docs.juliadiffeq.org/latest/features/diffeq_operator.html)
+
+```{julia}
+using DiffEqOperators
+```
+
+```{julia}
+Δx = 0.05
+x = Δx:Δx:1-Δx 
+N = length(x)
+B = sin.(2π*x)
+```
+
+## Second order approximation to the second derivative
+
+```{julia}
+order = 2
+deriv = 2
+```
+
+```{julia}
+A = DerivativeOperator{Float64}(order, deriv, Δx, N, :Dirichlet0,:Dirichlet0)
+```
+
+```{julia}
+u = A \ B
+```
+
+```{julia}
+plot_solution(x, u)
+```
+

@@ -1,40 +1,15 @@
-![logo](https://julialang.org/v2/img/logo.svg)
-
-# Basics of Julia language
+![](https://julialang.org/assets/infra/logo.svg)
 
 ## Installation 
 
-- Download for your plaform at http://julialang.org/downloads/
-
-- You can also try online via https://www.juliabox.com/ which provides hosted Julia notebooks on Google Cloud.
-
-- If you need corporate support, https://juliacomputing.com/products/juliapro.html provides a _batteries included_ installation of Julia. The company is run by some of the creators of the language and provides a single install with all of the most important add-ons.
-
+- Download for your plaform at <http://julialang.org/downloads/>
+- [juliaup](https://github.com/JuliaLang/juliaup) is a cross-platform installer useful to install specific Julia versions.
+- [Homebrew](https://brew.sh) is the best way to install Julia on macOS.
 - Most Linux distributions come with Julia packages in their repositories. However, these may lag somewhat behind the current rather fast development cycle.
-
-- Notebooks are available on https://github.com/pnavaro/math-julia
-
-## Installing Julia on Linux
-
-Download the tar archive from https://julialang.org/downloads and rename the directory like so:
-```
-cd ~
-tar -xzf Downloads/julia-1.0.1-linux-x86_64.tar.gz 
-```
-
-You may also want to add `julia` to your path
-
-```
-export PATH=$PATH:~/julia-1.0.1/bin
-echo 'export PATH=$PATH:~/julia-1.0.1/bin' >>~/.bash_profile
-```
 
 # Julia shell
 - Type julia in a terminal
 ![julia shell](images/julia_prompt.png)
-
-
-
 - "Tab" for autocompletion
 - <code>pwd()</code> (Current directory)
 - <code>cd()</code> (Change directory), 
@@ -52,6 +27,7 @@ include("my_program.jl")
 - Then LLVM compiles it for your machine.
 
 This means that
+
 - re-running the same code is faster the second time around
 - it runs at speeds comparable to compiled C or Fortran code
 
@@ -60,13 +36,9 @@ This means that
 - Julia shell
 - Command line : `julia my_program.jl`
 - Julia notebooks (Jupyter)
-- No dedicated IDE but plugins for existing tools.
-- IntellJ, Eclipse, PyCharm
 - [VS Code](https://github.com/JuliaEditorSupport/julia-vscode)
-- Atom and [Juno](http://junolab.org/)
-- [Sublime Text 3](https://github.com/quinnj/Sublime-IJulia)
 
-I personally use Jupyter for development but Atom seems to be the most used environment.
+I personally use Jupyter for development but VScode seems to be the most used environment.
 
 ## Packages
 
@@ -100,6 +72,7 @@ notebook()  # use notebook(detached=true)
 ```
 
 To convert a notebook file `.ipynb` in julia program `.jl`: 
+
 * In the top menu `File->Download as`
 * Command line : ```ipython nbconvert --to script my_notebook.ipynb```.
 
@@ -132,7 +105,8 @@ Julia provides a "best of both worlds" experience for programmers who need to de
 
 http://www.stochasticlifestyle.com/some-state-of-the-art-packages-in-julia-v1-0
 
-Mathematics
+### Mathematics
+
 * JuliaDiff – Differentiation tools
 * JuliaDiffEq – Differential equation solving and analysis
 * JuliaGeometry – Computational Geometry
@@ -143,7 +117,8 @@ Mathematics
 * JuliaPolyhedra – Polyhedral computation
 * JuliaSparse – Sparse matrix solvers
 
-Data Science
+### Data Science
+
 * JuliaML – Machine Learning 
 * JuliaStats – Statistics
 * JuliaImages – Image Processing
