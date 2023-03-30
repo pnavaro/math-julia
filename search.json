@@ -60,7 +60,7 @@
     "href": "diffeq/gpu.html",
     "title": "Scientific computing with Julia",
     "section": "",
-    "text": "import Pkg; Pkg.activate(@__DIR__); Pkg.instantiate()\n\n\nENV[\"TMP\"] = \"/opt/app-root/src\"\n\n\ntempdir()\n\n\nusing BenchmarkTools\nusing CUDA\nusing Random\nusing Test\nusing LinearAlgebra\nusing ForwardDiff\nusing ProgressMeter\nusing Plots\n\n\nCUDA.version()\n\nUseful function to enable GPU version of your code\n\nCUDA.functional()\n\n\nfor device in CUDA.devices()\n    @show capability(device)\n    @show name(device)\nend\n\n\n\n\n\n\na = CuArray{Float32,2}(undef, 2, 2)\n\n\nsimilar(a)\n\n\na = CuArray([1,2,3])\n\n\n\n\n\nb is allocated on the CPU, a data transfer is made\n\nb = Array(a)\n\n\ncollect(a)\n\n\n\n\nCUDA.ones(2)\n\n\na = CUDA.zeros(Float32, 2)\n\n\na isa AbstractArray\n\n\nCUDA.fill(42, (3,4))\n\n\n\n\n\n\nCUDA.rand(2, 2)\n\n\nCUDA.randn(2, 1)\n\n\nx = CUDA.CuArray(0:0.01:1.0)\nnt = length(x)\ny = 0.2 .+ 0.5 .* x + 0.1 .* CUDA.randn(nt);\nscatter( Array(x), Array(y))\nplot!( x -> 0.2 + 0.5x)\nxlims!(0,1)\nylims!(0,1)\n\n\nX = hcat(CUDA.ones(nt), x);\n\n\nβ = X'X \\ X'y\n\n\nsum( ( β[1] .+ β[2] .* x .- y).^2 )\n\n\na = CuArray([1 2 3])\n\n\nview(a, 2:3)\n\n\na = CuArray{Float64}([1 2 3])\nb = CuArray{Float64}([4 5 6])\n\nmap(a) do x\n    x + 1\nend\n\n\nreduce(+, a)\n\n\naccumulate(+, b; dims=2)\n\n\nfindfirst(isequal(2), a)\n\n\na = CuArray([1 2 3])\nb = CuArray([4 5 6])\n\nmap(a) do x\n    x + 1\nend\n\na .+ 2b\n\nreduce(+, a)\n\naccumulate(+, b; dims=2)\n\nfindfirst(isequal(2), a)"
+    "text": "using BenchmarkTools\nusing CUDA\nusing Random\nusing Test\nusing LinearAlgebra\nusing ForwardDiff\nusing ProgressMeter\nusing Plots\n\n\nCUDA.version()\n\nUseful function to enable GPU version of your code\n\nCUDA.functional()\n\n\nfor device in CUDA.devices()\n    @show capability(device)\n    @show name(device)\nend\n\n\n\n\n\n\na = CuArray{Float32,2}(undef, 2, 2)\n\n\nsimilar(a)\n\n\na = CuArray([1,2,3])\n\n\n\n\n\nb is allocated on the CPU, a data transfer is made\n\nb = Array(a)\n\n\ncollect(a)\n\n\n\n\nCUDA.ones(2)\n\n\na = CUDA.zeros(Float32, 2)\n\n\na isa AbstractArray\n\n\nCUDA.fill(42, (3,4))\n\n\n\n\n\n\nCUDA.rand(2, 2)\n\n\nCUDA.randn(2, 1)\n\n\nx = CUDA.CuArray(0:0.01:1.0)\nnt = length(x)\ny = 0.2 .+ 0.5 .* x + 0.1 .* CUDA.randn(nt);\nscatter( Array(x), Array(y))\nplot!( x -> 0.2 + 0.5x)\nxlims!(0,1)\nylims!(0,1)\n\n\nX = hcat(CUDA.ones(nt), x);\n\n\nβ = X'X \\ X'y\n\n\nsum( ( β[1] .+ β[2] .* x .- y).^2 )\n\n\na = CuArray([1 2 3])\n\n\nview(a, 2:3)\n\n\na = CuArray{Float64}([1 2 3])\nb = CuArray{Float64}([4 5 6])\n\nmap(a) do x\n    x + 1\nend\n\n\nreduce(+, a)\n\n\naccumulate(+, b; dims=2)\n\n\nfindfirst(isequal(2), a)\n\n\na = CuArray([1 2 3])\nb = CuArray([4 5 6])\n\nmap(a) do x\n    x + 1\nend\n\na .+ 2b\n\nreduce(+, a)\n\naccumulate(+, b; dims=2)\n\nfindfirst(isequal(2), a)"
   },
   {
     "objectID": "diffeq/gpu.html#workflow",
@@ -165,7 +165,7 @@
     "href": "index.html",
     "title": "Scientific computing with Julia",
     "section": "",
-    "text": "Introduction to Julia language"
+    "text": "Julia notebooks"
   },
   {
     "objectID": "performance/access-arrays-in-memory-order.html",
