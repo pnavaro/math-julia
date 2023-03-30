@@ -1,18 +1,6 @@
 # GPU
 
 ```{julia}
-import Pkg; Pkg.activate(@__DIR__); Pkg.instantiate()
-```
-
-```{julia}
-ENV["TMP"] = "/opt/app-root/src"
-```
-
-```{julia}
-tempdir()
-```
-
-```{julia}
 using BenchmarkTools
 using CUDA
 using Random
