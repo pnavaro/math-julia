@@ -2,7 +2,6 @@
 
 ```{julia}
 using Plots
-gr()
 ```
 
 We will implement in Julia different numerical methods to solve
@@ -11,13 +10,13 @@ $$
 y'(t) = 1 - y(t)
 $$
 
-$ t \in [0,5] \qquad \mbox{ and } \qquad y(0) = 0 $
+$$ t \in [0,5] \qquad \mbox{ and } \qquad y(0) = 0 $$
 
 ## Explicit Euler
 
 ```{julia}
 """
-   euler(f::Function, t::Float64, y::Float64, h::Float64)
+   euler(f, t, y, h)
 
 explicit euler method function that returns
 
@@ -37,7 +36,7 @@ end
 ```{julia}
 """
 
-   rk2(f::Function, t::Float64, y::Float64,  dt::Float64)
+   rk2(f, t, y,  dt)
 
 Runge-Kutta second order method function
 
@@ -76,7 +75,7 @@ end
 ```{julia}
 """
 
-    solver(f::Function, Method::Function, t₀::Float64,
+    solver(f::Function, df::Function, t₀::Float64,
                 y₀::Float64, dt::Float64, nsteps::Int64)
 
 Solve numerically the equation ``y' = f(t, y)``
@@ -85,12 +84,12 @@ with `y(t₀)= y₀` and `nsteps` steps `h`
 
 ## Arguments
 - `f::Function`: the function `f` of equation ``y' = f(t,y)``.
-- `Method::Function`: numerical method from (tⁿ,yⁿ) returns ``(t^{n+1},y^{n+1})``
+- `df::Function`: numerical method from (tⁿ,yⁿ) returns ``(t^{n+1},y^{n+1})``
 
 
 """
 function solver(f::Function,
-                Method::Function,
+                df::Function,
                 t₀::Float64,
                 y₀::Float64, h::Float64, nsteps::Int64)
 
@@ -101,7 +100,7 @@ function solver(f::Function,
     y[1] = y₀
 
     for i in 2:nsteps
-       t[i], y[i] = Method(f,t[i-1],y[i-1], h)
+       t[i], y[i] = df(f,t[i-1],y[i-1], h)
     end
 
     t, y
@@ -124,11 +123,11 @@ f(t, x) = 1 - x
 ```
 
 ```{julia}
-plot( solver(f, euler, t₀, x₀, dt, nsteps); marker = :o, label=:euler)
-plot!(solver(f, rk2,   t₀, x₀, dt, nsteps); marker = :d, label=:rk2)
-plot!(solver(f, rk4,   t₀, x₀, dt, nsteps); marker = :p, label=:rk4)
+plot( solver(f, euler, t₀, x₀, dt, nsteps); marker = :o, label="euler")
+plot!(solver(f, rk2,   t₀, x₀, dt, nsteps); marker = :d, label="rk2")
+plot!(solver(f, rk4,   t₀, x₀, dt, nsteps); marker = :p, label="rk4")
 t = 0:0.1:5
-plot!(t, 1 .- exp.(-t); line = 3, label = :exact)
+plot!(t, 1 .- exp.(-t); line = 3, label = "exact")
 ```
 
 # Callable object
@@ -200,7 +199,7 @@ end
 
 ```{julia}
 function solver(f::Function,
-                Method::RungeKutta,
+                df::RungeKutta,
                 t₀::Float64,
                 y₀::Float64, h::Float64, nsteps::Int64)
 
@@ -211,7 +210,7 @@ function solver(f::Function,
     y[1] = y₀
 
     for i in 2:nsteps
-       t[i], y[i] = Method(f,t[i-1],y[i-1], h)
+       t[i], y[i] = df(f,t[i-1],y[i-1], h)
     end
 
     t, y
@@ -233,8 +232,8 @@ rk4_new = RungeKutta(a, b, c)
 
 ```{julia}
 t = 0:0.1:5
-plot(t, 1 .- exp.(-t),label = :exact)
-plot!(solver(f, rk4_new, t₀, x₀, dt, nsteps), marker = :o,  label=:rk4_new)
+plot(t, 1 .- exp.(-t),label = "exact")
+plot!(solver(f, rk4_new, t₀, x₀, dt, nsteps), marker = :o,  label="rk4_new")
 
 a = [  0   0  0  0; 
      1/3   0  0  0; 
@@ -246,7 +245,7 @@ a = [  0   0  0  0;
 b = [1/8, 3/8, 3/8, 1/8]
 c = [0, 1/3,  2/3, 1]
 rk4_38 = RungeKutta(a, b, c)
-plot!(solver(f, rk4_38, t₀, x₀, dt, nsteps), marker = :r,  label=:rk4_38)
+plot!(solver(f, rk4_38, t₀, x₀, dt, nsteps), marker = :r,  label="rk4_38")
 ```
 
 [Reference](https://www.juliabloggers.com/runge-kutta-methods/):Ordinary Differential Equation Solvers: Runge-Kutta Methods by Christina Lee
@@ -307,7 +306,7 @@ plot(rk4_solver(f, t₀, x₀, dt, nsteps))
 [ODE Solvers](http://docs.juliadiffeq.org/latest/solvers/ode_solve.html#OrdinaryDiffEq.jl-1)
 
 ```{julia}
-using OrdinaryDiffEq
+using DifferentialEquations
 using Plots
 ```
 
@@ -316,32 +315,10 @@ f(y,p,t) = 1.0 - y
 y₀ = 0.0
 t  = (0.0,5.0)
 prob = ODEProblem(f,y₀,t)
-euler  = solve(prob,Euler(), dt=1.0)
-rk4  = solve(prob, RK4(), dt=1.0)
-plot(euler,label="Euler")
-plot!(rk4,label="RK4")
+euler_solution  = solve(prob,Euler(), dt=1.0)
+rk4_solution  = solve(prob, RK4(), dt=1.0)
+plot(euler_solution,label="Euler")
+plot!(rk4_solution,label="RK4")
 plot!(1:0.1:5, t->1. - exp(-t),lw=3,ls=:dash,label="True Solution!")
 ```
 
-```{julia}
-using DifferentialEquations
-```
-
-```{julia}
-function lorenz(du,u,p,t)
- du[1] = 10.0*(u[2]-u[1])
- du[2] = u[1]*(28.0-u[3]) - u[2]
- du[3] = u[1]*u[2] - (8/3)*u[3]
-end
-```
-
-```{julia}
-u0 = [1.0;0.0;0.0]
-tspan = (0.0,100.0)
-prob = ODEProblem(lorenz,u0,tspan)
-sol = solve(prob)
-```
-
-```{julia}
-plot(sol,vars=(1,2,3))
-```

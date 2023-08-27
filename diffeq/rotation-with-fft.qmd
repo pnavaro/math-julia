@@ -1,4 +1,5 @@
 # Rotation using FFT
+
 $$
 \frac{d f}{dt} +  (v \frac{d f}{dx} - x \frac{d f}{dv}) = 0
 $$
@@ -8,10 +9,10 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 $$
 
 ```{julia}
-using  FFTW
-using  LinearAlgebra
-using  Plots, ProgressMeter
-using  BenchmarkTools
+using BenchmarkTools
+using FFTW
+using LinearAlgebra
+using Plots
 ```
 
 ## Julia type for mesh information
@@ -43,7 +44,7 @@ struct TwoDMesh
     function TwoDMesh( xmin, xmax, nx, ymin, ymax, ny)
         dx, dy = (xmax-xmin)/nx, (ymax-ymin)/ny
         x = LinRange(xmin, xmax, nx+1)[1:end-1]  # we remove the end point
-        y = LinRange(ymin, ymax, ny+1)[1:end-1]  # for  periodic boundary condition
+        y = LinRange(ymin, ymax, ny+1)[1:end-1]  # for periodic boundary condition
         new( nx, ny, xmin, xmax, ymin, ymax, dx, dy, x, y)
     end
 end
@@ -55,10 +56,6 @@ mesh = TwoDMesh(-π, π, 128, -π, π, 256)
 
 ```{julia}
 @show mesh.xmin, mesh.xmax, mesh.nx, mesh.dx
-```
-
-```{julia}
-mesh.x
 ```
 
 # Initialization of f : 2d array of double float
@@ -90,7 +87,7 @@ end
 
 ```{julia}
 f = compute_exact_solution(0.0, mesh)
-surface(f)
+contour(f)
 ```
 
 ## Create the gif to show what we are computing
@@ -98,18 +95,15 @@ surface(f)
 ```{julia}
 function create_gif_animation(mesh, nsteps)
     
-    prog = Progress(nsteps,1) ## progress bar
-    
-    @gif for t in range(0, stop=2π, length=nsteps)
+    @gif for t in LinRange(0, 2π, nsteps)
 
         f(x,y) = exp(-((cos(t)*x-sin(t)*y)-1)^2/0.2)*exp(-((sin(t)*x+cos(t)*y)-1)^2/0.2)
         
-        p = plot(x, y, f, st = [:surface])
+        p = plot(mesh.x, mesh.y, f, st = [:contour])
     
         plot!(p[1])
         plot!(zlims=(-0.01,1.01))
     
-        next!(prog) # increment the progress bar
     end
 end
 ```
@@ -117,6 +111,8 @@ end
 ```{julia}
 create_gif_animation(mesh, 100);
 ```
+
+![](diffeq/tmp.gif)
 
 ## Function to compute error
 
@@ -129,7 +125,7 @@ end
 ## Naive translation of a matlab code
 
 ```{julia}
-function naive_translation_from_matlab(final_time, nsteps, mesh::Mesh)
+function naive_translation_from_matlab(final_time, nsteps, mesh::TwoDMesh)
 
     dt = final_time/nsteps
 
@@ -158,33 +154,35 @@ end
 ```
 
 ```{julia}
-nt, final_time = 1000, 200
-println( " error = ", compute_error(naive_translation_from_matlab(final_time, nt, mesh), exact(final_time, mesh)))
-@btime naive_from_matlab(final_time, nt, mesh);
+nsteps, final_time = 1000, 200
+sol1 = naive_translation_from_matlab(final_time, nsteps, mesh)
+sol2 = compute_exact_solution(final_time, mesh)
+println( " error = ", compute_error(sol1, sol2))
+@btime naive_translation_from_matlab(final_time, nsteps, mesh);
 ```
 
 ###  Vectorized version
 
-- We remove the for loops over direction x and y by creating the 2d arrays `exky` and `ekxy`.
+- We remove the for loops over direction `x` and `y` by creating the 2d arrays `exky` and `ekxy`.
 - We save cpu time by computing them before the loop over time
 
 ```{julia}
-function vectorized(final_time, nt, mesh::Mesh)
+function vectorized(final_time, nsteps, mesh::TwoDMesh)
 
-    dt = final_time/nt
+    dt = final_time/nsteps
 
     kx = 2π/(mesh.xmax-mesh.xmin) .* fftfreq(mesh.nx, mesh.nx)
     ky = 2π/(mesh.ymax-mesh.ymin) .* fftfreq(mesh.ny, mesh.ny)
 
-    f = exact(0.0, mesh)
+    f = compute_exact_solution(0.0, mesh)
 
     exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')
     ekxy = exp.(-1im*sin(dt)   .* mesh.y' .* kx )
     
-    for n = 1:nt
-        f = real(ifft(exky .* fft(f, 2), 2))
-        f = real(ifft(ekxy .* fft(f, 1), 1))
-        f = real(ifft(exky .* fft(f, 2), 2))
+    for n = 1:nsteps
+        f .= real(ifft(exky .* fft(f, 2), 2))
+        f .= real(ifft(ekxy .* fft(f, 1), 1))
+        f .= real(ifft(exky .* fft(f, 2), 2))
     end
 
     f
@@ -192,31 +190,34 @@ end
 ```
 
 ```{julia}
-nt, final_time = 1000, 200
-println( " error = ", error1(vectorized(final_time, nt, mesh), exact(final_time, mesh)))
-@btime vectorized(final_time, nt, mesh);
+nsteps, final_time = 1000, 200
+sol1 = vectorized(final_time, nsteps, mesh)
+sol2 = compute_exact_solution(final_time, mesh)
+println( " error = ", compute_error(sol1, sol2))
+@btime vectorized(final_time, nsteps, mesh);
 ```
 
 ## Inplace computation 
+
 - We remove the Float64-Complex128 conversion by allocating the distribution function `f` as a Complex array
 - Note that we need to use the inplace assignement operator ".="  to initialize the `f` array.
 - We use inplace computation for fft with the "bang" operator `!`
 
 ```{julia}
-function inplace(final_time, nt, mesh::Mesh)
+function inplace(final_time, nsteps, mesh::TwoDMesh)
 
-    dt = final_time/nt
+    dt = final_time/nsteps
 
     kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]
     ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]
     
-    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))
-    f .= exact(0.0, mesh)
+    f  = zeros(ComplexF64,(mesh.nx,mesh.ny))
+    f .= compute_exact_solution(0.0, mesh)
 
     exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')
     ekxy = exp.(-1im*sin(dt)   .* mesh.y' .* kx )
     
-    for n = 1:nt
+    for n = 1:nsteps
         fft!(f, 2)
         f .= exky .* f
         ifft!(f,2)
@@ -233,9 +234,11 @@ end
 ```
 
 ```{julia}
-nt, final_time = 1000, 200
-println( " error = ", error1(inplace(final_time, nt, mesh), exact(final_time, mesh)))
-@btime inplace(final_time, nt, mesh);
+nsteps, final_time = 1000, 200
+sol1 = inplace(final_time, nsteps, mesh)
+sol2 = compute_exact_solution(final_time, mesh)
+println( " error = ", compute_error(sol1, sol2))
+@btime inplace(final_time, nsteps, mesh);
 ```
 
 ### Use plans for fft
@@ -244,15 +247,15 @@ println( " error = ", error1(inplace(final_time, nt, mesh), exact(final_time, me
 - Let's try to initialize our two fft along x and y with plans.
 
 ```{julia}
-function with_fft_plans(final_time, nt, mesh::Mesh)
+function with_fft_plans(final_time, nsteps, mesh::TwoDMesh)
 
-    dt = final_time/nt
+    dt = final_time/nsteps
 
     kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]
     ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]
     
-    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))
-    f .= exact(0.0, mesh)
+    f  = zeros(ComplexF64,(mesh.nx,mesh.ny))
+    f .= compute_exact_solution(0.0, mesh)
     f̂  = similar(f)
 
     exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')
@@ -261,7 +264,7 @@ function with_fft_plans(final_time, nt, mesh::Mesh)
     Px = plan_fft(f, 1)
     Py = plan_fft(f, 2)
         
-    for n = 1:nt
+    for n = 1:nsteps
         
         f̂ .= Py * f
         f̂ .= f̂  .* exky
@@ -282,27 +285,30 @@ end
 ```
 
 ```{julia}
-nt, final_time = 1000, 200
-println( " error = ", error1(with_fft_plans(final_time, nt, mesh), exact(final_time, mesh)))
-@btime with_fft_plans(final_time, nt, mesh);
+nsteps, final_time = 1000, 200
+sol1 = with_fft_plans(final_time, nsteps, mesh)
+sol2 = compute_exact_solution(final_time, mesh)
+println( " error = ", compute_error(sol1, sol2))
+@btime with_fft_plans(final_time, nsteps, mesh);
 ```
 
 ## Inplace computation and fft plans
 
-To apply fft plan to an array A, we use a preallocated output array Â by calling `mul!(Â, plan, A)`. 
-The input array A must be a complex floating-point array like the output Â.
-The inverse-transform is computed inplace by applying `inv(P)` with `ldiv!(A, P, Â)`.
+To apply fft plan to an array A, we use a preallocated output array
+Â by calling `mul!(Â, plan, A)`.  The input array A must be a complex
+floating-point array like the output Â.  The inverse-transform is
+computed inplace by applying `inv(P)` with `ldiv!(A, P, Â)`.
 
 ```{julia}
-function with_fft_plans_inplace(final_time, nt, mesh::Mesh)
+function with_fft_plans_inplace(final_time, nsteps, mesh::TwoDMesh)
 
-    dt = final_time/nt
+    dt = final_time/nsteps
 
-    kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]
-    ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]
+    kx = 2π/(mesh.xmax-mesh.xmin) .* fftfreq(mesh.nx, mesh.nx)
+    ky = 2π/(mesh.ymax-mesh.ymin) .* fftfreq(mesh.ny, mesh.ny)
     
-    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))
-    f .= exact(0.0, mesh)
+    f  = zeros(ComplexF64,(mesh.nx,mesh.ny))
+    f .= compute_exact_solution(0.0, mesh)
     f̂  = similar(f)
 
     exky = exp.( 1im*tan(dt/2) .* mesh.x  .* ky')
@@ -311,7 +317,7 @@ function with_fft_plans_inplace(final_time, nt, mesh::Mesh)
     Px = plan_fft(f, 1)    
     Py = plan_fft(f, 2)
         
-    for n = 1:nt
+    for n = 1:nsteps
         
         mul!(f̂, Py, f)
         f̂ .= f̂ .* exky
@@ -332,9 +338,11 @@ end
 ```
 
 ```{julia}
-nt, final_time = 1000, 200
-println( " error = ", error1(with_fft_plans_inplace(final_time, nt, mesh), exact(final_time, mesh)))
-@btime with_fft_plans_inplace(final_time, nt, mesh);
+nsteps, final_time = 1000, 200
+sol1 = with_fft_plans_inplace(final_time, nsteps, mesh)
+sol2 = compute_exact_solution(final_time, mesh)
+println( " error = ", compute_error(sol1, sol2 ))
+@btime with_fft_plans_inplace(final_time, nsteps, mesh);
 ```
 
 ## Explicit transpose of `f`
@@ -345,16 +353,16 @@ println( " error = ", error1(with_fft_plans_inplace(final_time, nt, mesh), exact
 and transpose f for each advection along y.
 
 ```{julia}
-function with_fft_transposed(final_time, nt, mesh::Mesh)
+function with_fft_transposed(final_time, nsteps, mesh::TwoDMesh)
 
-    dt = final_time/nt
+    dt = final_time/nsteps
 
-    kx = 2π/(mesh.xmax-mesh.xmin)*[0:mesh.nx÷2-1;mesh.nx÷2-mesh.nx:-1]
-    ky = 2π/(mesh.ymax-mesh.ymin)*[0:mesh.ny÷2-1;mesh.ny÷2-mesh.ny:-1]
+    kx = 2π/(mesh.xmax-mesh.xmin) .* fftfreq(mesh.nx, mesh.nx)
+    ky = 2π/(mesh.ymax-mesh.ymin) .* fftfreq(mesh.ny, mesh.ny)
     
-    f  = zeros(Complex{Float64},(mesh.nx,mesh.ny))
+    f  = zeros(ComplexF64,(mesh.nx,mesh.ny))
     f̂  = similar(f)
-    fᵗ = zeros(Complex{Float64},(mesh.ny,mesh.nx))
+    fᵗ = zeros(ComplexF64,(mesh.ny,mesh.nx))
     f̂ᵗ = similar(fᵗ)
 
     exky = exp.( 1im*tan(dt/2) .* mesh.x' .* ky )
@@ -364,9 +372,10 @@ function with_fft_transposed(final_time, nt, mesh::Mesh)
     Px = plan_fft(f,  1, flags=FFTW.PATIENT)    
     Py = plan_fft(fᵗ, 1, flags=FFTW.PATIENT)
     
-    f .= exact(0.0, mesh)
+    f .= compute_exact_solution(0.0, mesh)
     
-    for n = 1:nt
+    for n = 1:nsteps
+
         transpose!(fᵗ,f)
         mul!(f̂ᵗ, Py, fᵗ)
         f̂ᵗ .= f̂ᵗ .* exky
@@ -382,28 +391,33 @@ function with_fft_transposed(final_time, nt, mesh::Mesh)
         f̂ᵗ .= f̂ᵗ .* exky
         ldiv!(fᵗ, Py, f̂ᵗ)
         transpose!(f,fᵗ)
+
     end
+
     real(f)
+
 end
 ```
 
 ```{julia}
-nt, final_time = 1000, 200
-println( " error = ", error1(with_fft_transposed(final_time, nt, mesh), exact(final_time, mesh)))
-@btime with_fft_transposed(final_time, nt, mesh);
+nsteps, final_time = 1000, 200
+sol1 = with_fft_transposed(final_time, nsteps, mesh)
+sol2 = compute_exact_solution(final_time, mesh)
+println( " error = ", compute_error(sol1, sol2))
+@btime with_fft_transposed(final_time, nsteps, mesh);
 ```
 
 ```{julia}
-final_time, nt = 400π, 1000
-mesh = Mesh(-π, π, 512, -π, π, 256)
+final_time, nsteps = 400π, 1000
+mesh = TwoDMesh(-π, π, 512, -π, π, 256)
 ```
 
 ```{julia}
-inplace_bench = @benchmark inplace(final_time, nt, mesh)
-vectorized_bench = @benchmark vectorized(final_time, nt, mesh)
-with_fft_plans_bench = @benchmark with_fft_plans(final_time, nt, mesh)
-with_fft_plans_inplace_bench = @benchmark with_fft_plans_inplace(final_time, nt, mesh)
-with_fft_transposed_bench = @benchmark with_fft_transposed(final_time, nt, mesh)
+inplace_bench = @benchmark inplace(final_time, nsteps, mesh)
+vectorized_bench = @benchmark vectorized(final_time, nsteps, mesh)
+with_fft_plans_bench = @benchmark with_fft_plans(final_time, nsteps, mesh)
+with_fft_plans_inplace_bench = @benchmark with_fft_plans_inplace(final_time, nsteps, mesh)
+with_fft_transposed_bench = @benchmark with_fft_transposed(final_time, nsteps, mesh)
 ```
 
 ```{julia}
@@ -422,7 +436,7 @@ end
 ```
 
 ## Conclusion
-- Use pre-allocations of memory and inplace computation are very important
+
+- Using pre-allocations of memory and inplace computation is very important
 - Try to always do computation on data contiguous in memory
-- In this notebook, use `@btime` to not taking account of time consumed in 
-compilation.
+- Use `plans` for fft

@@ -37,28 +37,26 @@ a separate loop.
 ## Consider using views for slices
 
 ```{julia}
-const N = 50_000_000
-const a = 1.2
-const x = rand(Float64, N)
-const y = rand(Float64, N)
+let
 
-const nn = 100
-const n_start = 1 + nn
-const n_end = N - nn
+   N = 50_000_000
+   a = 1.2
+   x = rand(Float64, N)
+   y = rand(Float64, N)
+   
+   nn = 100
+   n_start = 1 + nn
+   n_end = N - nn
+   
+   # timing
+   @time @. y[n_start:n_end] += a * x[n_start:n_end];
 
-# warmup
-@. y[n_start:n_end] += a * x[n_start:n_end]
+   # timing
+   @time @. @views y[n_start:n_end] += a * x[n_start:n_end];
 
-# timing
-@time @. y[n_start:n_end] += a * x[n_start:n_end];
-```
+   nothing
 
-```{julia}
-# warmup
-@. @views y[n_start:n_end] += a * x[n_start:n_end]
-
-# timing
-@time @. @views y[n_start:n_end] += a * x[n_start:n_end];
+end
 ```
 
 ## Copy irregularly-accessed data into a contiguous array before operating on it
@@ -73,7 +71,6 @@ inds = shuffle(1:1_000_000)[1:800000];
 A = randn(50, 1_000_000);
 
 xtmp = zeros(800_000);
-
 Atmp = zeros(50, 800_000);
 
 @time sum(view(A, :, inds) * view(x, inds))

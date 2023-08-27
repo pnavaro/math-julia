@@ -137,5 +137,5 @@ main(10)
 ---
 
 ```{julia}
-run(`julia --math-mode=ieee wave.jl`)
+run(`julia --math-mode=ieee performance/wave.jl`)
 ```

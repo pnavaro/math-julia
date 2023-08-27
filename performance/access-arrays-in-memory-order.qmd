@@ -2,7 +2,9 @@
 title: "Memory order"
 ---
 
-"N-dimensional arrays are stored in column-major layout. The elements from the first (leftmost) dimension or index are contiguous in memory."
+"N-dimensional arrays are stored in column-major layout. The elements
+from the first (leftmost) dimension or index are contiguous in
+memory."
 
 ```{julia}
 function compute_dist!(x, dist)
@@ -20,7 +22,7 @@ dist = Array{Float64}(undef, (N, N))
 compute_dist!(x, dist)
 @time compute_dist!(x, dist)
 ```
- ---
+---
 
 ```{julia}
 function compute_dist!(x, dist)
@@ -56,7 +58,7 @@ function df_dy!( f )
 end
 
 f1 = sin.(x) .* cos.(y') 
-df_dy!( f1 )
+df_dy!( f1 );
 ```
 
 
@@ -70,7 +72,7 @@ function df_dy_transposed!( f )
     f .= transpose(real(ifft(exky .* fft(ft, 1), 1)))
 end
 f2 = sin.(x) .* cos.(y') 
-df_dy_transposed!( f2 )
+df_dy_transposed!( f2 );
 ```
 
 ---

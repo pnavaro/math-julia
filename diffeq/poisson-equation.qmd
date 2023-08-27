@@ -128,38 +128,3 @@ LAPACK.gtsv!(DL, D, DU, B)
 ```{julia}
 plot_solution(x, B)
 ```
-
-# DIffEqOperators.jl
-
-[docs](http://docs.juliadiffeq.org/latest/features/diffeq_operator.html)
-
-```{julia}
-using DiffEqOperators
-```
-
-```{julia}
-Δx = 0.05
-x = Δx:Δx:1-Δx 
-N = length(x)
-B = sin.(2π*x)
-```
-
-## Second order approximation to the second derivative
-
-```{julia}
-order = 2
-deriv = 2
-```
-
-```{julia}
-A = DerivativeOperator{Float64}(order, deriv, Δx, N, :Dirichlet0,:Dirichlet0)
-```
-
-```{julia}
-u = A \ B
-```
-
-```{julia}
-plot_solution(x, u)
-```
-

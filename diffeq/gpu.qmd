@@ -1,3 +1,10 @@
+---
+format: 
+   html:
+      execute:
+         enabled: false
+---
+
 # GPU
 
 ```{julia}
@@ -514,10 +521,10 @@ https://devblogs.nvidia.com/cuda-dynamic-parallelism-api-principles/
 
 ## GPU programming performance tips
 
-- Avoid thread divergence (https://cvw.cac.cornell.edu/gpu/thread_div)
+- Avoid [thread divergence](https://cvw.cac.cornell.edu/gpu/thread_div)
 - Reduce and coalesce global accesses
 - Improve occupancy
-- Early-free arrays  `CuArrays.unsafe_free!` (https://juliagpu.gitlab.io/CUDA.jl/usage/memory/)
+- Early-free arrays  [CuArrays.unsafe_free!](https://juliagpu.gitlab.io/CUDA.jl/usage/memory/)
 - Annotate with `@inbounds`
 - Use 32 bits for float and integers
 

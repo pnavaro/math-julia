@@ -4,7 +4,7 @@ subtitle: "Consider allocating on the stack for small fixed-size vector/matrix o
 ---
 
 ```{julia}
-using DifferentialEquations, BenchmarkTools
+using DifferentialEquations, BenchmarkTools, Plots
 ```
 
 ---
@@ -22,6 +22,12 @@ end
 u0 = [1.0;0.0;0.0]
 tspan = (0.0,100.0)
 prob = ODEProblem(lorenz,u0,tspan)
+sol = solve(prob,Tsit5())
+plot(sol,vars=(1,2,3))
+```
+
+
+```{julia}
 @benchmark solve(prob,Tsit5())
 ```
 

@@ -1,4 +1,3 @@
-![](https://julialang.org/assets/infra/logo.svg)
 
 ## Installation 
 
@@ -63,7 +62,11 @@ using IJulia
 
 ## Jupyter notebook
 
-The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.
+The Jupyter Notebook is an open-source web application that allows
+you to create and share documents that contain live code, equations,
+visualizations and narrative text. Uses include: data cleaning and
+transformation, numerical simulation, statistical modeling, data
+visualization, machine learning, and much more.
 
 type:
 ```julia
@@ -75,54 +78,4 @@ To convert a notebook file `.ipynb` in julia program `.jl`:
 
 * In the top menu `File->Download as`
 * Command line : ```ipython nbconvert --to script my_notebook.ipynb```.
-
-## Why Julia?
-
-- Increase the programmer productivity.
-- Python is a very nice language to code a prototype but i had to use Cython to make it faster. And had to
-code in Fortran if the code had to be deployed on HPC cluster
-- High-level languages like python and R let one explore and experiment rapidly, but can run slow.
-- Low-level languages like Fortran/C++ tend to take longer to develop, but run fast.
-- This is sometimes called the "two language problem" and is something the Julia developers set out to eliminate. 
-- My code runs much faster than Python, and typically similar to Fortran.
-    
-Julia provides a "best of both worlds" experience for programmers who need to develop novel algorithms and bring them into production environments with minimal effort.
-
-## Julia features
-
-- High-level language for numerical computing.
-- Born in 2009 and version 1.0 was released in August 2018.
-- Dynamically-typed with optional types, feels like a scripting language, and has good support for interactive use.
-- Easy to learn for people that comes from R and Python.
-- Designed from the beginning to be fast as Fortran and C
-- Julia programs compile to efficient native code via [LLVM](https://llvm.org).
-- Designed for parallelism, and provides built-in primitives for parallel computing
-- can call C and Fortran libraries natively
-- can call Python libraries via PyCall package
-- can call R functions via RCall package
-
-## Julia is a language made for Science.
-
-http://www.stochasticlifestyle.com/some-state-of-the-art-packages-in-julia-v1-0
-
-### Mathematics
-
-* JuliaDiff – Differentiation tools
-* JuliaDiffEq – Differential equation solving and analysis
-* JuliaGeometry – Computational Geometry
-* JuliaGraphs – Graph Theory and Implementation
-* JuliaIntervals - Rigorous numerics with interval arithmetic & applications
-* JuliaMath – Mathematics made easy in Julia
-* JuliaOpt – Optimization (Gitter)
-* JuliaPolyhedra – Polyhedral computation
-* JuliaSparse – Sparse matrix solvers
-
-### Data Science
-
-* JuliaML – Machine Learning 
-* JuliaStats – Statistics
-* JuliaImages – Image Processing
-* JuliaText – Natural Language Processing (NLP), Computational Linguistics and (textual) Information Retrieval
-* JuliaDatabases – Various database drivers for Julia
-* JuliaData – Data manipulation, storage, and I/O in Julia
 
