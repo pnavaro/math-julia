@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Scientific computing with Julia - Memory allocation</title>
+<title>Maths with Julia - Memory allocation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific computing with Julia</span>
+    <span class="navbar-title">Maths with Julia</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -265,6 +265,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../package.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -360,8 +366,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">build_preallocate</span>(n);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  838.763 ns (4 allocations: 1.92 KiB)
-  165.950 ns (1 allocation: 896 bytes)</code></pre>
+<pre><code>  661.055 ns (4 allocations: 1.92 KiB)
+  165.755 ns (1 allocation: 896 bytes)</code></pre>
 </div>
 </div>
 <hr>
@@ -414,7 +420,7 @@ cat build_preallocate.jl.*.mem
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  5.229 μs (4 allocations: 31.75 KiB)</code></pre>
+<pre><code>  3.763 μs (4 allocations: 31.75 KiB)</code></pre>
 </div>
 </div>
 <hr>
@@ -435,7 +441,7 @@ cat build_preallocate.jl.*.mem
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse_optimized</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.267 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  2.842 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 </div>
 <hr>
@@ -458,10 +464,10 @@ cat build_preallocate.jl.*.mem
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>plan <span class="op">=</span> <span class="fu">plan_fft</span>(fᵗ, <span class="fl">1</span>, flags<span class="op">=</span>FFTW.PATIENT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>FFTW forward plan for 1024×1024 array of ComplexF64
-(dft-vrank&gt;=1-x1024/1
-  (dft-ct-dit/32
-    (dftw-direct-32/248 "t2fv_32_avx2")
-    (dft-direct-32-x32 "n2fv_32_avx2")))</code></pre>
+(dft-ct-dit/64
+  (dftw-direct-64/504-x1024 "t2fv_64_avx2")
+  (dft-vrank&gt;=1-x1024/1
+    (dft-direct-16-x64 "n2fv_16_avx2")))</code></pre>
 </div>
 </div>
 <hr>
@@ -478,7 +484,7 @@ cat build_preallocate.jl.*.mem
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">df_dy_optimized!</span>(<span class="op">$</span>f, <span class="op">$</span>fᵗ, <span class="op">$</span>f̂ᵗ, <span class="op">$</span>plan, <span class="op">$</span>exky );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  27.644 ms (2 allocations: 112 bytes)</code></pre>
+<pre><code>  15.633 ms (2 allocations: 112 bytes)</code></pre>
 </div>
 </div>
 

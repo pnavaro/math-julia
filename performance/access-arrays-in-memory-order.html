@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Scientific computing with Julia - Memory order</title>
+<title>Maths with Julia - Memory order</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific computing with Julia</span>
+    <span class="navbar-title">Maths with Julia</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -265,6 +265,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../package.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -314,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_dist!</span>(x, dist)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">compute_dist!</span>(x, dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.609028 seconds</code></pre>
+<pre><code>  0.169247 seconds</code></pre>
 </div>
 </div>
 <hr>
@@ -334,7 +340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_dist!</span>(x, dist)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">compute_dist!</span>(x, dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.087232 seconds</code></pre>
+<pre><code>  0.060044 seconds</code></pre>
 </div>
 </div>
 <hr>
@@ -378,8 +384,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="fu">sin</span>.(x) <span class="op">.*</span> <span class="fu">cos</span>.(y<span class="op">'</span>)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">df_dy_transposed!</span>(<span class="op">$</span>f);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  94.856 ms (36 allocations: 88.01 MiB)
-  57.682 ms (37 allocations: 88.01 MiB)</code></pre>
+<pre><code>  76.684 ms (36 allocations: 88.01 MiB)
+  37.770 ms (37 allocations: 88.01 MiB)</code></pre>
 </div>
 </div>
 

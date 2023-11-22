@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Scientific computing with Julia - Vectorized operations</title>
+<title>Maths with Julia - Vectorized operations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific computing with Julia</span>
+    <span class="navbar-title">Maths with Julia</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -265,6 +265,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../package.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -315,21 +321,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(x) <span class="co"># warmup</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">f</span>(x);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.029329 seconds (12 allocations: 45.777 MiB, 30.01% gc time)</code></pre>
+<pre><code>  0.016150 seconds (12 allocations: 45.777 MiB, 39.90% gc time)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fdot</span>(x) <span class="co"># warmup</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">fdot</span>(x);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.001333 seconds (2 allocations: 7.629 MiB)</code></pre>
+<pre><code>  0.001548 seconds (2 allocations: 7.629 MiB)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>.(x) <span class="co"># warmup</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">f</span>.(x);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.003496 seconds (4 allocations: 7.629 MiB)</code></pre>
+<pre><code>  0.002184 seconds (4 allocations: 7.629 MiB)</code></pre>
 </div>
 </div>
 <p><code>fdot(x)</code> is faster and allocates less memory, because each <code>*</code> and <code>+</code> operation in <code>f(x)</code> allocates a new temporary array and executes in a separate loop.</p>
@@ -357,8 +363,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.597324 seconds (4 allocations: 762.936 MiB, 1.02% gc time)
-  0.085080 seconds</code></pre>
+<pre><code>  0.163671 seconds (4 allocations: 762.936 MiB, 2.62% gc time)
+  0.048928 seconds</code></pre>
 </div>
 </div>
 </section>
@@ -379,11 +385,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">sum</span>(<span class="fu">view</span>(A, <span class="op">:</span>, inds) <span class="op">*</span> <span class="fu">view</span>(x, inds))</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">sum</span>(<span class="fu">view</span>(A, <span class="op">:</span>, inds) <span class="op">*</span> <span class="fu">view</span>(x, inds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.423210 seconds (217.95 k allocations: 14.001 MiB, 37.14% compilation time)
-  0.268599 seconds (5 allocations: 624 bytes)</code></pre>
+<pre><code>  0.291242 seconds (214.16 k allocations: 13.801 MiB, 40.95% compilation time)
+  0.170754 seconds (5 allocations: 624 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>-1681.8114328568054</code></pre>
+<pre><code>-5522.759572065647</code></pre>
 </div>
 </div>
 <p>Irregular access patterns and non-contiguous views can drastically slow down computations on arrays because of non-sequential memory access. Copying the views into plain arrays speeds up the multiplication even with the cost of the copying operation.</p>
@@ -395,10 +401,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(Atmp <span class="op">*</span> xtmp)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.438168 seconds (214.54 k allocations: 14.625 MiB, 38.90% compilation time)</code></pre>
+<pre><code>  0.312766 seconds (209.91 k allocations: 14.378 MiB, 40.92% compilation time)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>-1681.8114328572615</code></pre>
+<pre><code>-5522.759572065848</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="8">
@@ -408,10 +414,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(Atmp <span class="op">*</span> xtmp)</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.268226 seconds (5 allocations: 624 bytes)</code></pre>
+<pre><code>  0.180736 seconds (5 allocations: 624 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>-1681.8114328572615</code></pre>
+<pre><code>-5522.759572065848</code></pre>
 </div>
 </div>
 

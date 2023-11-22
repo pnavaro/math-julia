@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Maths with Julia - Make a package</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./diffeq/gpu.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Maths with Julia</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/pnavaro/math-julia" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./package.html">Package</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./basics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Installation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Performance</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/put-code-inside-function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Put code inside functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/pay-attention-to-memory-allocation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Memory allocation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/when-avoid-abstract-type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract type</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/write-type-stable-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Type stability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/access-arrays-in-memory-order.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Memory order</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/vectorized-operations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vectorized operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/consider-static-arrays.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">StaticArrays.jl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/good-practices-for-io.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good practices for I/O</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./performance/performance-annotations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Performance annotations</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Differential equations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diffeq/runge-kutta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Runge-Kutta methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diffeq/poisson-equation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Poisson Equation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diffeq/rotation-with-fft.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rotation using FFT</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diffeq/gpu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GPU</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./package.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-make-a-package" id="toc-why-make-a-package" class="nav-link active" data-scroll-target="#why-make-a-package">Why make a package ?</a></li>
+  <li><a href="#configure-git" id="toc-configure-git" class="nav-link" data-scroll-target="#configure-git">Configure git</a></li>
+  <li><a href="#install-some-useful-packages" id="toc-install-some-useful-packages" class="nav-link" data-scroll-target="#install-some-useful-packages">Install some useful packages</a></li>
+  <li><a href="#create-the-julia-package-temperatures" id="toc-create-the-julia-package-temperatures" class="nav-link" data-scroll-target="#create-the-julia-package-temperatures">Create the Julia package <code>Temperatures</code></a></li>
+  <li><a href="#activate-your-package" id="toc-activate-your-package" class="nav-link" data-scroll-target="#activate-your-package">Activate your package</a></li>
+  <li><a href="#add-dependencies" id="toc-add-dependencies" class="nav-link" data-scroll-target="#add-dependencies">Add dependencies</a></li>
+  <li><a href="#check-the-documentation" id="toc-check-the-documentation" class="nav-link" data-scroll-target="#check-the-documentation">Check the documentation</a></li>
+  <li><a href="#add-a-test" id="toc-add-a-test" class="nav-link" data-scroll-target="#add-a-test">Add a test</a></li>
+  <li><a href="#verify-the-test" id="toc-verify-the-test" class="nav-link" data-scroll-target="#verify-the-test">Verify the test</a></li>
+  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
+  <li><a href="#add-a-repository-on-github" id="toc-add-a-repository-on-github" class="nav-link" data-scroll-target="#add-a-repository-on-github">Add a repository on Github</a>
+  <ul class="collapse">
+  <li><a href="#ignore-some-files" id="toc-ignore-some-files" class="nav-link" data-scroll-target="#ignore-some-files">Ignore some files</a></li>
+  <li><a href="#install-first-version-of-example-package-in-your-julia-installation" id="toc-install-first-version-of-example-package-in-your-julia-installation" class="nav-link" data-scroll-target="#install-first-version-of-example-package-in-your-julia-installation">Install first version of Example package in your julia installation</a></li>
+  <li><a href="#test-it" id="toc-test-it" class="nav-link" data-scroll-target="#test-it">Test it</a></li>
+  </ul></li>
+  <li><a href="#push-the-package-on-github" id="toc-push-the-package-on-github" class="nav-link" data-scroll-target="#push-the-package-on-github">Push the package on github</a></li>
+  <li><a href="#on-github-choose-your-license" id="toc-on-github-choose-your-license" class="nav-link" data-scroll-target="#on-github-choose-your-license">On Github choose your license</a></li>
+  <li><a href="#on-your-computer" id="toc-on-your-computer" class="nav-link" data-scroll-target="#on-your-computer">On your computer</a>
+  <ul class="collapse">
+  <li><a href="#travis" id="toc-travis" class="nav-link" data-scroll-target="#travis">Travis</a></li>
+  <li><a href="#codecov" id="toc-codecov" class="nav-link" data-scroll-target="#codecov">Codecov</a></li>
+  <li><a href="#hosting-your-documentation-on-github-pages" id="toc-hosting-your-documentation-on-github-pages" class="nav-link" data-scroll-target="#hosting-your-documentation-on-github-pages">Hosting your documentation on Github pages</a></li>
+  <li><a href="#update-documentation-with-travis" id="toc-update-documentation-with-travis" class="nav-link" data-scroll-target="#update-documentation-with-travis">Update documentation with Travis</a></li>
+  </ul></li>
+  <li><a href="#enable-github-pages" id="toc-enable-github-pages" class="nav-link" data-scroll-target="#enable-github-pages">Enable GitHub Pages</a>
+  <ul class="collapse">
+  <li><a href="#badges" id="toc-badges" class="nav-link" data-scroll-target="#badges">Badges</a></li>
+  <li><a href="#register-your-package" id="toc-register-your-package" class="nav-link" data-scroll-target="#register-your-package">Register your package</a></li>
+  <li><a href="#items-not-covered" id="toc-items-not-covered" class="nav-link" data-scroll-target="#items-not-covered">Items not covered</a></li>
+  </ul></li>
+  <li><a href="#bonus" id="toc-bonus" class="nav-link" data-scroll-target="#bonus">Bonus</a></li>
+  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links">Links</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/pnavaro/math-julia/blob/master/package.qmd" class="toc-action">View source</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Make a package</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="why-make-a-package" class="level2">
+<h2 class="anchored" data-anchor-id="why-make-a-package">Why make a package ?</h2>
+<ul>
+<li>Share your code and maintain it.</li>
+<li>Better source files organization.</li>
+<li>Improve your programming practices by making tests.</li>
+<li>Continuous integration.</li>
+<li>Documentation is hosted and generated after every changes.</li>
+</ul>
+</section>
+<section id="configure-git" class="level2">
+<h2 class="anchored" data-anchor-id="configure-git">Configure git</h2>
+<p>Git configuration is used to set the package author.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Pierre Navaro"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"pierre.navaro@math.cnrs.fr"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> github.user <span class="st">"pnavaro"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="install-some-useful-packages" class="level2">
+<h2 class="anchored" data-anchor-id="install-some-useful-packages">Install some useful packages</h2>
+<ul>
+<li><a href="https://github.com/timholy/Revise.jl">Revise.jl</a>: Automatically update function definitions in a running Julia session. This package is mandatory if you want to develop a package. It is better to ensure that every Julia session uses it.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/.julia/config/ <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">"using Revise"</span> <span class="op">&gt;&gt;</span> ~/.julia/config/startup.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>: Documentation generator.</li>
+<li><a href="https://github.com/JuliaDocs/DocumenterTools.jl">DocumenterTools.jl</a> : Extra tools for setting up Documenter.</li>
+<li><a href="https://github.com/JuliaDocs/DocStringExtensions.jl">DocStringExtensions.jl</a>: Extensions for Julia’s docsystem.</li>
+<li><a href="https://github.com/domluna/JuliaFormatter.jl">JuliaFormatter.jl</a></li>
+<li><a href="https://github.com/charleskawczynski/CompatDevTools.jl">CompatDevTools.jl</a></li>
+</ul>
+</section>
+<section id="create-the-julia-package-temperatures" class="level2">
+<h2 class="anchored" data-anchor-id="create-the-julia-package-temperatures">Create the Julia package <code>Temperatures</code></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(v1<span class="fl">.0</span>) pkg<span class="op">&gt;</span> generate Temperatures</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Generating project Temperatures<span class="op">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Temeperatures<span class="op">/</span>Project.toml</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    Temeperatures<span class="op">/</span>src<span class="op">/</span>Temperatures.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat Temperatures<span class="op">/</span>Project.toml</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>authors <span class="op">=</span> [<span class="st">"Pierre Navaro &lt;pierre.navaro@math.cnrs.fr&gt;"</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Temperatures"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>uuid <span class="op">=</span> <span class="st">"417a5b38-18da-11e9-35ce-9bdc85ad86c9"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>version <span class="op">=</span> <span class="st">"0.1.0"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>[deps]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="activate-your-package" class="level2">
+<h2 class="anchored" data-anchor-id="activate-your-package">Activate your package</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(v1<span class="fl">.0</span>) pkg<span class="op">&gt;</span> activate .</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> instantiate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="add-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="add-dependencies">Add dependencies</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> add DocStringExtensions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The Manifest.toml allows someone to replicate the exact version of the dependencies that was recorded in the manifest on e.g.&nbsp;another machine. For a package that is to be used as a library, this is not useful.</p>
+<p>However, for an “application”, i.e.&nbsp;something at “top level” (say your julia code to do the simulations in a scientific paper) then it is likely useful to be able to replicate that exact state and the Manifest is thus useful to check in.”</p>
+</section>
+<section id="check-the-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="check-the-documentation">Check the documentation</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">Temperature</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>help?<span class="op">&gt;</span> celsius</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="add-a-test" class="level2">
+<h2 class="anchored" data-anchor-id="add-a-test">Add a test</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Temperature</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>add file runtests.jl</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat test<span class="op">/</span>runtests.jl</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@testset</span> <span class="st">"Test conversion Celsius to Fahrenheit function"</span> <span class="cf">begin</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@test</span> <span class="fu">fahrenheit</span>(<span class="fl">0.0</span>) <span class="op">==</span> <span class="fl">32.0</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="verify-the-test" class="level2">
+<h2 class="anchored" data-anchor-id="verify-the-test">Verify the test</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> test</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   Testing Temperature</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> Resolving package versions<span class="op">...</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> Summary<span class="op">:</span>             <span class="op">|</span> Pass  Total</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> advection sinus <span class="kw">function</span> <span class="op">|</span>    <span class="fl">1</span>      <span class="fl">1</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>   Testing Temperature tests passed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation" class="level2">
+<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
+<p>https://github.com/JuliaDocs/Documenter.jl</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">DocumenterTools</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> pwd</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> DocumenterTools.<span class="fu">generate</span>(<span class="st">"docs"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> name of package automatically determined to be <span class="ss">`Temperature`</span>.</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> deploying documentation to <span class="ss">`~/JuliaProjects/Temperature/docs`</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating .gitignore at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>.gitignore</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating make.jl at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>make.jl</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating Project.toml at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>Project.toml</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating src<span class="op">/</span>index.md at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>src<span class="op">/</span>index.md</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat docs<span class="op">/</span>src<span class="op">/</span>index.md</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Temperature.jl</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>Documentation <span class="cf">for</span> Temperature.jl</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">## Types and Functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>```@autodocs
+Modules = [Temperature]
+Order   = [:type, :function]
+```</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat docs<span class="op">/</span>make.jl</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Documenter</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cn">ENV</span>[<span class="st">"GKSwstype"</span>] <span class="op">=</span> <span class="st">"100"</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">makedocs</span>(modules<span class="op">=</span>[Temperature],</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>         doctest <span class="op">=</span> <span class="cn">false</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>         format <span class="op">=</span> Documenter.<span class="fu">HTML</span>(),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>         sitename <span class="op">=</span> <span class="st">"Temperature.jl"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>         pages <span class="op">=</span> [<span class="st">"Documentation"</span>    <span class="op">=&gt;</span> <span class="st">"index.md"</span>])</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">deploydocs</span>(</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    repo   <span class="op">=</span> <span class="st">"github.com/pnavaro/Temperature.jl.git"</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="add-a-repository-on-github" class="level1">
+<h1>Add a repository on Github</h1>
+<p>https://github.com/pnavaro/Temperature.jl</p>
+<ul>
+<li>Note : the repository name has the “.jl” extension</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"# Temperature.jl"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git init</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Initialized</span> empty Git repository in /Users/navaro/JuliaProjects/Temperature/.git/</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[master</span> <span class="er">(</span><span class="ex">root-commit</span><span class="kw">)</span> <span class="ex">8863c2e]</span> first commit</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">11</span> files changed, 287 insertions<span class="er">(</span><span class="ex">+</span><span class="kw">)</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Manifest.toml</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Project.toml</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 README.md</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/.gitignore</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/Project.toml</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/make.jl</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/src/index.md</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/Temperature.jl</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/advection.jl</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/bspline.jl</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 test/runtests.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push <span class="at">-u</span> origin master</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Enumerating</span> objects: 17, done.</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Counting</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> done.</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Delta</span> compression using up to 8 threads</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Compressing</span> objects: 100% <span class="er">(</span><span class="ex">13/13</span><span class="kw">)</span><span class="ex">,</span> done.</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> 4.29 KiB <span class="kw">|</span> <span class="ex">2.15</span> MiB/s, done.</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> 17 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span><span class="ex">,</span> reused 0 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="ex">To</span> github.com:pnavaro/Temperature.jl.git</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> [new branch]      master <span class="at">-</span><span class="op">&gt;</span> master</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Branch</span> <span class="st">'master'</span> set up to track remote branch <span class="st">'master'</span> from <span class="st">'origin'</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="ignore-some-files" class="level3">
+<h3 class="anchored" data-anchor-id="ignore-some-files">Ignore some files</h3>
+<pre><code>$ cat .gitignore
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+docs/build/
+docs/site/
+Manifest.toml</code></pre>
+</section>
+<section id="install-first-version-of-example-package-in-your-julia-installation" class="level3">
+<h3 class="anchored" data-anchor-id="install-first-version-of-example-package-in-your-julia-installation">Install first version of Example package in your julia installation</h3>
+<pre><code>(v1.1) pkg&gt; add https://github.com/pnavaro/Temperature.jl.git
+  Updating registry at `~/.julia/registries/General`
+  Updating git-repo `https://github.com/JuliaRegistries/General.git`
+   Cloning git-repo `https://github.com/pnavaro/Temperature.jl.git`
+  Updating git-repo `https://github.com/pnavaro/Temperature.jl.git`
+ Resolving package versions...
+  Updating `~/.julia/environments/v1.1/Project.toml`
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git)
+  Updating `~/.julia/environments/v1.1/Manifest.toml`
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git`</code></pre>
+</section>
+<section id="test-it" class="level3">
+<h3 class="anchored" data-anchor-id="test-it">Test it</h3>
+<pre><code>(v1.1) pkg&gt; test Temperature
+   Testing Temperature
+
+Test Summary:                 | Pass  Total
+Test advection sinus function |    1      1
+   Testing Temperature tests passed</code></pre>
+</section>
+</section>
+<section id="push-the-package-on-github" class="level1">
+<h1>Push the package on github</h1>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Temperature</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"# Temperature.jl"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="on-github-choose-your-license" class="level1">
+<h1>On Github choose your license</h1>
+<p>Above the file list, click Create new file.</p>
+<p>In the file name field, type LICENSE (with all caps).</p>
+<ul>
+<li>Choose a license template button.</li>
+<li>Click Choose a license template.</li>
+<li>Add a license to your project.</li>
+<li>Don’t create pull request choose “master” branch.</li>
+</ul>
+</section>
+<section id="on-your-computer" class="level1">
+<h1>On your computer</h1>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="travis" class="level2">
+<h2 class="anchored" data-anchor-id="travis">Travis</h2>
+<p>Add your repository by going to https://travis-ci.org</p>
+<ul>
+<li>Profile -&gt; Settings -&gt; Enable your repository</li>
+</ul>
+</section>
+<section id="codecov" class="level2">
+<h2 class="anchored" data-anchor-id="codecov">Codecov</h2>
+<p>Add your repository by going to https://codecov.io/gh</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">language</span><span class="kw">:</span><span class="at"> julia</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">os</span><span class="kw">:</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> linux</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> osx</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">julia</span><span class="kw">:</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> nightly</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="fu">notifications</span><span class="kw">:</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">email</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">after_success</span><span class="kw">:</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> julia -e 'using Pkg; cd(Pkg.dir("Temperature")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">include</span><span class="kw">:</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> </span><span class="st">"Documentation"</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">julia</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">os</span><span class="kw">:</span><span class="at"> linux</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ docs/make.jl</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"HTML"</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">after_success</span><span class="kw">:</span><span class="at"> skip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="hosting-your-documentation-on-github-pages" class="level2">
+<h2 class="anchored" data-anchor-id="hosting-your-documentation-on-github-pages">Hosting your documentation on Github pages</h2>
+<p>Launch julia in your package directory.</p>
+<pre><code>pkg&gt; add DocumenterTools
+pkg&gt; activate .</code></pre>
+<pre class="julia-repl"><code>julia&gt; using DocumenterTools
+julia&gt; using Temperature
+julia&gt; Travis.genkeys(Temperature)</code></pre>
+<p>Follow the instructions that are printed out</p>
+<ul>
+<li>Add the public ssh key to your settings page for the GitHub repository.</li>
+<li>Don’t forget to check <strong><code>Allow write access</code></strong> to allow Documenter to commit the generated documentation to the repo.</li>
+<li>Next add the long private key named DOCUMENTER_KEY to the Travis settings page using the provided link.</li>
+<li>Make sure that the “Display value in build log” option is <strong>OFF</strong>.</li>
+</ul>
+</section>
+<section id="update-documentation-with-travis" class="level2">
+<h2 class="anchored" data-anchor-id="update-documentation-with-travis">Update documentation with Travis</h2>
+<p>To tell Travis that we want a new build stage we can add the following to the <code>.travis.yml</code> file:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">include</span><span class="kw">:</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> </span><span class="st">"Documentation"</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">julia</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">os</span><span class="kw">:</span><span class="at"> linux</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd()));</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="at">                                               Pkg.instantiate()'</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ docs/make.jl</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">after_success</span><span class="kw">:</span><span class="at"> skip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="enable-github-pages" class="level1">
+<h1>Enable GitHub Pages</h1>
+<ul>
+<li>On GitHub, navigate to your GitHub Pages site’s repository.</li>
+<li>Under your repository name, click Settings.</li>
+<li>Use the Select source drop-down menu to select master or gh-pages as your GitHub Pages publishing source.</li>
+<li>Click Save.</li>
+</ul>
+<p>By default Documenter will create a link called <code>dev</code> that points to the latest version</p>
+<pre><code>https://pnavaro.github.io/Temperature.jl/dev</code></pre>
+<section id="badges" class="level2">
+<h2 class="anchored" data-anchor-id="badges">Badges</h2>
+<p>It is common practice to make use of “badges” for Travis build status, code coverage and documentation. Adding the following to your package <code>README.md</code> should be all that is necessary:</p>
+<ul>
+<li>Codecov badge : https://codecov.io/gh/pnavaro/Temperature.jl/settings/badge</li>
+<li>Travis badge : https://travis-ci.org/ click on the the badge corresponding to your repository.</li>
+</ul>
+<div class="sourceCode" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Build Status](https://travis-ci.org/pnavaro/Temperature.jl.svg?branch=master)</span><span class="co">](https://travis-ci.org/pnavaro/Temperature.jl)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)</span><span class="co">](https://codecov.io/gh/pnavaro/Temperature.jl)</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-stable-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/stable)</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-dev-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/dev)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="register-your-package" class="level2">
+<h2 class="anchored" data-anchor-id="register-your-package">Register your package</h2>
+<ul>
+<li>Set up <a href="https://github.com/integration/attobot">AttoBot</a> on your repository.</li>
+<li>You need to tag your verson with git (for example v0.1.0)</li>
+<li>Use <a href="https://help.github.com/articles/creating-releases/">Github releases</a>.</li>
+<li>Wait a couple of days.</li>
+</ul>
+<p><em>I did not do it for Temperature</em></p>
+</section>
+<section id="items-not-covered" class="level2">
+<h2 class="anchored" data-anchor-id="items-not-covered">Items not covered</h2>
+<ul>
+<li>Binary package <a href="https://github.com/JuliaLang/PackageCompiler.jl">PackageCompiler.jl</a></li>
+<li>Mixed language <a href="https://github.com/JuliaPackaging/BinDeps.jl">BinDeps.jl</a></li>
+<li>Create a pdf with Documenter</li>
+<li><a href="https://fredrikekre.github.io/Literate.jl">Literate.jl</a> : create markdown file and/or jupyter notebook from a julia program. Easy way to create your examples and tutorials.</li>
+<li><a href="https://github.com/oxinabox/WeaveAwayNotebooks">WeaveAwayNotebooks.jl</a> : convert Jupyter Notebooks to Literate.jl files</li>
+<li><a href="https://github.com/mpastell/Weave.jl">Weave.jl</a> : Scientific reports/literate programming for Julia</li>
+</ul>
+</section>
+</section>
+<section id="bonus" class="level1">
+<h1>Bonus</h1>
+<p>To set your documentation logo, just add a image file named logo.png in docs/src/assets directory.</p>
+<p>Its size must be 100 x 100 pixels.</p>
+<p>You can modify the julia logo images available on <a href="https://github.com/JuliaGraphics/julia-logo-graphics">JuliaGraphics</a></p>
+<p>The package <a href="https://github.com/JuliaGraphics/Luxor.jl">Luxor.jl</a> is a good tool to create a logo.</p>
+</section>
+<section id="links" class="level1">
+<h1>Links</h1>
+<ul>
+<li><a href="https://juliaobserver.com">Julia Observer</a></li>
+<li><a href="https://github.com/JuliaPackaging">Simplifying working with Julia packages and dependencies</a></li>
+<li><a href="https://attractivechaos.wordpress.com/2018/09/26/creating-a-new-package-in-julia/">Creating a new package in Julia</a></li>
+<li><a href="https://github.com/JuliaDocs/Documenter.jl">Documenter</a></li>
+<li><a href="http://www.stochasticlifestyle.com/finalizing-julia-package-documentation-testing-coverage-publishing/">Finalizing Your Julia Package: Documentation, Testing, Coverage, and Publishing</a> (outdated)</li>
+<li><a href="https://github.com/timholy/Revise.jl">Revise.jl : Automatically update function definitions in a running Julia session</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./diffeq/gpu.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">GPU</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

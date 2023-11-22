@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Scientific computing with Julia - Type stability</title>
+<title>Maths with Julia - Type stability</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific computing with Julia</span>
+    <span class="navbar-title">Maths with Julia</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -265,6 +265,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../package.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -317,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> <span class="fu">rand</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>0.9117446308345856</code></pre>
+<pre><code>0.9396308923151726</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -505,8 +511,8 @@ Body::Float64
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add_typed</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  7.867 μs (1 allocation: 7.94 KiB)
-  1.640 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  7.336 μs (1 allocation: 7.94 KiB)
+  1.685 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 </div>
 
