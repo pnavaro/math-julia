@@ -1,0 +1,431 @@
+---
+title: Make a package
+---
+
+## Why make a package ?
+
+- Share your code and maintain it.
+- Better source files organization.
+- Improve your programming practices by making tests.
+- Continuous integration.
+- Documentation is hosted and generated after every changes.
+
+## Configure git
+
+Git configuration is used to set the package author.
+
+```bash
+git config --global user.name "Pierre Navaro"
+git config --global user.email "pierre.navaro@math.cnrs.fr"
+git config --global github.user "pnavaro"
+```
+
+## Install some useful packages
+
+- [Revise.jl](https://github.com/timholy/Revise.jl): Automatically update function definitions in a running Julia session. This package is mandatory if you want to develop a package. It is better to ensure that every Julia session uses it.
+
+```bash
+mkdir -p ~/.julia/config/ && echo "using Revise" >> ~/.julia/config/startup.jl
+```
+
+- [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl): Documentation generator.
+- [DocumenterTools.jl](https://github.com/JuliaDocs/DocumenterTools.jl) : Extra tools for setting up Documenter.
+- [DocStringExtensions.jl](https://github.com/JuliaDocs/DocStringExtensions.jl): Extensions for Julia's docsystem.
+- [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)
+- [CompatDevTools.jl](https://github.com/charleskawczynski/CompatDevTools.jl)
+
+
+## Create the Julia package `Temperatures`
+
+```julia
+(v1.0) pkg> generate Temperatures
+Generating project Temperatures:
+    Temeperatures/Project.toml
+    Temeperatures/src/Temperatures.jl
+```
+
+```julia
+shell> cat Temperatures/Project.toml
+authors = ["Pierre Navaro <pierre.navaro@math.cnrs.fr>"]
+name = "Temperatures"
+uuid = "417a5b38-18da-11e9-35ce-9bdc85ad86c9"
+version = "0.1.0"
+
+[deps]
+```
+
+## Activate your package
+
+```julia
+(v1.0) pkg> activate .
+
+(Temperature) pkg> instantiate
+```
+
+## Add dependencies
+
+```julia
+(Temperature) pkg> add DocStringExtensions
+```
+
+The Manifest.toml allows someone to replicate the exact version of
+the dependencies that was recorded in the manifest on e.g. another
+machine. For a package that is to be used as a library, this is not
+useful.
+
+However, for an “application”, i.e. something at “top level” (say
+your julia code to do the simulations in a scientific paper) then
+it is likely useful to be able to replicate that exact state and
+the Manifest is thus useful to check in."
+
+
+## Check the documentation
+
+```julia
+
+julia> using Temperature
+
+help?> celsius
+```
+
+## Add a test
+
+```bash
+cd Temperature
+mkdir test
+```
+
+add file runtests.jl
+
+```julia
+shell> cat test/runtests.jl
+using Temperature
+
+@testset "Test conversion Celsius to Fahrenheit function" begin
+
+    @test fahrenheit(0.0) == 32.0
+
+end
+```
+
+## Verify the test
+
+```julia
+(Temperature) pkg> test
+   Testing Temperature
+ Resolving package versions...
+Test Summary:             | Pass  Total
+Test advection sinus function |    1      1
+   Testing Temperature tests passed
+```
+
+## Documentation
+
+https://github.com/JuliaDocs/Documenter.jl
+
+```julia
+julia> using DocumenterTools
+shell> pwd
+/Users/navaro/JuliaProjects/Temperature
+julia> DocumenterTools.generate("docs")
+[ Info: name of package automatically determined to be `Temperature`.
+[ Info: deploying documentation to `~/JuliaProjects/Temperature/docs`
+[ Info: Generating .gitignore at /Users/navaro/JuliaProjects/Temperature/docs/.gitignore
+[ Info: Generating make.jl at /Users/navaro/JuliaProjects/Temperature/docs/make.jl
+[ Info: Generating Project.toml at /Users/navaro/JuliaProjects/Temperature/docs/Project.toml
+[ Info: Generating src/index.md at /Users/navaro/JuliaProjects/Temperature/docs/src/index.md
+```
+
+```julia
+shell> cat docs/src/index.md
+# Temperature.jl
+
+Documentation for Temperature.jl
+
+## Types and Functions
+```
+
+````
+```@autodocs
+Modules = [Temperature]
+Order   = [:type, :function]
+```
+````
+
+```julia
+shell> cat docs/make.jl
+
+using Documenter
+using Temperature
+using Plots
+
+ENV["GKSwstype"] = "100"
+
+makedocs(modules=[Temperature],
+         doctest = false,
+         format = Documenter.HTML(),
+         sitename = "Temperature.jl",
+         pages = ["Documentation"    => "index.md"])
+
+deploydocs(
+    repo   = "github.com/pnavaro/Temperature.jl.git"
+ )
+```
+
+# Add a repository on Github
+
+https://github.com/pnavaro/Temperature.jl
+
+- Note : the repository name has the ".jl" extension
+
+```bash
+$ echo "# Temperature.jl" >> README.md
+$ git init
+Initialized empty Git repository in /Users/navaro/JuliaProjects/Temperature/.git/
+$ git add .
+```
+
+```bash
+$ git commit -m "first commit"
+[master (root-commit) 8863c2e] first commit
+ 11 files changed, 287 insertions(+)
+ create mode 100644 Manifest.toml
+ create mode 100644 Project.toml
+ create mode 100644 README.md
+ create mode 100644 docs/.gitignore
+ create mode 100644 docs/Project.toml
+ create mode 100644 docs/make.jl
+ create mode 100644 docs/src/index.md
+ create mode 100644 src/Temperature.jl
+ create mode 100644 src/advection.jl
+ create mode 100644 src/bspline.jl
+ create mode 100644 test/runtests.jl
+```
+
+```bash
+$ git remote add origin git@github.com:pnavaro/Temperature.jl.git
+$ git push -u origin master
+Enumerating objects: 17, done.
+Counting objects: 100% (17/17), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (13/13), done.
+Writing objects: 100% (17/17), 4.29 KiB | 2.15 MiB/s, done.
+Total 17 (delta 0), reused 0 (delta 0)
+To github.com:pnavaro/Temperature.jl.git
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+```
+
+### Ignore some files
+
+```
+$ cat .gitignore
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+docs/build/
+docs/site/
+Manifest.toml
+```
+
+### Install first version of Example package in your julia installation
+
+```
+(v1.1) pkg> add https://github.com/pnavaro/Temperature.jl.git
+  Updating registry at `~/.julia/registries/General`
+  Updating git-repo `https://github.com/JuliaRegistries/General.git`
+   Cloning git-repo `https://github.com/pnavaro/Temperature.jl.git`
+  Updating git-repo `https://github.com/pnavaro/Temperature.jl.git`
+ Resolving package versions...
+  Updating `~/.julia/environments/v1.1/Project.toml`
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git)
+  Updating `~/.julia/environments/v1.1/Manifest.toml`
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git`
+```
+
+### Test it
+
+```
+(v1.1) pkg> test Temperature
+   Testing Temperature
+
+Test Summary:                 | Pass  Total
+Test advection sinus function |    1      1
+   Testing Temperature tests passed
+```
+
+# Push the package on github
+
+```bash
+cd Temperature
+echo "# Temperature.jl" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:pnavaro/Temperature.jl.git
+git push -u origin master
+```
+
+# On Github choose your license
+
+Above the file list, click Create new file.
+
+In the file name field, type LICENSE (with all caps).
+
+- Choose a license template button.
+- Click Choose a license template.
+- Add a license to your project.
+- Don't create pull request choose "master" branch.
+
+# On your computer
+
+```bash
+git pull origin master
+```
+
+## Travis
+
+Add your repository by going to https://travis-ci.org
+
+- Profile -> Settings -> Enable your repository
+
+
+## Codecov
+
+Add your repository by going to https://codecov.io/gh
+
+```yaml
+language: julia
+
+os:
+  - linux
+  - osx
+
+julia:
+  - 1.0
+  - nightly
+
+notifications:
+  email: true
+
+after_success:
+    - julia -e 'using Pkg; cd(Pkg.dir("Temperature")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
+
+jobs:
+  include:
+    - stage: "Documentation"
+      julia: 1.0
+      os: linux
+      script:
+        - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
+        - julia --project=docs/ docs/make.jl
+      name: "HTML"
+      after_success: skip
+```
+
+## Hosting your documentation on Github pages
+
+Launch julia in your package directory.
+```
+pkg> add DocumenterTools
+pkg> activate .
+```
+```julia-repl
+julia> using DocumenterTools
+julia> using Temperature
+julia> Travis.genkeys(Temperature)
+```
+
+Follow the instructions that are printed out
+
+- Add the public ssh key to your settings page for the GitHub repository.
+- Don't forget to check **`Allow write access`** to allow Documenter to commit the
+    generated documentation to the repo.
+- Next add the long private key named DOCUMENTER_KEY to the Travis settings page using the provided link.
+- Make sure that the "Display value in build log" option is **OFF**.
+
+## Update documentation with Travis
+
+To tell Travis that we want a new build stage we can add the following to the `.travis.yml` file:
+
+```yaml
+jobs:
+  include:
+    - stage: "Documentation"
+      julia: 1.0
+      os: linux
+      script:
+        - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd()));
+                                               Pkg.instantiate()'
+        - julia --project=docs/ docs/make.jl
+      after_success: skip
+```
+
+# Enable GitHub Pages
+
+
+
+- On GitHub, navigate to your GitHub Pages site's repository.
+- Under your repository name, click Settings.
+- Use the Select source drop-down menu to select master or gh-pages as your GitHub Pages publishing source.
+- Click Save.
+
+By default Documenter will create a link called `dev` that points to the latest version
+
+```
+https://pnavaro.github.io/Temperature.jl/dev
+```
+
+## Badges
+
+
+It is common practice to make use of "badges" for Travis build status, code coverage and documentation. Adding the following to your package `README.md` should be all
+that is necessary:
+
+- Codecov badge : https://codecov.io/gh/pnavaro/Temperature.jl/settings/badge
+- Travis badge : https://travis-ci.org/ click on the the badge corresponding to your repository.
+
+```markdown
+[![Build Status](https://travis-ci.org/pnavaro/Temperature.jl.svg?branch=master)](https://travis-ci.org/pnavaro/Temperature.jl)
+[![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/pnavaro/Temperature.jl)
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://pnavaro.github.io/Temperature.jl/stable)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://pnavaro.github.io/Temperature.jl/dev)
+```
+
+## Register your package
+
+- Set up [AttoBot](https://github.com/integration/attobot) on your repository.
+- You need to tag your verson with git (for example v0.1.0)
+- Use [Github releases](https://help.github.com/articles/creating-releases/).
+- Wait a couple of days.
+
+*I did not do it for Temperature*
+
+## Items not covered
+
+- Binary package [PackageCompiler.jl](https://github.com/JuliaLang/PackageCompiler.jl)
+- Mixed language [BinDeps.jl](https://github.com/JuliaPackaging/BinDeps.jl)
+- Create a pdf with Documenter
+- [Literate.jl](https://fredrikekre.github.io/Literate.jl) : create markdown file and/or jupyter notebook from a julia program. Easy way to create your examples and tutorials.
+- [WeaveAwayNotebooks.jl](https://github.com/oxinabox/WeaveAwayNotebooks) : convert Jupyter Notebooks to Literate.jl files
+- [Weave.jl](https://github.com/mpastell/Weave.jl) : Scientific reports/literate programming for Julia
+
+# Bonus
+
+To set your documentation logo, just add a image file named logo.png in docs/src/assets directory.
+
+Its size must be 100 x 100 pixels.
+
+You can modify the julia logo images available on [JuliaGraphics](https://github.com/JuliaGraphics/julia-logo-graphics)
+
+The package [Luxor.jl](https://github.com/JuliaGraphics/Luxor.jl) is a good tool to create a logo.
+
+# Links
+
+
+- [Julia Observer](https://juliaobserver.com)
+- [Simplifying working with Julia packages and dependencies](https://github.com/JuliaPackaging)
+- [Creating a new package in Julia](https://attractivechaos.wordpress.com/2018/09/26/creating-a-new-package-in-julia/)
+- [Documenter](https://github.com/JuliaDocs/Documenter.jl)
+- [Finalizing Your Julia Package: Documentation, Testing, Coverage, and Publishing](http://www.stochasticlifestyle.com/finalizing-julia-package-documentation-testing-coverage-publishing/) (outdated)
+- [Revise.jl : Automatically update function definitions in a running Julia session](https://github.com/timholy/Revise.jl)

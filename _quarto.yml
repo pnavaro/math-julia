@@ -7,7 +7,7 @@ project:
     - "*.qmd"
 
 website:
-  title: Scientific computing with Julia
+  title: Maths with Julia
   site-url: https://pnavaro.github.io/math-julia
   repo-url: https://github.com/pnavaro/math-julia
   repo-branch: master
@@ -43,6 +43,8 @@ website:
           - href: diffeq/poisson-equation.qmd
           - href: diffeq/rotation-with-fft.qmd
           - href: diffeq/gpu.qmd
+      - text: "Package"
+        href: "package.qmd"
       - text: "References"
         href: "references.qmd"
 
