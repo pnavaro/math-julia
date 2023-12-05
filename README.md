@@ -1,4 +1,4 @@
-# Julia notebooks
+# Atelier Julia de l'IRMAR
 
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/pnavaro/math-julia/master)
 
