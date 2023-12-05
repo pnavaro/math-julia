@@ -330,8 +330,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">new_sum</span>(<span class="op">$</span>myvec)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">new_sum_inbounds</span>(<span class="op">$</span>myvec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  96.531 μs (0 allocations: 0 bytes)
-  96.771 μs (0 allocations: 0 bytes)</code></pre>
+<pre><code>  96.831 μs (0 allocations: 0 bytes)
+  96.611 μs (0 allocations: 0 bytes)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>500000500000</code></pre>
@@ -379,10 +379,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">timeit</span>(<span class="fl">10</span>, <span class="fl">10</span>)</span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">timeit</span>(<span class="fl">1000</span>, <span class="fl">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>GFlop/sec        = 0.8298755186721992
-GFlop/sec (SIMD) = 0.40733197556008144
-GFlop/sec        = 2.221948181946449
-GFlop/sec (SIMD) = 36.83851835479177</code></pre>
+<pre><code>GFlop/sec        = 0.8
+GFlop/sec (SIMD) = 0.5390835579514826
+GFlop/sec        = 2.217673527409336
+GFlop/sec (SIMD) = 43.00427892575311</code></pre>
 </div>
 </div>
 <hr>
@@ -443,11 +443,11 @@ GFlop/sec (SIMD) = 36.83851835479177</code></pre>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span>(<span class="fl">10</span>)</span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">main</span>(<span class="fl">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.023389 seconds
+<pre><code>  0.023545 seconds
  nu = 13.187330309540112 
-  0.412435 seconds
+  0.420939 seconds
  nu = 198.74110382490193 
-  0.412711 seconds (187 allocations: 44.430 KiB)</code></pre>
+  0.421161 seconds (187 allocations: 44.430 KiB)</code></pre>
 </div>
 </div>
 <hr>
@@ -456,9 +456,9 @@ GFlop/sec (SIMD) = 36.83851835479177</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>  0.032776 seconds
  nu = 13.187330309540112 
-  0.878173 seconds
+  0.888579 seconds
  nu = 198.74110382490198 
-  0.878265 seconds (26 allocations: 33.352 KiB)</code></pre>
+  0.888678 seconds (26 allocations: 33.352 KiB)</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div class="ansi-escaped-output">
