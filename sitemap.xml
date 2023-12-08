@@ -2,70 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pnavaro.github.io/math-julia/references.html</loc>
-    <lastmod>2023-12-08T08:55:31.547Z</lastmod>
+    <lastmod>2023-12-08T09:07:34.682Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/when-avoid-abstract-type.html</loc>
-    <lastmod>2023-12-08T08:55:04.071Z</lastmod>
+    <lastmod>2023-12-08T09:07:09.610Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/put-code-inside-function.html</loc>
-    <lastmod>2023-12-08T08:54:29.971Z</lastmod>
+    <lastmod>2023-12-08T09:06:36.571Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/pay-attention-to-memory-allocation.html</loc>
-    <lastmod>2023-12-08T08:53:31.184Z</lastmod>
+    <lastmod>2023-12-08T09:05:38.752Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/consider-static-arrays.html</loc>
-    <lastmod>2023-12-08T08:52:21.268Z</lastmod>
+    <lastmod>2023-12-08T09:04:26.925Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/package.html</loc>
-    <lastmod>2023-12-08T08:50:31.932Z</lastmod>
+    <lastmod>2023-12-08T09:02:39.922Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/diffeq/runge-kutta.html</loc>
-    <lastmod>2023-12-08T08:50:30.868Z</lastmod>
+    <lastmod>2023-12-08T09:02:38.858Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/diffeq/poisson-equation.html</loc>
-    <lastmod>2023-12-08T08:43:53.709Z</lastmod>
+    <lastmod>2023-12-08T08:56:01.879Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/basics/index.html</loc>
-    <lastmod>2023-12-08T08:43:31.242Z</lastmod>
+    <lastmod>2023-12-08T08:55:40.547Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/diffeq/gpu.html</loc>
-    <lastmod>2023-12-08T08:43:32.658Z</lastmod>
+    <lastmod>2023-12-08T08:55:41.911Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/diffeq/rotation-with-fft.html</loc>
-    <lastmod>2023-12-08T08:49:55.644Z</lastmod>
+    <lastmod>2023-12-08T09:02:03.799Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/index.html</loc>
-    <lastmod>2023-12-08T08:50:31.216Z</lastmod>
+    <lastmod>2023-12-08T09:02:39.202Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/access-arrays-in-memory-order.html</loc>
-    <lastmod>2023-12-08T08:51:09.320Z</lastmod>
+    <lastmod>2023-12-08T09:03:16.598Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/good-practices-for-io.html</loc>
-    <lastmod>2023-12-08T08:52:21.536Z</lastmod>
+    <lastmod>2023-12-08T09:04:27.193Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/performance-annotations.html</loc>
-    <lastmod>2023-12-08T08:53:59.724Z</lastmod>
+    <lastmod>2023-12-08T09:06:07.263Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/vectorized-operations.html</loc>
-    <lastmod>2023-12-08T08:54:42.919Z</lastmod>
+    <lastmod>2023-12-08T09:06:49.175Z</lastmod>
   </url>
   <url>
     <loc>https://pnavaro.github.io/math-julia/performance/write-type-stable-functions.html</loc>
-    <lastmod>2023-12-08T08:55:31.279Z</lastmod>
+    <lastmod>2023-12-08T09:07:34.410Z</lastmod>
   </url>
 </urlset>

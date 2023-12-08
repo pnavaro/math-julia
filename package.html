@@ -429,7 +429,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> Summary<span class="op">:</span>             <span class="op">|</span> Pass  Total</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> convert Celsius to Fahrenheit <span class="op">|</span>    <span class="fl">1</span>      <span class="fl">1</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   Testing Temperature tests passed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Exercises : - Add a new test for <code>fahrenheit(20)</code> - Launch tests - Implement two tests for the inverse function named celsius - Implement the function - Launch tests</p>
+<p>Exercises :</p>
+<ul>
+<li>Add a new test for <code>fahrenheit(20)</code></li>
+<li>Launch tests</li>
+<li>Implement two tests for the inverse function named celsius</li>
+<li>Implement the function</li>
+<li>Launch tests</li>
+</ul>
 </section>
 <section id="documentation" class="level2">
 <h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
@@ -460,7 +467,7 @@ Order   = [:type, :function]
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cn">ENV</span>[<span class="st">"GKSwstype"</span>] <span class="op">=</span> <span class="st">"100"</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cn">ENV</span>[<span class="st">"GKSwstype"</span>] <span class="op">=</span> <span class="st">"100"</span> <span class="co"># Avoid issues with display when generating documentation</span></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">makedocs</span>(modules<span class="op">=</span>[Temperature],</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>         doctest <span class="op">=</span> <span class="cn">false</span>,</span>
@@ -471,6 +478,7 @@ Order   = [:type, :function]
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">deploydocs</span>(</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    repo   <span class="op">=</span> <span class="st">"github.com/pnavaro/Temperature.jl.git"</span></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Is is possible to add BibTeX citations and references in documentation pages with <a href="https://github.com/JuliaDocs/DocumenterCitations.jl">DocumenterCitations.jl</a>.</p>
 </section>
 <section id="add-a-repository-on-github" class="level1">
 <h1>Add a repository on Github</h1>
@@ -483,7 +491,7 @@ Order   = [:type, :function]
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Initialized</span> empty Git repository in /Users/navaro/JuliaProjects/Temperature/.git/</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[master</span> <span class="er">(</span><span class="ex">root-commit</span><span class="kw">)</span> <span class="ex">8863c2e]</span> first commit</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[main</span> <span class="er">(</span><span class="ex">root-commit</span><span class="kw">)</span> <span class="ex">8863c2e]</span> first commit</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">11</span> files changed, 287 insertions<span class="er">(</span><span class="ex">+</span><span class="kw">)</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Manifest.toml</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Project.toml</span>
@@ -495,7 +503,7 @@ Order   = [:type, :function]
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/Temperature.jl</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 test/runtests.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push <span class="at">-u</span> origin master</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push <span class="at">-u</span> origin main</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Enumerating</span> objects: 17, done.</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Counting</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> done.</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Delta</span> compression using up to 8 threads</span>
@@ -503,8 +511,8 @@ Order   = [:type, :function]
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> 4.29 KiB <span class="kw">|</span> <span class="ex">2.15</span> MiB/s, done.</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> 17 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span><span class="ex">,</span> reused 0 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="ex">To</span> github.com:pnavaro/Temperature.jl.git</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> [new branch]      master <span class="at">-</span><span class="op">&gt;</span> master</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Branch</span> <span class="st">'master'</span> set up to track remote branch <span class="st">'master'</span> from <span class="st">'origin'</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> [new branch]      main <span class="at">-</span><span class="op">&gt;</span> main</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Branch</span> <span class="st">'main'</span> set up to track remote branch <span class="st">'main'</span> from <span class="st">'origin'</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="ignore-some-files" class="level3">
 <h3 class="anchored" data-anchor-id="ignore-some-files">Ignore some files</h3>
 <pre><code>$ cat .gitignore
@@ -524,9 +532,9 @@ Manifest.toml</code></pre>
   Updating git-repo `https://github.com/pnavaro/Temperature.jl.git`
  Resolving package versions...
   Updating `~/.julia/environments/v1.1/Project.toml`
-  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git)
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #main (https://github.com/pnavaro/Temperature.jl.git)
   Updating `~/.julia/environments/v1.1/Manifest.toml`
-  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git`</code></pre>
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #main (https://github.com/pnavaro/Temperature.jl.git`</code></pre>
 </section>
 <section id="test-it" class="level3">
 <h3 class="anchored" data-anchor-id="test-it">Test it</h3>
@@ -546,7 +554,7 @@ Test Fahrenheit function |    1      1
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="on-github-choose-your-license" class="level1">
 <h1>On Github choose your license</h1>
@@ -556,12 +564,12 @@ Test Fahrenheit function |    1      1
 <li>Choose a license template button.</li>
 <li>Click Choose a license template.</li>
 <li>Add a license to your project.</li>
-<li>Don’t create pull request choose “master” branch.</li>
+<li>Don’t create pull request choose “main” branch.</li>
 </ul>
 </section>
 <section id="on-your-computer" class="level1">
 <h1>On your computer</h1>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="codecov" class="level2">
 <h2 class="anchored" data-anchor-id="codecov">Codecov</h2>
 <p>Add your repository by going to https://codecov.io/gh</p>
@@ -612,7 +620,7 @@ julia&gt; DocumenterTools.genkeys(Temperature)</code></pre>
 <ul>
 <li>On GitHub, navigate to your GitHub Pages site’s repository.</li>
 <li>Under your repository name, click Settings.</li>
-<li>Use the Select source drop-down menu to select master or gh-pages as your GitHub Pages publishing source.</li>
+<li>Use the Select source drop-down menu to select main or gh-pages as your GitHub Pages publishing source.</li>
 <li>Click Save.</li>
 </ul>
 <p>By default Documenter will create a link called <code>dev</code> that points to the latest version</p>
@@ -624,7 +632,7 @@ julia&gt; DocumenterTools.genkeys(Temperature)</code></pre>
 <li>Codecov badge : https://codecov.io/gh/pnavaro/Temperature.jl/settings/badge</li>
 </ul>
 <div class="sourceCode" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Build Status](https://github.com/pnavaro/Temperature.jl/actions/workflows/CI.yml/badge.svg?branch=main)</span><span class="co">]</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)</span><span class="co">](https://codecov.io/gh/pnavaro/Temperature.jl)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/main/graph/badge.svg)</span><span class="co">](https://codecov.io/gh/pnavaro/Temperature.jl)</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-stable-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/stable)</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-dev-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/dev)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
