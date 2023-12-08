@@ -305,10 +305,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#on-github-choose-your-license" id="toc-on-github-choose-your-license" class="nav-link" data-scroll-target="#on-github-choose-your-license">On Github choose your license</a></li>
   <li><a href="#on-your-computer" id="toc-on-your-computer" class="nav-link" data-scroll-target="#on-your-computer">On your computer</a>
   <ul class="collapse">
-  <li><a href="#travis" id="toc-travis" class="nav-link" data-scroll-target="#travis">Travis</a></li>
   <li><a href="#codecov" id="toc-codecov" class="nav-link" data-scroll-target="#codecov">Codecov</a></li>
   <li><a href="#hosting-your-documentation-on-github-pages" id="toc-hosting-your-documentation-on-github-pages" class="nav-link" data-scroll-target="#hosting-your-documentation-on-github-pages">Hosting your documentation on Github pages</a></li>
-  <li><a href="#update-documentation-with-travis" id="toc-update-documentation-with-travis" class="nav-link" data-scroll-target="#update-documentation-with-travis">Update documentation with Travis</a></li>
   </ul></li>
   <li><a href="#enable-github-pages" id="toc-enable-github-pages" class="nav-link" data-scroll-target="#enable-github-pages">Enable GitHub Pages</a>
   <ul class="collapse">
@@ -536,7 +534,7 @@ Manifest.toml</code></pre>
    Testing Temperature
 
 Test Summary:                 | Pass  Total
-Test advection sinus function |    1      1
+Test Fahrenheit function |    1      1
    Testing Temperature tests passed</code></pre>
 </section>
 </section>
@@ -564,13 +562,6 @@ Test advection sinus function |    1      1
 <section id="on-your-computer" class="level1">
 <h1>On your computer</h1>
 <div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="travis" class="level2">
-<h2 class="anchored" data-anchor-id="travis">Travis</h2>
-<p>Add your repository by going to https://travis-ci.org</p>
-<ul>
-<li>Profile -&gt; Settings -&gt; Enable your repository</li>
-</ul>
-</section>
 <section id="codecov" class="level2">
 <h2 class="anchored" data-anchor-id="codecov">Codecov</h2>
 <p>Add your repository by going to https://codecov.io/gh</p>
@@ -608,28 +599,12 @@ Test advection sinus function |    1      1
 pkg&gt; activate .</code></pre>
 <pre class="julia-repl"><code>julia&gt; using DocumenterTools
 julia&gt; using Temperature
-julia&gt; Travis.genkeys(Temperature)</code></pre>
+julia&gt; DocumenterTools.genkeys(Temperature)</code></pre>
 <p>Follow the instructions that are printed out</p>
 <ul>
 <li>Add the public ssh key to your settings page for the GitHub repository.</li>
 <li>Don’t forget to check <strong><code>Allow write access</code></strong> to allow Documenter to commit the generated documentation to the repo.</li>
-<li>Next add the long private key named DOCUMENTER_KEY to the Travis settings page using the provided link.</li>
-<li>Make sure that the “Display value in build log” option is <strong>OFF</strong>.</li>
 </ul>
-</section>
-<section id="update-documentation-with-travis" class="level2">
-<h2 class="anchored" data-anchor-id="update-documentation-with-travis">Update documentation with Travis</h2>
-<p>To tell Travis that we want a new build stage we can add the following to the <code>.travis.yml</code> file:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">include</span><span class="kw">:</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> </span><span class="st">"Documentation"</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">julia</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">os</span><span class="kw">:</span><span class="at"> linux</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd()));</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="at">                                               Pkg.instantiate()'</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ docs/make.jl</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">after_success</span><span class="kw">:</span><span class="at"> skip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="enable-github-pages" class="level1">
@@ -644,15 +619,14 @@ julia&gt; Travis.genkeys(Temperature)</code></pre>
 <pre><code>https://pnavaro.github.io/Temperature.jl/dev</code></pre>
 <section id="badges" class="level2">
 <h2 class="anchored" data-anchor-id="badges">Badges</h2>
-<p>It is common practice to make use of “badges” for Travis build status, code coverage and documentation. Adding the following to your package <code>README.md</code> should be all that is necessary:</p>
+<p>It is common practice to make use of “badges” for build status, code coverage and documentation. Adding the following to your package <code>README.md</code> should be all that is necessary:</p>
 <ul>
 <li>Codecov badge : https://codecov.io/gh/pnavaro/Temperature.jl/settings/badge</li>
-<li>Travis badge : https://travis-ci.org/ click on the the badge corresponding to your repository.</li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Build Status](https://travis-ci.org/pnavaro/Temperature.jl.svg?branch=master)</span><span class="co">](https://travis-ci.org/pnavaro/Temperature.jl)</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)</span><span class="co">](https://codecov.io/gh/pnavaro/Temperature.jl)</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-stable-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/stable)</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-dev-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/dev)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Build Status](https://github.com/pnavaro/Temperature.jl/actions/workflows/CI.yml/badge.svg?branch=main)</span><span class="co">]</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)</span><span class="co">](https://codecov.io/gh/pnavaro/Temperature.jl)</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-stable-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/stable)</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-dev-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/dev)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="register-your-package" class="level2">
 <h2 class="anchored" data-anchor-id="register-your-package">Register your package</h2>
@@ -671,8 +645,6 @@ julia&gt; Travis.genkeys(Temperature)</code></pre>
 <li>Mixed language <a href="https://github.com/JuliaPackaging/BinDeps.jl">BinDeps.jl</a></li>
 <li>Create a pdf with Documenter</li>
 <li><a href="https://fredrikekre.github.io/Literate.jl">Literate.jl</a> : create markdown file and/or jupyter notebook from a julia program. Easy way to create your examples and tutorials.</li>
-<li><a href="https://github.com/oxinabox/WeaveAwayNotebooks">WeaveAwayNotebooks.jl</a> : convert Jupyter Notebooks to Literate.jl files</li>
-<li><a href="https://github.com/mpastell/Weave.jl">Weave.jl</a> : Scientific reports/literate programming for Julia</li>
 </ul>
 </section>
 </section>
