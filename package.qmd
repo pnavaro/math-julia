@@ -128,6 +128,7 @@ Test convert Celsius to Fahrenheit |    1      1
 ```
 
 Exercises : 
+
 - Add a new test for `fahrenheit(20)`
 - Launch tests
 - Implement two tests for the inverse function named celsius
@@ -202,7 +203,7 @@ $ git add .
 
 ```bash
 $ git commit -m "first commit"
-[master (root-commit) 8863c2e] first commit
+[main (root-commit) 8863c2e] first commit
  11 files changed, 287 insertions(+)
  create mode 100644 Manifest.toml
  create mode 100644 Project.toml
@@ -217,7 +218,7 @@ $ git commit -m "first commit"
 
 ```bash
 $ git remote add origin git@github.com:pnavaro/Temperature.jl.git
-$ git push -u origin master
+$ git push -u origin main
 Enumerating objects: 17, done.
 Counting objects: 100% (17/17), done.
 Delta compression using up to 8 threads
@@ -225,8 +226,8 @@ Compressing objects: 100% (13/13), done.
 Writing objects: 100% (17/17), 4.29 KiB | 2.15 MiB/s, done.
 Total 17 (delta 0), reused 0 (delta 0)
 To github.com:pnavaro/Temperature.jl.git
- * [new branch]      master -> master
-Branch 'master' set up to track remote branch 'master' from 'origin'.
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
 ```
 
 ### Ignore some files
@@ -251,9 +252,9 @@ Manifest.toml
   Updating git-repo `https://github.com/pnavaro/Temperature.jl.git`
  Resolving package versions...
   Updating `~/.julia/environments/v1.1/Project.toml`
-  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git)
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #main (https://github.com/pnavaro/Temperature.jl.git)
   Updating `~/.julia/environments/v1.1/Manifest.toml`
-  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #master (https://github.com/pnavaro/Temperature.jl.git`
+  [417a5b38] ~ Temperature v0.1.0 [`~/JuliaProjects/Temperature`] ⇒ v0.1.0 #main (https://github.com/pnavaro/Temperature.jl.git`
 ```
 
 ### Test it
@@ -276,7 +277,7 @@ git init
 git add README.md
 git commit -m "first commit"
 git remote add origin git@github.com:pnavaro/Temperature.jl.git
-git push -u origin master
+git push -u origin main
 ```
 
 # On Github choose your license
@@ -288,12 +289,12 @@ In the file name field, type LICENSE (with all caps).
 - Choose a license template button.
 - Click Choose a license template.
 - Add a license to your project.
-- Don't create pull request choose "master" branch.
+- Don't create pull request choose "main" branch.
 
 # On your computer
 
 ```bash
-git pull origin master
+git pull origin main
 ```
 
 ## Codecov
@@ -352,7 +353,7 @@ Follow the instructions that are printed out
 
 - On GitHub, navigate to your GitHub Pages site's repository.
 - Under your repository name, click Settings.
-- Use the Select source drop-down menu to select master or gh-pages as your GitHub Pages publishing source.
+- Use the Select source drop-down menu to select main or gh-pages as your GitHub Pages publishing source.
 - Click Save.
 
 By default Documenter will create a link called `dev` that points to the latest version
@@ -370,7 +371,7 @@ that is necessary:
 
 ```markdown
 [![Build Status](https://github.com/pnavaro/Temperature.jl/actions/workflows/CI.yml/badge.svg?branch=main)]
-[![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/pnavaro/Temperature.jl)
+[![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/pnavaro/Temperature.jl)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://pnavaro.github.io/Temperature.jl/stable)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://pnavaro.github.io/Temperature.jl/dev)
 ```
