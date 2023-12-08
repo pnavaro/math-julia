@@ -31,23 +31,24 @@ mkdir -p ~/.julia/config/ && echo "using Revise" >> ~/.julia/config/startup.jl
 - [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl): Documentation generator.
 - [DocumenterTools.jl](https://github.com/JuliaDocs/DocumenterTools.jl) : Extra tools for setting up Documenter.
 - [DocStringExtensions.jl](https://github.com/JuliaDocs/DocStringExtensions.jl): Extensions for Julia's docsystem.
-- [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl)
-- [CompatDevTools.jl](https://github.com/charleskawczynski/CompatDevTools.jl)
+- [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl): code formatter for Julia.
+- [CompatHelperLocal.jl](https://gitlab.com/aplavin/compathelperlocal.jl) : Help for `[compat]` entries
+- [Aqua.jl](https://github.com/JuliaTesting/Aqua.jl): Auto QUality Assurance for Julia packages.
 
 
-## Create the Julia package `Temperatures`
+## Create the Julia package `Temperature`
 
 ```julia
-(v1.0) pkg> generate Temperatures
-Generating project Temperatures:
+(v1.0) pkg> generate Temperature
+Generating project Temperature:
     Temeperatures/Project.toml
-    Temeperatures/src/Temperatures.jl
+    Temeperatures/src/Temperature.jl
 ```
 
 ```julia
-shell> cat Temperatures/Project.toml
+shell> cat Temperature/Project.toml
 authors = ["Pierre Navaro <pierre.navaro@math.cnrs.fr>"]
-name = "Temperatures"
+name = "Temperature"
 uuid = "417a5b38-18da-11e9-35ce-9bdc85ad86c9"
 version = "0.1.0"
 
@@ -76,7 +77,7 @@ useful.
 However, for an “application”, i.e. something at “top level” (say
 your julia code to do the simulations in a scientific paper) then
 it is likely useful to be able to replicate that exact state and
-the Manifest is thus useful to check in."
+the Manifest is thus useful to check in.
 
 
 ## Check the documentation
@@ -101,11 +102,17 @@ add file runtests.jl
 shell> cat test/runtests.jl
 using Temperature
 
-@testset "Test conversion Celsius to Fahrenheit function" begin
+@testset "convert Celsius to Fahrenheit" begin
 
     @test fahrenheit(0.0) == 32.0
 
 end
+```
+
+Implement the fahrenheit function in `src/Temperature.jl`
+
+```julia
+fahrenheit(t) = ( t + 32) * 9 / 5
 ```
 
 ## Verify the test
@@ -115,9 +122,16 @@ end
    Testing Temperature
  Resolving package versions...
 Test Summary:             | Pass  Total
-Test advection sinus function |    1      1
+Test convert Celsius to Fahrenheit |    1      1
    Testing Temperature tests passed
 ```
+
+Exercises : 
+- Add a new test for `fahrenheit(20)`
+- Launch tests
+- Implement two tests for the inverse function named celsius
+- Implement the function
+- Launch tests
 
 ## Documentation
 
@@ -423,6 +437,9 @@ The package [Luxor.jl](https://github.com/JuliaGraphics/Luxor.jl) is a good tool
 # Links
 
 
+- [Pkg.jl](https://pkgdocs.julialang.org/v1/getting-started/)
+- [Automate your Code Quality in Julia](https://forem.julialang.org/matthijscox/automate-your-code-quality-in-julia-12hn)
+- [JuliaTemplateRepo](https://bjack205.github.io/JuliaTemplateRepo.jl/dev/index.html)
 - [Julia Observer](https://juliaobserver.com)
 - [Simplifying working with Julia packages and dependencies](https://github.com/JuliaPackaging)
 - [Creating a new package in Julia](https://attractivechaos.wordpress.com/2018/09/26/creating-a-new-package-in-julia/)
