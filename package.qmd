@@ -263,7 +263,7 @@ Manifest.toml
    Testing Temperature
 
 Test Summary:                 | Pass  Total
-Test advection sinus function |    1      1
+Test Fahrenheit function |    1      1
    Testing Temperature tests passed
 ```
 
@@ -295,13 +295,6 @@ In the file name field, type LICENSE (with all caps).
 ```bash
 git pull origin master
 ```
-
-## Travis
-
-Add your repository by going to https://travis-ci.org
-
-- Profile -> Settings -> Enable your repository
-
 
 ## Codecov
 
@@ -346,7 +339,7 @@ pkg> activate .
 ```julia-repl
 julia> using DocumenterTools
 julia> using Temperature
-julia> Travis.genkeys(Temperature)
+julia> DocumenterTools.genkeys(Temperature)
 ```
 
 Follow the instructions that are printed out
@@ -354,29 +347,8 @@ Follow the instructions that are printed out
 - Add the public ssh key to your settings page for the GitHub repository.
 - Don't forget to check **`Allow write access`** to allow Documenter to commit the
     generated documentation to the repo.
-- Next add the long private key named DOCUMENTER_KEY to the Travis settings page using the provided link.
-- Make sure that the "Display value in build log" option is **OFF**.
-
-## Update documentation with Travis
-
-To tell Travis that we want a new build stage we can add the following to the `.travis.yml` file:
-
-```yaml
-jobs:
-  include:
-    - stage: "Documentation"
-      julia: 1.0
-      os: linux
-      script:
-        - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd()));
-                                               Pkg.instantiate()'
-        - julia --project=docs/ docs/make.jl
-      after_success: skip
-```
 
 # Enable GitHub Pages
-
-
 
 - On GitHub, navigate to your GitHub Pages site's repository.
 - Under your repository name, click Settings.
@@ -391,15 +363,13 @@ https://pnavaro.github.io/Temperature.jl/dev
 
 ## Badges
 
-
-It is common practice to make use of "badges" for Travis build status, code coverage and documentation. Adding the following to your package `README.md` should be all
+It is common practice to make use of "badges" for build status, code coverage and documentation. Adding the following to your package `README.md` should be all
 that is necessary:
 
 - Codecov badge : https://codecov.io/gh/pnavaro/Temperature.jl/settings/badge
-- Travis badge : https://travis-ci.org/ click on the the badge corresponding to your repository.
 
 ```markdown
-[![Build Status](https://travis-ci.org/pnavaro/Temperature.jl.svg?branch=master)](https://travis-ci.org/pnavaro/Temperature.jl)
+[![Build Status](https://github.com/pnavaro/Temperature.jl/actions/workflows/CI.yml/badge.svg?branch=main)]
 [![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/pnavaro/Temperature.jl)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://pnavaro.github.io/Temperature.jl/stable)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://pnavaro.github.io/Temperature.jl/dev)
@@ -420,8 +390,6 @@ that is necessary:
 - Mixed language [BinDeps.jl](https://github.com/JuliaPackaging/BinDeps.jl)
 - Create a pdf with Documenter
 - [Literate.jl](https://fredrikekre.github.io/Literate.jl) : create markdown file and/or jupyter notebook from a julia program. Easy way to create your examples and tutorials.
-- [WeaveAwayNotebooks.jl](https://github.com/oxinabox/WeaveAwayNotebooks) : convert Jupyter Notebooks to Literate.jl files
-- [Weave.jl](https://github.com/mpastell/Weave.jl) : Scientific reports/literate programming for Julia
 
 # Bonus
 
