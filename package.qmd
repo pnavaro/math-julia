@@ -34,6 +34,7 @@ mkdir -p ~/.julia/config/ && echo "using Revise" >> ~/.julia/config/startup.jl
 - [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl): code formatter for Julia.
 - [CompatHelperLocal.jl](https://gitlab.com/aplavin/compathelperlocal.jl) : Help for `[compat]` entries
 - [Aqua.jl](https://github.com/JuliaTesting/Aqua.jl): Auto QUality Assurance for Julia packages.
+- [JET.jl](https://github.com/aviatesk/JET.jl) : code analyzer for Julia.
 
 
 ## Create the Julia package `Temperature`
@@ -211,8 +212,6 @@ $ git commit -m "first commit"
  create mode 100644 docs/make.jl
  create mode 100644 docs/src/index.md
  create mode 100644 src/Temperature.jl
- create mode 100644 src/advection.jl
- create mode 100644 src/bspline.jl
  create mode 100644 test/runtests.jl
 ```
 
@@ -444,5 +443,6 @@ The package [Luxor.jl](https://github.com/JuliaGraphics/Luxor.jl) is a good tool
 - [Simplifying working with Julia packages and dependencies](https://github.com/JuliaPackaging)
 - [Creating a new package in Julia](https://attractivechaos.wordpress.com/2018/09/26/creating-a-new-package-in-julia/)
 - [Documenter](https://github.com/JuliaDocs/Documenter.jl)
-- [Finalizing Your Julia Package: Documentation, Testing, Coverage, and Publishing](http://www.stochasticlifestyle.com/finalizing-julia-package-documentation-testing-coverage-publishing/) (outdated)
-- [Revise.jl : Automatically update function definitions in a running Julia session](https://github.com/timholy/Revise.jl)
+- [Revise.jl](https://github.com/timholy/Revise.jl) Automatically update function definitions in a running Julia session.
+- [Julia Actions](https://github.com/julia-actions) GitHub actions for Julia.
+- [Example.jl](https://github.com/JuliaLang/Example.jl) Example Julia package repo.
