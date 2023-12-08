@@ -288,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#why-make-a-package" id="toc-why-make-a-package" class="nav-link active" data-scroll-target="#why-make-a-package">Why make a package ?</a></li>
   <li><a href="#configure-git" id="toc-configure-git" class="nav-link" data-scroll-target="#configure-git">Configure git</a></li>
   <li><a href="#install-some-useful-packages" id="toc-install-some-useful-packages" class="nav-link" data-scroll-target="#install-some-useful-packages">Install some useful packages</a></li>
-  <li><a href="#create-the-julia-package-temperatures" id="toc-create-the-julia-package-temperatures" class="nav-link" data-scroll-target="#create-the-julia-package-temperatures">Create the Julia package <code>Temperatures</code></a></li>
+  <li><a href="#create-the-julia-package-temperature" id="toc-create-the-julia-package-temperature" class="nav-link" data-scroll-target="#create-the-julia-package-temperature">Create the Julia package <code>Temperature</code></a></li>
   <li><a href="#activate-your-package" id="toc-activate-your-package" class="nav-link" data-scroll-target="#activate-your-package">Activate your package</a></li>
   <li><a href="#add-dependencies" id="toc-add-dependencies" class="nav-link" data-scroll-target="#add-dependencies">Add dependencies</a></li>
   <li><a href="#check-the-documentation" id="toc-check-the-documentation" class="nav-link" data-scroll-target="#check-the-documentation">Check the documentation</a></li>
@@ -368,19 +368,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>: Documentation generator.</li>
 <li><a href="https://github.com/JuliaDocs/DocumenterTools.jl">DocumenterTools.jl</a> : Extra tools for setting up Documenter.</li>
 <li><a href="https://github.com/JuliaDocs/DocStringExtensions.jl">DocStringExtensions.jl</a>: Extensions for Julia’s docsystem.</li>
-<li><a href="https://github.com/domluna/JuliaFormatter.jl">JuliaFormatter.jl</a></li>
-<li><a href="https://github.com/charleskawczynski/CompatDevTools.jl">CompatDevTools.jl</a></li>
+<li><a href="https://github.com/domluna/JuliaFormatter.jl">JuliaFormatter.jl</a>: code formatter for Julia.</li>
+<li><a href="https://gitlab.com/aplavin/compathelperlocal.jl">CompatHelperLocal.jl</a> : Help for <code>[compat]</code> entries</li>
+<li><a href="https://github.com/JuliaTesting/Aqua.jl">Aqua.jl</a>: Auto QUality Assurance for Julia packages.</li>
 </ul>
 </section>
-<section id="create-the-julia-package-temperatures" class="level2">
-<h2 class="anchored" data-anchor-id="create-the-julia-package-temperatures">Create the Julia package <code>Temperatures</code></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(v1<span class="fl">.0</span>) pkg<span class="op">&gt;</span> generate Temperatures</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Generating project Temperatures<span class="op">:</span></span>
+<section id="create-the-julia-package-temperature" class="level2">
+<h2 class="anchored" data-anchor-id="create-the-julia-package-temperature">Create the Julia package <code>Temperature</code></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(v1<span class="fl">.0</span>) pkg<span class="op">&gt;</span> generate Temperature</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Generating project Temperature<span class="op">:</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Temeperatures<span class="op">/</span>Project.toml</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    Temeperatures<span class="op">/</span>src<span class="op">/</span>Temperatures.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat Temperatures<span class="op">/</span>Project.toml</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    Temeperatures<span class="op">/</span>src<span class="op">/</span>Temperature.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat Temperature<span class="op">/</span>Project.toml</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>authors <span class="op">=</span> [<span class="st">"Pierre Navaro &lt;pierre.navaro@math.cnrs.fr&gt;"</span>]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Temperatures"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Temperature"</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>uuid <span class="op">=</span> <span class="st">"417a5b38-18da-11e9-35ce-9bdc85ad86c9"</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>version <span class="op">=</span> <span class="st">"0.1.0"</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
@@ -396,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="add-dependencies">Add dependencies</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> add DocStringExtensions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The Manifest.toml allows someone to replicate the exact version of the dependencies that was recorded in the manifest on e.g.&nbsp;another machine. For a package that is to be used as a library, this is not useful.</p>
-<p>However, for an “application”, i.e.&nbsp;something at “top level” (say your julia code to do the simulations in a scientific paper) then it is likely useful to be able to replicate that exact state and the Manifest is thus useful to check in.”</p>
+<p>However, for an “application”, i.e.&nbsp;something at “top level” (say your julia code to do the simulations in a scientific paper) then it is likely useful to be able to replicate that exact state and the Manifest is thus useful to check in.</p>
 </section>
 <section id="check-the-documentation" class="level2">
 <h2 class="anchored" data-anchor-id="check-the-documentation">Check the documentation</h2>
@@ -413,61 +414,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat test<span class="op">/</span>runtests.jl</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@testset</span> <span class="st">"Test conversion Celsius to Fahrenheit function"</span> <span class="cf">begin</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@testset</span> <span class="st">"convert Celsius to Fahrenheit"</span> <span class="cf">begin</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@test</span> <span class="fu">fahrenheit</span>(<span class="fl">0.0</span>) <span class="op">==</span> <span class="fl">32.0</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Implement the fahrenheit function in <code>src/Temperature.jl</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fahrenheit</span>(t) <span class="op">=</span> ( t <span class="op">+</span> <span class="fl">32</span>) <span class="op">*</span> <span class="fl">9</span> <span class="op">/</span> <span class="fl">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="verify-the-test" class="level2">
 <h2 class="anchored" data-anchor-id="verify-the-test">Verify the test</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> test</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   Testing Temperature</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> Resolving package versions<span class="op">...</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> Summary<span class="op">:</span>             <span class="op">|</span> Pass  Total</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> advection sinus <span class="kw">function</span> <span class="op">|</span>    <span class="fl">1</span>      <span class="fl">1</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>   Testing Temperature tests passed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> test</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   Testing Temperature</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a> Resolving package versions<span class="op">...</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> Summary<span class="op">:</span>             <span class="op">|</span> Pass  Total</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> convert Celsius to Fahrenheit <span class="op">|</span>    <span class="fl">1</span>      <span class="fl">1</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   Testing Temperature tests passed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Exercises : - Add a new test for <code>fahrenheit(20)</code> - Launch tests - Implement two tests for the inverse function named celsius - Implement the function - Launch tests</p>
 </section>
 <section id="documentation" class="level2">
 <h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
 <p>https://github.com/JuliaDocs/Documenter.jl</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">DocumenterTools</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> pwd</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> DocumenterTools.<span class="fu">generate</span>(<span class="st">"docs"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> name of package automatically determined to be <span class="ss">`Temperature`</span>.</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> deploying documentation to <span class="ss">`~/JuliaProjects/Temperature/docs`</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating .gitignore at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>.gitignore</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating make.jl at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>make.jl</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating Project.toml at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>Project.toml</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating src<span class="op">/</span>index.md at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>src<span class="op">/</span>index.md</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat docs<span class="op">/</span>src<span class="op">/</span>index.md</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Temperature.jl</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>Documentation <span class="cf">for</span> Temperature.jl</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">## Types and Functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">DocumenterTools</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> pwd</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> DocumenterTools.<span class="fu">generate</span>(<span class="st">"docs"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> name of package automatically determined to be <span class="ss">`Temperature`</span>.</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> deploying documentation to <span class="ss">`~/JuliaProjects/Temperature/docs`</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating .gitignore at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>.gitignore</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating make.jl at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>make.jl</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating Project.toml at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>Project.toml</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>[ Info<span class="op">:</span> Generating src<span class="op">/</span>index.md at <span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature<span class="op">/</span>docs<span class="op">/</span>src<span class="op">/</span>index.md</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat docs<span class="op">/</span>src<span class="op">/</span>index.md</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Temperature.jl</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>Documentation <span class="cf">for</span> Temperature.jl</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">## Types and Functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>```@autodocs
 Modules = [Temperature]
 Order   = [:type, :function]
 ```</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat docs<span class="op">/</span>make.jl</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Documenter</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cn">ENV</span>[<span class="st">"GKSwstype"</span>] <span class="op">=</span> <span class="st">"100"</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">makedocs</span>(modules<span class="op">=</span>[Temperature],</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>         doctest <span class="op">=</span> <span class="cn">false</span>,</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>         format <span class="op">=</span> Documenter.<span class="fu">HTML</span>(),</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>         sitename <span class="op">=</span> <span class="st">"Temperature.jl"</span>,</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>         pages <span class="op">=</span> [<span class="st">"Documentation"</span>    <span class="op">=&gt;</span> <span class="st">"index.md"</span>])</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">deploydocs</span>(</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    repo   <span class="op">=</span> <span class="st">"github.com/pnavaro/Temperature.jl.git"</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat docs<span class="op">/</span>make.jl</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Documenter</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cn">ENV</span>[<span class="st">"GKSwstype"</span>] <span class="op">=</span> <span class="st">"100"</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">makedocs</span>(modules<span class="op">=</span>[Temperature],</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>         doctest <span class="op">=</span> <span class="cn">false</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>         format <span class="op">=</span> Documenter.<span class="fu">HTML</span>(),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>         sitename <span class="op">=</span> <span class="st">"Temperature.jl"</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>         pages <span class="op">=</span> [<span class="st">"Documentation"</span>    <span class="op">=&gt;</span> <span class="st">"index.md"</span>])</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">deploydocs</span>(</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    repo   <span class="op">=</span> <span class="st">"github.com/pnavaro/Temperature.jl.git"</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="add-a-repository-on-github" class="level1">
 <h1>Add a repository on Github</h1>
@@ -475,35 +479,35 @@ Order   = [:type, :function]
 <ul>
 <li>Note : the repository name has the “.jl” extension</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"# Temperature.jl"</span> <span class="op">&gt;&gt;</span> README.md</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git init</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Initialized</span> empty Git repository in /Users/navaro/JuliaProjects/Temperature/.git/</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[master</span> <span class="er">(</span><span class="ex">root-commit</span><span class="kw">)</span> <span class="ex">8863c2e]</span> first commit</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">11</span> files changed, 287 insertions<span class="er">(</span><span class="ex">+</span><span class="kw">)</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Manifest.toml</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Project.toml</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 README.md</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/.gitignore</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/Project.toml</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/make.jl</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/src/index.md</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/Temperature.jl</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/advection.jl</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/bspline.jl</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 test/runtests.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push <span class="at">-u</span> origin master</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Enumerating</span> objects: 17, done.</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Counting</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> done.</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Delta</span> compression using up to 8 threads</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Compressing</span> objects: 100% <span class="er">(</span><span class="ex">13/13</span><span class="kw">)</span><span class="ex">,</span> done.</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> 4.29 KiB <span class="kw">|</span> <span class="ex">2.15</span> MiB/s, done.</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> 17 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span><span class="ex">,</span> reused 0 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="ex">To</span> github.com:pnavaro/Temperature.jl.git</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> [new branch]      master <span class="at">-</span><span class="op">&gt;</span> master</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Branch</span> <span class="st">'master'</span> set up to track remote branch <span class="st">'master'</span> from <span class="st">'origin'</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"# Temperature.jl"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git init</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Initialized</span> empty Git repository in /Users/navaro/JuliaProjects/Temperature/.git/</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[master</span> <span class="er">(</span><span class="ex">root-commit</span><span class="kw">)</span> <span class="ex">8863c2e]</span> first commit</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">11</span> files changed, 287 insertions<span class="er">(</span><span class="ex">+</span><span class="kw">)</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Manifest.toml</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 Project.toml</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 README.md</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/.gitignore</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/Project.toml</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/make.jl</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/src/index.md</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/Temperature.jl</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/advection.jl</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/bspline.jl</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 test/runtests.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push <span class="at">-u</span> origin master</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Enumerating</span> objects: 17, done.</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Counting</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> done.</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Delta</span> compression using up to 8 threads</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Compressing</span> objects: 100% <span class="er">(</span><span class="ex">13/13</span><span class="kw">)</span><span class="ex">,</span> done.</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> objects: 100% <span class="er">(</span><span class="ex">17/17</span><span class="kw">)</span><span class="ex">,</span> 4.29 KiB <span class="kw">|</span> <span class="ex">2.15</span> MiB/s, done.</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Total</span> 17 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span><span class="ex">,</span> reused 0 <span class="er">(</span><span class="ex">delta</span> 0<span class="kw">)</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="ex">To</span> github.com:pnavaro/Temperature.jl.git</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> [new branch]      master <span class="at">-</span><span class="op">&gt;</span> master</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Branch</span> <span class="st">'master'</span> set up to track remote branch <span class="st">'master'</span> from <span class="st">'origin'</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="ignore-some-files" class="level3">
 <h3 class="anchored" data-anchor-id="ignore-some-files">Ignore some files</h3>
 <pre><code>$ cat .gitignore
@@ -539,13 +543,13 @@ Test advection sinus function |    1      1
 </section>
 <section id="push-the-package-on-github" class="level1">
 <h1>Push the package on github</h1>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Temperature</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"# Temperature.jl"</span> <span class="op">&gt;&gt;</span> README.md</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Temperature</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"# Temperature.jl"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"first commit"</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="on-github-choose-your-license" class="level1">
 <h1>On Github choose your license</h1>
@@ -560,7 +564,7 @@ Test advection sinus function |    1      1
 </section>
 <section id="on-your-computer" class="level1">
 <h1>On your computer</h1>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin master</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="travis" class="level2">
 <h2 class="anchored" data-anchor-id="travis">Travis</h2>
 <p>Add your repository by going to https://travis-ci.org</p>
@@ -571,32 +575,32 @@ Test advection sinus function |    1      1
 <section id="codecov" class="level2">
 <h2 class="anchored" data-anchor-id="codecov">Codecov</h2>
 <p>Add your repository by going to https://codecov.io/gh</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">language</span><span class="kw">:</span><span class="at"> julia</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">os</span><span class="kw">:</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> linux</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> osx</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">julia</span><span class="kw">:</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fl">1.0</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> nightly</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="fu">notifications</span><span class="kw">:</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">email</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">after_success</span><span class="kw">:</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> julia -e 'using Pkg; cd(Pkg.dir("Temperature")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'</span></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">include</span><span class="kw">:</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> </span><span class="st">"Documentation"</span></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">julia</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">os</span><span class="kw">:</span><span class="at"> linux</span></span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ docs/make.jl</span></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"HTML"</span></span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">after_success</span><span class="kw">:</span><span class="at"> skip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">language</span><span class="kw">:</span><span class="at"> julia</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">os</span><span class="kw">:</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> linux</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> osx</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">julia</span><span class="kw">:</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> nightly</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">notifications</span><span class="kw">:</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">email</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="fu">after_success</span><span class="kw">:</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> julia -e 'using Pkg; cd(Pkg.dir("Temperature")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">include</span><span class="kw">:</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> </span><span class="st">"Documentation"</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">julia</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">os</span><span class="kw">:</span><span class="at"> linux</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ docs/make.jl</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"HTML"</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">after_success</span><span class="kw">:</span><span class="at"> skip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="hosting-your-documentation-on-github-pages" class="level2">
 <h2 class="anchored" data-anchor-id="hosting-your-documentation-on-github-pages">Hosting your documentation on Github pages</h2>
@@ -617,16 +621,16 @@ julia&gt; Travis.genkeys(Temperature)</code></pre>
 <section id="update-documentation-with-travis" class="level2">
 <h2 class="anchored" data-anchor-id="update-documentation-with-travis">Update documentation with Travis</h2>
 <p>To tell Travis that we want a new build stage we can add the following to the <code>.travis.yml</code> file:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">include</span><span class="kw">:</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> </span><span class="st">"Documentation"</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">julia</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">os</span><span class="kw">:</span><span class="at"> linux</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">script</span><span class="kw">:</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd()));</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="at">                                               Pkg.instantiate()'</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ docs/make.jl</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">after_success</span><span class="kw">:</span><span class="at"> skip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">include</span><span class="kw">:</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">stage</span><span class="kw">:</span><span class="at"> </span><span class="st">"Documentation"</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">julia</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">os</span><span class="kw">:</span><span class="at"> linux</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">script</span><span class="kw">:</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd()));</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="at">                                               Pkg.instantiate()'</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> julia --project=docs/ docs/make.jl</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">after_success</span><span class="kw">:</span><span class="at"> skip</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="enable-github-pages" class="level1">
@@ -646,10 +650,10 @@ julia&gt; Travis.genkeys(Temperature)</code></pre>
 <li>Codecov badge : https://codecov.io/gh/pnavaro/Temperature.jl/settings/badge</li>
 <li>Travis badge : https://travis-ci.org/ click on the the badge corresponding to your repository.</li>
 </ul>
-<div class="sourceCode" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Build Status](https://travis-ci.org/pnavaro/Temperature.jl.svg?branch=master)</span><span class="co">](https://travis-ci.org/pnavaro/Temperature.jl)</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)</span><span class="co">](https://codecov.io/gh/pnavaro/Temperature.jl)</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-stable-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/stable)</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-dev-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/dev)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Build Status](https://travis-ci.org/pnavaro/Temperature.jl.svg?branch=master)</span><span class="co">](https://travis-ci.org/pnavaro/Temperature.jl)</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![codecov](https://codecov.io/gh/pnavaro/Temperature.jl/branch/master/graph/badge.svg)</span><span class="co">](https://codecov.io/gh/pnavaro/Temperature.jl)</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-stable-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/stable)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](https://img.shields.io/badge/docs-dev-blue.svg)</span><span class="co">](https://pnavaro.github.io/Temperature.jl/dev)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="register-your-package" class="level2">
 <h2 class="anchored" data-anchor-id="register-your-package">Register your package</h2>
@@ -683,6 +687,9 @@ julia&gt; Travis.genkeys(Temperature)</code></pre>
 <section id="links" class="level1">
 <h1>Links</h1>
 <ul>
+<li><a href="https://pkgdocs.julialang.org/v1/getting-started/">Pkg.jl</a></li>
+<li><a href="https://forem.julialang.org/matthijscox/automate-your-code-quality-in-julia-12hn">Automate your Code Quality in Julia</a></li>
+<li><a href="https://bjack205.github.io/JuliaTemplateRepo.jl/dev/index.html">JuliaTemplateRepo</a></li>
 <li><a href="https://juliaobserver.com">Julia Observer</a></li>
 <li><a href="https://github.com/JuliaPackaging">Simplifying working with Julia packages and dependencies</a></li>
 <li><a href="https://attractivechaos.wordpress.com/2018/09/26/creating-a-new-package-in-julia/">Creating a new package in Julia</a></li>
