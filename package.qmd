@@ -175,7 +175,7 @@ using Documenter
 using Temperature
 using Plots
 
-ENV["GKSwstype"] = "100"
+ENV["GKSwstype"] = "100" # Avoid issues with display when generating documentation
 
 makedocs(modules=[Temperature],
          doctest = false,
@@ -187,6 +187,9 @@ deploydocs(
     repo   = "github.com/pnavaro/Temperature.jl.git"
  )
 ```
+
+Is is possible to add BibTeX citations and references in documentation pages with
+[DocumenterCitations.jl](https://github.com/JuliaDocs/DocumenterCitations.jl).
 
 # Add a repository on Github
 
