@@ -366,8 +366,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">build_preallocate</span>(n);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  656.976 ns (4 allocations: 1.92 KiB)
-  160.784 ns (1 allocation: 896 bytes)</code></pre>
+<pre><code>  626.952 ns (4 allocations: 1.92 KiB)
+  160.480 ns (1 allocation: 896 bytes)</code></pre>
 </div>
 </div>
 <hr>
@@ -420,7 +420,7 @@ cat build_preallocate.jl.*.mem
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  3.949 μs (4 allocations: 31.75 KiB)</code></pre>
+<pre><code>  4.060 μs (4 allocations: 31.75 KiB)</code></pre>
 </div>
 </div>
 <hr>
@@ -441,7 +441,7 @@ cat build_preallocate.jl.*.mem
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">find_hypotenuse_optimized</span>(<span class="op">$</span>b, <span class="op">$</span>h);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.844 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  2.771 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 </div>
 <hr>
@@ -484,7 +484,7 @@ cat build_preallocate.jl.*.mem
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">df_dy_optimized!</span>(<span class="op">$</span>f, <span class="op">$</span>fᵗ, <span class="op">$</span>f̂ᵗ, <span class="op">$</span>plan, <span class="op">$</span>exky );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  13.851 ms (2 allocations: 112 bytes)</code></pre>
+<pre><code>  12.623 ms (2 allocations: 112 bytes)</code></pre>
 </div>
 </div>
 

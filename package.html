@@ -371,6 +371,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://github.com/domluna/JuliaFormatter.jl">JuliaFormatter.jl</a>: code formatter for Julia.</li>
 <li><a href="https://gitlab.com/aplavin/compathelperlocal.jl">CompatHelperLocal.jl</a> : Help for <code>[compat]</code> entries</li>
 <li><a href="https://github.com/JuliaTesting/Aqua.jl">Aqua.jl</a>: Auto QUality Assurance for Julia packages.</li>
+<li><a href="https://github.com/aviatesk/JET.jl">JET.jl</a> : code analyzer for Julia.</li>
 </ul>
 </section>
 <section id="create-the-julia-package-temperature" class="level2">
@@ -494,9 +495,7 @@ Order   = [:type, :function]
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/make.jl</span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 docs/src/index.md</span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/Temperature.jl</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/advection.jl</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 src/bspline.jl</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 test/runtests.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">create</span> mode 100644 test/runtests.jl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git remote add origin git@github.com:pnavaro/Temperature.jl.git</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push <span class="at">-u</span> origin master</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Enumerating</span> objects: 17, done.</span>
@@ -694,8 +693,9 @@ julia&gt; Travis.genkeys(Temperature)</code></pre>
 <li><a href="https://github.com/JuliaPackaging">Simplifying working with Julia packages and dependencies</a></li>
 <li><a href="https://attractivechaos.wordpress.com/2018/09/26/creating-a-new-package-in-julia/">Creating a new package in Julia</a></li>
 <li><a href="https://github.com/JuliaDocs/Documenter.jl">Documenter</a></li>
-<li><a href="http://www.stochasticlifestyle.com/finalizing-julia-package-documentation-testing-coverage-publishing/">Finalizing Your Julia Package: Documentation, Testing, Coverage, and Publishing</a> (outdated)</li>
-<li><a href="https://github.com/timholy/Revise.jl">Revise.jl : Automatically update function definitions in a running Julia session</a></li>
+<li><a href="https://github.com/timholy/Revise.jl">Revise.jl</a> Automatically update function definitions in a running Julia session.</li>
+<li><a href="https://github.com/julia-actions">Julia Actions</a> GitHub actions for Julia.</li>
+<li><a href="https://github.com/JuliaLang/Example.jl">Example.jl</a> Example Julia package repo.</li>
 </ul>
 
 
