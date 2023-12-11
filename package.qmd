@@ -60,8 +60,6 @@ version = "0.1.0"
 
 ```julia
 (v1.0) pkg> activate .
-
-(Temperature) pkg> instantiate
 ```
 
 ## Add dependencies
@@ -70,25 +68,18 @@ version = "0.1.0"
 (Temperature) pkg> add DocStringExtensions
 ```
 
-The Manifest.toml allows someone to replicate the exact version of
-the dependencies that was recorded in the manifest on e.g. another
-machine. For a package that is to be used as a library, this is not
-useful.
+The package name is added in the `[deps]` section in the `Project.toml` file.
+
+A new file named Manifest.toml is also created and allows someone to
+replicate the exact version of the dependencies that was recorded
+in the manifest on e.g. another machine. For a package that is to
+be used as a library, this is not useful.
 
 However, for an “application”, i.e. something at “top level” (say
 your julia code to do the simulations in a scientific paper) then
 it is likely useful to be able to replicate that exact state and
 the Manifest is thus useful to check in.
 
-
-## Check the documentation
-
-```julia
-
-julia> using Temperature
-
-help?> celsius
-```
 
 ## Add a test
 
@@ -97,11 +88,12 @@ cd Temperature
 mkdir test
 ```
 
-add file runtests.jl
+create file `runtests.jl`
 
 ```julia
 shell> cat test/runtests.jl
 using Temperature
+using Test
 
 @testset "convert Celsius to Fahrenheit" begin
 
@@ -113,7 +105,12 @@ end
 Implement the fahrenheit function in `src/Temperature.jl`
 
 ```julia
-fahrenheit(t) = ( t + 32) * 9 / 5
+"""
+    fahrenheit(t)
+
+convert temperature in Celsius degrees to Fahrenheit.
+"""
+fahrenheit(t) = t * 9 / 5 + 32
 ```
 
 ## Verify the test
@@ -125,6 +122,17 @@ fahrenheit(t) = ( t + 32) * 9 / 5
 Test Summary:             | Pass  Total
 Test convert Celsius to Fahrenheit |    1      1
    Testing Temperature tests passed
+```
+
+The `Test` package must be added to the dependencies...
+
+## Check the documentation
+
+```julia
+
+julia> using Temperature
+
+help?> fahrenheit
 ```
 
 Exercises : 
