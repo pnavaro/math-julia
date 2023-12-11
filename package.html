@@ -291,9 +291,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#create-the-julia-package-temperature" id="toc-create-the-julia-package-temperature" class="nav-link" data-scroll-target="#create-the-julia-package-temperature">Create the Julia package <code>Temperature</code></a></li>
   <li><a href="#activate-your-package" id="toc-activate-your-package" class="nav-link" data-scroll-target="#activate-your-package">Activate your package</a></li>
   <li><a href="#add-dependencies" id="toc-add-dependencies" class="nav-link" data-scroll-target="#add-dependencies">Add dependencies</a></li>
-  <li><a href="#check-the-documentation" id="toc-check-the-documentation" class="nav-link" data-scroll-target="#check-the-documentation">Check the documentation</a></li>
   <li><a href="#add-a-test" id="toc-add-a-test" class="nav-link" data-scroll-target="#add-a-test">Add a test</a></li>
   <li><a href="#verify-the-test" id="toc-verify-the-test" class="nav-link" data-scroll-target="#verify-the-test">Verify the test</a></li>
+  <li><a href="#check-the-documentation" id="toc-check-the-documentation" class="nav-link" data-scroll-target="#check-the-documentation">Check the documentation</a></li>
   <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
   <li><a href="#add-a-repository-on-github" id="toc-add-a-repository-on-github" class="nav-link" data-scroll-target="#add-a-repository-on-github">Add a repository on Github</a>
   <ul class="collapse">
@@ -388,47 +388,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="activate-your-package" class="level2">
 <h2 class="anchored" data-anchor-id="activate-your-package">Activate your package</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(v1<span class="fl">.0</span>) pkg<span class="op">&gt;</span> activate .</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> instantiate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(v1<span class="fl">.0</span>) pkg<span class="op">&gt;</span> activate .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="add-dependencies" class="level2">
 <h2 class="anchored" data-anchor-id="add-dependencies">Add dependencies</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> add DocStringExtensions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The Manifest.toml allows someone to replicate the exact version of the dependencies that was recorded in the manifest on e.g.&nbsp;another machine. For a package that is to be used as a library, this is not useful.</p>
+<p>The package name is added in the <code>[deps]</code> section in the <code>Project.toml</code> file.</p>
+<p>A new file named Manifest.toml is also created and allows someone to replicate the exact version of the dependencies that was recorded in the manifest on e.g.&nbsp;another machine. For a package that is to be used as a library, this is not useful.</p>
 <p>However, for an “application”, i.e.&nbsp;something at “top level” (say your julia code to do the simulations in a scientific paper) then it is likely useful to be able to replicate that exact state and the Manifest is thus useful to check in.</p>
-</section>
-<section id="check-the-documentation" class="level2">
-<h2 class="anchored" data-anchor-id="check-the-documentation">Check the documentation</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">Temperature</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>help?<span class="op">&gt;</span> celsius</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="add-a-test" class="level2">
 <h2 class="anchored" data-anchor-id="add-a-test">Add a test</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Temperature</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>add file runtests.jl</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat test<span class="op">/</span>runtests.jl</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@testset</span> <span class="st">"convert Celsius to Fahrenheit"</span> <span class="cf">begin</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@test</span> <span class="fu">fahrenheit</span>(<span class="fl">0.0</span>) <span class="op">==</span> <span class="fl">32.0</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Temperature</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>create file <code>runtests.jl</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> cat test<span class="op">/</span>runtests.jl</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Temperature</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Test</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@testset</span> <span class="st">"convert Celsius to Fahrenheit"</span> <span class="cf">begin</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@test</span> <span class="fu">fahrenheit</span>(<span class="fl">0.0</span>) <span class="op">==</span> <span class="fl">32.0</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Implement the fahrenheit function in <code>src/Temperature.jl</code></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fahrenheit</span>(t) <span class="op">=</span> ( t <span class="op">+</span> <span class="fl">32</span>) <span class="op">*</span> <span class="fl">9</span> <span class="op">/</span> <span class="fl">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">    fahrenheit(t)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">convert temperature in Celsius degrees to Fahrenheit.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">fahrenheit</span>(t) <span class="op">=</span> t <span class="op">*</span> <span class="fl">9</span> <span class="op">/</span> <span class="fl">5</span> <span class="op">+</span> <span class="fl">32</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="verify-the-test" class="level2">
 <h2 class="anchored" data-anchor-id="verify-the-test">Verify the test</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> test</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   Testing Temperature</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a> Resolving package versions<span class="op">...</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> Summary<span class="op">:</span>             <span class="op">|</span> Pass  Total</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> convert Celsius to Fahrenheit <span class="op">|</span>    <span class="fl">1</span>      <span class="fl">1</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   Testing Temperature tests passed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(Temperature) pkg<span class="op">&gt;</span> test</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   Testing Temperature</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> Resolving package versions<span class="op">...</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> Summary<span class="op">:</span>             <span class="op">|</span> Pass  Total</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Test</span> convert Celsius to Fahrenheit <span class="op">|</span>    <span class="fl">1</span>      <span class="fl">1</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>   Testing Temperature tests passed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>Test</code> package must be added to the dependencies…</p>
+</section>
+<section id="check-the-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="check-the-documentation">Check the documentation</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">Temperature</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>help?<span class="op">&gt;</span> fahrenheit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Exercises :</p>
 <ul>
 <li>Add a new test for <code>fahrenheit(20)</code></li>
