@@ -1,6 +1,14 @@
 # Atelier Julia de l'IRMAR
 
-Vous trouverez ici les supports de l'atelier Julia de l'[IRMAR](https://irmar.univ-rennes1.fr)
+Vous trouverez ici les supports de l'atelier Julia de l'[IRMAR](https://irmar.univ-rennes1.fr). Voici les séances qui ont déjà eu lieu:
+
+- Séances 2023
+  + Julia pour les statistiques à l'Agrocampus 7 février 2023 https://navaro.pages.math.cnrs.fr/juliaagrocampus2023
+  + Performance en Julia à l'IRMAR  13 mars 2023
+  + Créer son package Julia à l'IRMAR 8 décembre 2023
+
+- Séances 2024
+  + Introduction au langage à l'IRMAR (à venir)
 
 Pour participer inscrivez-vous à la [liste](https://listes.univ-rennes1.fr/wws/info/math-julia).
 
