@@ -329,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="op">+=</span> a <span class="op">*</span> x[i]</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.051264 seconds (699.26 k allocations: 12.205 MiB, 40.41% gc time, 33.73% compilation time)</code></pre>
+<pre><code>  0.048057 seconds (699.26 k allocations: 12.205 MiB, 40.36% gc time, 32.40% compilation time)</code></pre>
 </div>
 </div>
 <hr>
@@ -347,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># timing</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">axpy!</span>(y, a, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  0.000062 seconds</code></pre>
+<pre><code>  0.000040 seconds</code></pre>
 </div>
 </div>
 <section id="avoid-untyped-global-variables" class="level2">
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">add_using_global_variable</span>(<span class="fl">10</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  18.319 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  19.122 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div>
 </section>
@@ -378,7 +378,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">add_using_function_arg</span>(<span class="fl">10</span>, <span class="op">$</span>variable);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  2.785 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  2.775 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div>
 <hr>
@@ -422,7 +422,7 @@ top:
   store {}** %6, {}*** %5, align 8
   %7 = bitcast {}*** %pgcstack to {}***
   store {}** %gcframe2.sub, {}*** %7, align 8
-  %8 = load atomic {}*, {}** inttoptr (i64 140514675300184 to {}**) unordered, align 8
+  %8 = load atomic {}*, {}** inttoptr (i64 140600661291672 to {}**) unordered, align 8
   %9 = getelementptr inbounds [4 x {}*], [4 x {}*]* %gcframe2, i64 0, i64 2
   store {}* %8, {}** %9, align 16
   %10 = call nonnull {}* @ijl_box_int64(i64 signext %0)
@@ -431,7 +431,7 @@ top:
   store {}* %10, {}** %.sub, align 8
   %12 = getelementptr inbounds [2 x {}*], [2 x {}*]* %1, i64 0, i64 1
   store {}* %8, {}** %12, align 8
-  %13 = call nonnull {}* @ijl_apply_generic({}* inttoptr (i64 140515091607216 to {}*), {}** nonnull %.sub, i32 2)
+  %13 = call nonnull {}* @ijl_apply_generic({}* inttoptr (i64 140601372634800 to {}*), {}** nonnull %.sub, i32 2)
   %14 = load {}*, {}** %4, align 8
   %15 = bitcast {}*** %pgcstack to {}**
   store {}* %14, {}** %15, align 8
@@ -466,7 +466,7 @@ top:
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">add_by_passing_global_constant</span>(<span class="fl">10</span>, <span class="op">$</span>constant);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  3.095 ns (0 allocations: 0 bytes)</code></pre>
+<pre><code>  3.086 ns (0 allocations: 0 bytes)</code></pre>
 </div>
 </div>
 <hr>
@@ -483,7 +483,7 @@ top:
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">sum_variable_many_times</span>(<span class="fl">100</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  56.405 μs (301 allocations: 20.45 KiB)</code></pre>
+<pre><code>  54.191 μs (301 allocations: 20.45 KiB)</code></pre>
 </div>
 </div>
 <hr>
@@ -500,7 +500,7 @@ top:
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">sum_constant_many_times</span>(<span class="fl">100</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  8.299 μs (101 allocations: 14.20 KiB)</code></pre>
+<pre><code>  9.667 μs (101 allocations: 14.20 KiB)</code></pre>
 </div>
 </div>
 

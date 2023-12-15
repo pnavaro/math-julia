@@ -323,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> <span class="fu">rand</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>0.8029024032861931</code></pre>
+<pre><code>0.7675045476601944</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -511,8 +511,8 @@ Body::Float64
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">flipcoin_then_add_typed</span>(<span class="fu">rand</span>(<span class="fl">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  7.231 μs (1 allocation: 7.94 KiB)
-  1.685 μs (1 allocation: 7.94 KiB)</code></pre>
+<pre><code>  7.234 μs (1 allocation: 7.94 KiB)
+  1.679 μs (1 allocation: 7.94 KiB)</code></pre>
 </div>
 </div>
 
