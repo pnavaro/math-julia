@@ -106,12 +106,15 @@ Implement the fahrenheit function in `src/Temperature.jl`
 
 ```julia
 """
-    fahrenheit(t)
+$(SIGNATURES)
 
 convert temperature in Celsius degrees to Fahrenheit.
 """
 fahrenheit(t) = t * 9 / 5 + 32
 ```
+
+The macro `SIGNATURES` provided by `DocStringExtensions` package synchronizes 
+the function signature in the documentation to its implementation.
 
 ## Verify the test
 
@@ -145,7 +148,7 @@ Exercises :
 
 ## Documentation
 
-https://github.com/JuliaDocs/Documenter.jl
+Create your documentation draft with `DocumenterTools`
 
 ```julia
 julia> using DocumenterTools
