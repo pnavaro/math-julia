@@ -413,11 +413,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Implement the fahrenheit function in <code>src/Temperature.jl</code></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">    fahrenheit(t)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>(SIGNATURES)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">convert temperature in Celsius degrees to Fahrenheit.</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">fahrenheit</span>(t) <span class="op">=</span> t <span class="op">*</span> <span class="fl">9</span> <span class="op">/</span> <span class="fl">5</span> <span class="op">+</span> <span class="fl">32</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The macro <code>SIGNATURES</code> provided by <code>DocStringExtensions</code> package synchronizes the function signature in the documentation to its implementation.</p>
 </section>
 <section id="verify-the-test" class="level2">
 <h2 class="anchored" data-anchor-id="verify-the-test">Verify the test</h2>
@@ -446,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="documentation" class="level2">
 <h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<p>https://github.com/JuliaDocs/Documenter.jl</p>
+<p>Create your documentation draft with <code>DocumenterTools</code></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>julia<span class="op">&gt;</span> <span class="im">using</span> <span class="bu">DocumenterTools</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>shell<span class="op">&gt;</span> pwd</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>Users<span class="op">/</span>navaro<span class="op">/</span>JuliaProjects<span class="op">/</span>Temperature</span>

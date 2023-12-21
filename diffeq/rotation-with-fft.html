@@ -583,7 +583,7 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">naive_translation_from_matlab</span>(final_time, nsteps, mesh);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> error = 1.9817480989559044e-13
-  10.580 s (7168002 allocations: 7.95 GiB)</code></pre>
+  10.670 s (7168002 allocations: 7.95 GiB)</code></pre>
 </div>
 </div>
 <section id="vectorized-version" class="level3">
@@ -625,7 +625,7 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">vectorized</span>(final_time, nsteps, mesh);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> error = 1.7908811801681452e-13
-  2.219 s (48006 allocations: 6.60 GiB)</code></pre>
+  2.149 s (48006 allocations: 6.60 GiB)</code></pre>
 </div>
 </div>
 </section>
@@ -677,7 +677,7 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">inplace</span>(final_time, nsteps, mesh);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> error = 1.8686623861233415e-13
-  1.493 s (18014 allocations: 3.56 MiB)</code></pre>
+  1.499 s (18014 allocations: 3.56 MiB)</code></pre>
 </div>
 </div>
 <section id="use-plans-for-fft" class="level3">
@@ -734,7 +734,7 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">with_fft_plans</span>(final_time, nsteps, mesh);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> error = 1.8686623861233415e-13
-  2.266 s (18030 allocations: 2.93 GiB)</code></pre>
+  2.160 s (18030 allocations: 2.93 GiB)</code></pre>
 </div>
 </div>
 </section>
@@ -790,7 +790,7 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">with_fft_plans_inplace</span>(final_time, nsteps, mesh);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> error = 1.8686623861233415e-13
-  1.696 s (6026 allocations: 3.82 MiB)</code></pre>
+  1.587 s (6026 allocations: 3.82 MiB)</code></pre>
 </div>
 </div>
 </section>
@@ -857,8 +857,8 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>( <span class="st">" error = "</span>, <span class="fu">compute_error</span>(sol1, sol2))</span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="fu">with_fft_transposed</span>(final_time, nsteps, mesh);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> error = 1.8528178494398663e-13
-  654.487 ms (6038 allocations: 6.82 MiB)</code></pre>
+<pre><code> error = 1.8435917383389174e-13
+  634.783 ms (6038 allocations: 6.82 MiB)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="23">
@@ -877,12 +877,12 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <div class="cell-output cell-output-display" data-execution_count="25">
 <div class="ansi-escaped-output">
 <pre>BenchmarkTools.Trial: 3 samples with 1 evaluation.
- Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">2.488 s</span> … <span class="ansi-magenta-fg">  2.517 s</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span>0.00% … 0.00%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">2.503 s              </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span>0.00%
- Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">2.503 s</span> ± <span class="ansi-green-fg">14.494 ms</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>0.01% ± 0.02%
-  <span class="ansi-blue-fg">█</span>                            <span class="ansi-green-fg"> </span>█                         █  
-  <span class="ansi-blue-fg">█</span>▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁<span class="ansi-green-fg">▁</span>█▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▁
-  2.49 s<span class="ansi-bright-black-fg">         Histogram: frequency by time</span>        2.52 s <span class="ansi-bold">&lt;</span>
+ Range <span class="ansi-bright-black-fg">(</span><span class="ansi-cyan-fg ansi-bold">min</span> … <span class="ansi-magenta-fg">max</span><span class="ansi-bright-black-fg">):  </span><span class="ansi-cyan-fg ansi-bold">2.432 s</span> … <span class="ansi-magenta-fg"> 2.446 s</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>min … max<span class="ansi-bright-black-fg">): </span>0.00% … 0.04%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-blue-fg ansi-bold">median</span><span class="ansi-bright-black-fg">):     </span><span class="ansi-blue-fg ansi-bold">2.438 s             </span><span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>median<span class="ansi-bright-black-fg">):    </span>0.00%
+ Time  <span class="ansi-bright-black-fg">(</span><span class="ansi-green-fg ansi-bold">mean</span> ± <span class="ansi-green-fg">σ</span><span class="ansi-bright-black-fg">):   </span><span class="ansi-green-fg ansi-bold">2.438 s</span> ± <span class="ansi-green-fg">7.039 ms</span>  <span class="ansi-bright-black-fg">┊</span> GC <span class="ansi-bright-black-fg">(</span>mean ± σ<span class="ansi-bright-black-fg">):  </span>0.01% ± 0.02%
+  <span class="ansi-blue-fg">█</span>                        █ <span class="ansi-green-fg"> </span>                           █  
+  <span class="ansi-blue-fg">█</span>▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█▁<span class="ansi-green-fg">▁</span>▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▁
+  2.43 s<span class="ansi-bright-black-fg">        Histogram: frequency by time</span>        2.45 s <span class="ansi-bold">&lt;</span>
  Memory estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">26.32 MiB</span>, allocs estimate<span class="ansi-bright-black-fg">: </span><span class="ansi-yellow-fg">6038</span>.</pre>
 </div>
 </div>
@@ -900,11 +900,11 @@ x \in [-\pi, \pi],\qquad y \in [-\pi, \pi] \qquad \mbox{ and } \qquad t \in [0, 
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="fu">rpad</span>(key, <span class="fl">25</span>, <span class="st">"."</span>), <span class="fu">lpad</span>(<span class="fu">round</span>(value, digits<span class="op">=</span><span class="fl">1</span>), <span class="fl">6</span>, <span class="st">"."</span>))</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>with_fft_transposed......2487.8
-inplace..................4098.0
-with_fft_plans_inplace...4436.5
-vectorized...............6520.1
-with_fft_plans...........6604.4</code></pre>
+<pre><code>with_fft_transposed......2431.7
+inplace..................4035.2
+with_fft_plans_inplace...4137.8
+with_fft_plans...........6020.9
+vectorized...............6167.4</code></pre>
 </div>
 </div>
 </section>
