@@ -8,7 +8,7 @@ Vous trouverez ici les supports de l'atelier Julia de l'[IRMAR](https://irmar.un
   + Créer son package Julia à l'IRMAR 8 décembre 2023
 
 - Séances 2024
-  + Introduction au langage à l'IRMAR (à venir)
+  + [Introduction au langage à l'IRMAR](https://indico.math.cnrs.fr/event/11297/)
 
 Pour participer inscrivez-vous à la [liste](https://listes.univ-rennes1.fr/wws/info/math-julia).
 
