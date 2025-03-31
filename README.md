@@ -9,6 +9,9 @@ Vous trouverez ici les supports de l'atelier Julia de l'[IRMAR](https://irmar.un
 
 - Séances 2024
   + [Introduction au langage à l'IRMAR](https://indico.math.cnrs.fr/event/11297/)
+ 
+- Séances 2025
+  + [Formation Julia à l'IRMAR](https://indico.math.cnrs.fr/event/13977/)
 
 Pour participer inscrivez-vous à la [liste](https://listes.univ-rennes1.fr/wws/info/math-julia).
 
